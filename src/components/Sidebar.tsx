@@ -1,19 +1,21 @@
 import { Square, RefreshCw, Home, Clock, HelpCircle, Grid3X3, Maximize, Brush, Zap } from "lucide-react";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const location = useLocation();
 
   const sidebarItems = [
-    { icon: Square, label: "Empty Room", active: true },
-    { icon: RefreshCw, label: "Change Objects", active: false },
-    { icon: Home, label: "Complete Room", active: false },
-    { icon: Grid3X3, label: "Meus projetos", active: false },
-    { icon: Clock, label: "Minhas gerações", active: false },
-    { icon: Zap, label: "Renderizar imagens", active: false },
-    { icon: Brush, label: "Melhorar render", active: false },
-    { icon: Maximize, label: "Aumentar resolução", active: false },
-    { icon: HelpCircle, label: "Academy", active: false },
+    { icon: Home, label: "Home", path: "/" },
+    { icon: Square, label: "Empty Room", path: "/empty-room" },
+    { icon: RefreshCw, label: "Change Objects", path: "/change-objects" },
+    { icon: Grid3X3, label: "Meus projetos", path: "/projects" },
+    { icon: Clock, label: "Minhas gerações", path: "/generations" },
+    { icon: Zap, label: "Renderizar imagens", path: "/render-image" },
+    { icon: Brush, label: "Melhorar render", path: "/improve-render" },
+    { icon: Maximize, label: "Aumentar resolução", path: "/upscale" },
+    { icon: HelpCircle, label: "Academy", path: "/academy" },
   ];
 
   return (
@@ -27,11 +29,14 @@ const Sidebar = () => {
       <div className="py-4 space-y-1">
         {sidebarItems.map((item, index) => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
           return (
-            <button
+            <Link
               key={index}
+              to={item.path}
               className={`w-full flex items-center transition-colors px-3 py-2 mx-2 rounded-lg ${
-                item.active 
+                isActive 
                   ? 'bg-primary text-primary-foreground' 
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               }`}
@@ -45,7 +50,7 @@ const Sidebar = () => {
                   {item.label}
                 </span>
               )}
-            </button>
+            </Link>
           );
         })}
       </div>

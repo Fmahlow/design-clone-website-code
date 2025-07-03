@@ -1,0 +1,136 @@
+import { FolderPlus, Image, Sparkles, Lightbulb, PenTool, ArrowUp, Brush, Type, Video } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+
+const Home = () => {
+  const creationTools = [
+    {
+      icon: FolderPlus,
+      title: "Criar novo projeto",
+      description: "Inicie um novo projeto do zero",
+      link: "/new-project",
+      featured: true
+    },
+    {
+      icon: Image,
+      title: "Renderizar imagem",
+      description: "Adicione a imagem do seu projeto feito em algum programa de modelagem que o Redraw vai renderizar para você.",
+      link: "/render-image"
+    },
+    {
+      icon: Sparkles,
+      title: "Melhorar Render",
+      description: "Utilize uma imagem de um render para dar mais realismo e detalhes a ela.",
+      link: "/improve-render"
+    },
+    {
+      icon: Lightbulb,
+      title: "Gerador de ideias",
+      description: "Gere novas ideias para o seu interior ou exterior a partir de estilos prontos, de projetos à locais reais já existentes.",
+      link: "/idea-generator"
+    },
+    {
+      icon: PenTool,
+      title: "Renderizar traços",
+      description: "Transforme o esboço do seu projeto em realidade, faça um croqui e utilize nesta função.",
+      link: "/render-sketches"
+    },
+    {
+      icon: ArrowUp,
+      title: "Aumentar resolução",
+      description: "Aumente a resolução de um render, tenha ele sido feito no Redraw ou em qualquer outra ferramenta.",
+      link: "/upscale"
+    },
+    {
+      icon: Brush,
+      title: "Pincel",
+      description: "Escolha uma área, como um móvel, para que o Redraw redesenhe esta área para você.",
+      link: "/brush"
+    },
+    {
+      icon: Type,
+      title: "Imagem a partir de texto",
+      description: "Crie uma imagem a partir de uma descrição textual. Transforme ideias em representações visuais para projetos criativos ou conceituais.",
+      link: "/text-to-image"
+    },
+    {
+      icon: Video,
+      title: "Gerador de vídeos",
+      description: "Gere um vídeo curto a partir de uma imagem estática, aplicando animações e efeitos para dar vida ao conteúdo visual.",
+      link: "/video-generator",
+      beta: true
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Banner */}
+      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-16 px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+                Mais precisão nos seus resultados.
+              </h1>
+              <p className="text-lg text-purple-100 mb-6 leading-relaxed">
+                Receba análises detalhadas e precisas que ajudam a destacar o melhor de cada imagem. Nossa avaliação identifica pontos-chave para ajustes e proporciona recomendações práticas, garantindo resultados de alta qualidade e impacto visual.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
+                <h2 className="text-2xl font-bold mb-4">Feedback inteligente por IA</h2>
+                <p className="text-purple-100">
+                  Feedback inteligente em tempo real! Subiu uma imagem? Nossa IA analisa e te dá dicas de como melhorar ou confirma que está incrível!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Creation Tools */}
+      <div className="py-16 px-8">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-12">Ferramentas de criação</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {creationTools.map((tool, index) => {
+              const Icon = tool.icon;
+              return (
+                <Card key={index} className={`group hover:shadow-lg transition-shadow cursor-pointer ${tool.featured ? 'ring-2 ring-primary' : ''}`}>
+                  <CardHeader className="pb-4">
+                    <div className="flex items-start justify-between">
+                      <div className={`p-3 rounded-lg ${tool.featured ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      {tool.beta && (
+                        <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                          BETA
+                        </Badge>
+                      )}
+                    </div>
+                    <CardTitle className="text-lg">{tool.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <CardDescription className="text-sm leading-relaxed mb-4">
+                      {tool.description}
+                    </CardDescription>
+                    <Link to={tool.link}>
+                      <Button variant="ghost" className="text-primary hover:text-primary-foreground hover:bg-primary">
+                        Começar
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
