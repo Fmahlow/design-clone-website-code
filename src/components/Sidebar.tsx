@@ -1,6 +1,7 @@
 import { Square, RefreshCw, Home, Clock, HelpCircle, Grid3X3, Brush } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "./logo.png";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -25,7 +26,10 @@ const Sidebar = () => {
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="py-4 space-y-1">
+      <div className="py-4 space-y-1 flex flex-col items-center">
+        <div className="flex justify-center mb-4">
+          <img src={logo} alt="Logo" className={`${isExpanded ? 'w-16 h-16' : 'w-12 h-12'} transition-all`} />
+        </div>
         {sidebarItems.map((item, index) => {
           if ('divider' in item) {
             return <div key={index} className="border-t border-border my-2" />;
@@ -42,7 +46,7 @@ const Sidebar = () => {
                 isActive
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
+              } ${!isExpanded ? 'justify-center' : ''}`}
             >
               <div className="flex items-center justify-center w-10 h-10 shrink-0">
                 <Icon className="w-5 h-5" />
