@@ -2,10 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
-const SettingsSidebar = () => {
+interface SettingsSidebarProps {
+  className?: string;
+}
+
+const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
   return (
-    <div className="w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col h-full overflow-y-auto">
+    <div className={cn("w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col h-full overflow-y-auto", className)}>
       <p className="text-sm text-muted-foreground mb-6">
         Descreva essa imagem aqui
       </p>
