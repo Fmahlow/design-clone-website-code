@@ -11,6 +11,12 @@ interface SettingsSidebarProps {
 const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
   return (
     <div className={cn("w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col h-full overflow-y-auto", className)}>
+      <div className="flex items-center mb-2 space-x-2">
+        <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+          <span className="text-sm">2</span>
+        </div>
+        <h2 className="text-lg font-semibold text-foreground">Detalhe sua imagem</h2>
+      </div>
       <p className="text-sm text-muted-foreground mb-6">
         Descreva essa imagem aqui
       </p>

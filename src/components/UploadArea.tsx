@@ -9,20 +9,20 @@ const UploadArea = () => {
     <div className="flex-1 p-8">
       <div className="max-w-4xl mx-auto">
         {/* Main heading */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4 space-x-2">
+        <div className="text-center mb-6">
+          <div className="flex items-center justify-center mb-2 space-x-2">
             <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
               <span className="text-sm">1</span>
             </div>
-            <h2 className="text-xl font-semibold text-foreground">Envie uma imagem</h2>
+            <h2 className="text-lg font-semibold text-foreground">Envie uma imagem</h2>
           </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-xs">
             Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas para gerar suas imagens.
           </p>
         </div>
 
         {/* Upload area */}
-        <div className="bg-upload-area border-2 border-dashed border-upload-border rounded-xl p-12 text-center mb-8">
+        <div className="bg-upload-area border-2 border-dashed border-upload-border rounded-xl p-8 text-center mb-8 max-w-xl mx-auto">
           <div className="flex flex-col items-center space-y-4">
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="w-16 h-12 bg-muted rounded-lg"></div>
@@ -31,13 +31,13 @@ const UploadArea = () => {
               <div className="w-16 h-12 bg-muted rounded-lg"></div>
             </div>
             
-            <h3 className="text-lg font-medium text-foreground">
+            <h3 className="text-base font-medium text-foreground">
               Para começar completar o cômodo da sua imagem
               <br />
               arraste um arquivo
             </h3>
-            
-            <p className="text-muted-foreground text-sm">
+
+            <p className="text-muted-foreground text-xs">
               Ou clique no botão abaixo para enviar
             </p>
             
