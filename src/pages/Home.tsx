@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-8 px-8">
+      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-8 px-8 m-4 rounded-2xl">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
@@ -61,9 +61,7 @@ const Home = () => {
                 <Card key={index} className={`group hover:shadow-lg transition-shadow cursor-pointer ${tool.featured ? 'ring-2 ring-primary' : ''}`}>
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
-                      <div className={`p-3 rounded-lg ${tool.featured ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                        <Icon className="w-6 h-6" />
-                      </div>
+                      <Icon className="w-6 h-6 text-blue-500" />
                       {tool.beta && (
                         <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                           BETA
