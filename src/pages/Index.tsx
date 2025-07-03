@@ -15,7 +15,7 @@ const Index = () => {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 flex flex-col overflow-y-auto px-8 pt-4 pb-8">
-          <div className="bg-card rounded-2xl overflow-hidden">
+          <div className="bg-card rounded-2xl overflow-hidden w-full">
             <UploadArea />
             <PreviousGenerations />
           </div>
