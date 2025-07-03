@@ -15,7 +15,7 @@ const ObjectGallery = ({ className }: ObjectGalleryProps) => {
   return (
     <div
       className={cn(
-        "w-[20.8rem] bg-sidebar-bg p-6 flex flex-col h-full overflow-y-auto",
+        "w-[30%] mr-8 bg-sidebar-bg p-6 flex flex-col h-full overflow-y-auto",
         className
       )}
     >
