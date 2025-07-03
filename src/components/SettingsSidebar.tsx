@@ -21,7 +21,7 @@ const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
         Descreva essa imagem aqui
       </p>
 
-      <div className="space-y-6 flex-1">
+      <div className="space-y-6">
         {/* Ambiente */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-foreground">Ambiente</Label>
@@ -53,10 +53,8 @@ const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
       </div>
 
       {/* Generate button */}
-      <div className="pt-6 border-t border-border">
-        <Button className="w-full">
-          ⚡ Gerar imagem
-        </Button>
+      <div className="mt-6">
+        <Button className="w-full">⚡ Gerar imagem</Button>
       </div>
     </div>
   );
