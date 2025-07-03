@@ -22,7 +22,7 @@ const PreviousGenerations = () => {
 
   return (
     <div className="p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full mx-4">
         <h3 className="text-lg font-semibold text-foreground mb-4">Gerações anteriores</h3>
 
         <div className="relative">
@@ -34,7 +34,7 @@ const PreviousGenerations = () => {
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <div ref={scrollRef} className="flex overflow-x-auto space-x-3 px-8">
+          <div ref={scrollRef} className="flex overflow-x-auto space-x-3 px-8 py-4 border border-border rounded-lg">
             {previousImages.map((image) => (
               <div
                 key={image.id}
