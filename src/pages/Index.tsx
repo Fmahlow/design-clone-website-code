@@ -4,13 +4,24 @@ import PreviousGenerations from "@/components/PreviousGenerations";
 
 const Index = () => {
   return (
-    <div className="flex">
-      <div className="flex-1 flex flex-col">
-        <UploadArea />
-        <PreviousGenerations />
+    <div className="flex flex-col h-[calc(100vh-56px)]">
+      <div className="px-8 py-4 border-b border-border">
+        <nav className="flex items-center space-x-1 text-sm mb-2">
+          <span className="text-muted-foreground">Home</span>
+          <span className="mx-2 text-muted-foreground">{'>'}</span>
+          <span className="text-foreground font-medium">Melhorar render</span>
+        </nav>
+        <h1 className="text-lg font-semibold text-foreground">Melhorar render</h1>
       </div>
-      
-      <SettingsSidebar />
+
+      <div className="flex flex-1 overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          <UploadArea />
+          <PreviousGenerations />
+        </div>
+
+        <SettingsSidebar />
+      </div>
     </div>
   );
 };

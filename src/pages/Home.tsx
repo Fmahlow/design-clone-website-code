@@ -1,4 +1,4 @@
-import { FolderPlus, Image, Sparkles, Lightbulb, PenTool, ArrowUp, Brush, Type, Video } from "lucide-react";
+import { FolderPlus, Image, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,53 +15,23 @@ const Home = () => {
     },
     {
       icon: Image,
-      title: "Renderizar imagem",
-      description: "Adicione a imagem do seu projeto feito em algum programa de modelagem que o Redraw vai renderizar para você.",
+      title: "Esvaziar Cômodo",
+      description: "Remova todos os móveis de uma foto e comece do zero.",
       link: "/render-image"
     },
     {
       icon: Sparkles,
-      title: "Melhorar Render",
-      description: "Utilize uma imagem de um render para dar mais realismo e detalhes a ela.",
+      title: "Alterar objetos",
+      description: "Substitua itens da imagem por móveis diferentes.",
       link: "/improve-render"
     },
     {
       icon: Lightbulb,
-      title: "Gerador de ideias",
-      description: "Gere novas ideias para o seu interior ou exterior a partir de estilos prontos, de projetos à locais reais já existentes.",
+      title: "Completar Cômodo",
+      description: "Adicione móveis e decoração automaticamente ao ambiente.",
       link: "/idea-generator"
     },
-    {
-      icon: PenTool,
-      title: "Renderizar traços",
-      description: "Transforme o esboço do seu projeto em realidade, faça um croqui e utilize nesta função.",
-      link: "/render-sketches"
-    },
-    {
-      icon: ArrowUp,
-      title: "Aumentar resolução",
-      description: "Aumente a resolução de um render, tenha ele sido feito no Redraw ou em qualquer outra ferramenta.",
-      link: "/upscale"
-    },
-    {
-      icon: Brush,
-      title: "Pincel",
-      description: "Escolha uma área, como um móvel, para que o Redraw redesenhe esta área para você.",
-      link: "/brush"
-    },
-    {
-      icon: Type,
-      title: "Imagem a partir de texto",
-      description: "Crie uma imagem a partir de uma descrição textual. Transforme ideias em representações visuais para projetos criativos ou conceituais.",
-      link: "/text-to-image"
-    },
-    {
-      icon: Video,
-      title: "Gerador de vídeos",
-      description: "Gere um vídeo curto a partir de uma imagem estática, aplicando animações e efeitos para dar vida ao conteúdo visual.",
-      link: "/video-generator",
-      beta: true
-    }
+    // Removed obsolete tools
   ];
 
   return (
@@ -80,9 +50,9 @@ const Home = () => {
             </div>
             <div className="flex justify-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-                <h2 className="text-2xl font-bold mb-4">Feedback inteligente por IA</h2>
+                <h2 className="text-2xl font-bold mb-4">Soluções para design de interiores</h2>
                 <p className="text-purple-100">
-                  Feedback inteligente em tempo real! Subiu uma imagem? Nossa IA analisa e te dá dicas de como melhorar ou confirma que está incrível!
+                  Esvazie cômodos, altere objetos e complete ambientes em segundos. Nossas ferramentas aceleram a criação de projetos realistas.
                 </p>
               </div>
             </div>

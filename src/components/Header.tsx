@@ -1,4 +1,4 @@
-import { Home, Zap, Grid3X3, Clock, HelpCircle, Maximize } from "lucide-react";
+import { Zap } from "lucide-react";
 
 const Header = () => {
   return (
@@ -11,24 +11,18 @@ const Header = () => {
           </div>
         </div>
         
-        <nav className="flex items-center space-x-1 text-sm">
-          <span className="text-muted-foreground">Home</span>
-          <span className="text-muted-foreground mx-2">{'>'}</span>
-          <span className="text-foreground font-medium">Melhorar render</span>
-        </nav>
+        {/* Navigation moved inside the page */}
       </div>
 
-      {/* Center */}
-      <div className="flex items-center space-x-2">
-        <h1 className="text-lg font-semibold text-foreground">Melhorar render</h1>
-      </div>
+      {/* Center intentionally empty */}
+      <div />
 
       {/* Right side */}
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-2">
           <div className="bg-orange-500 text-white px-3 py-1 rounded-md text-sm flex items-center space-x-2">
             <span>⚠️</span>
-            <span>Assinatura • Expira em 08/04/2025</span>
+            <span>Assinatura • Expira em xx/xx/2025</span>
           </div>
           <div className="bg-blue-500 text-white px-2 py-1 rounded text-sm">
             💎 9961
