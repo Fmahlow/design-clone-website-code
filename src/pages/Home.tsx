@@ -10,19 +10,19 @@ const Home = () => {
       icon: Image,
       title: "Esvaziar Cômodo",
       description: "Remova todos os móveis de uma foto e comece do zero.",
-      link: "/render-image"
+      link: "/empty-room"
     },
     {
       icon: Sparkles,
       title: "Alterar objetos",
       description: "Substitua itens da imagem por móveis diferentes.",
-      link: "/improve-render"
+      link: "/change-objects"
     },
     {
       icon: Lightbulb,
       title: "Completar Cômodo",
       description: "Adicione móveis e decoração automaticamente ao ambiente.",
-      link: "/idea-generator"
+      link: "/improve-render"
     },
     // Removed obsolete tools
   ];

@@ -1,6 +1,18 @@
 import { Zap } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
+  let pageTitle = "";
+
+  if (location.pathname === "/improve-render") {
+    pageTitle = "Completar cômodo";
+  } else if (location.pathname === "/empty-room") {
+    pageTitle = "Esvaziar cômodo";
+  } else if (location.pathname === "/change-objects") {
+    pageTitle = "Alterar objetos";
+  }
+
   return (
     <header className="flex items-center justify-between px-6 py-3 bg-card border-b border-border">
       {/* Left side */}
@@ -10,8 +22,10 @@ const Header = () => {
             <Zap className="w-5 h-5 text-primary-foreground" />
           </div>
         </div>
-        
-        {/* Navigation moved inside the page */}
+
+        {pageTitle && (
+          <h1 className="text-lg font-semibold text-foreground">{pageTitle}</h1>
+        )}
       </div>
 
       {/* Center intentionally empty */}

@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Index from "./pages/Index";
+import EmptyRoom from "./pages/EmptyRoom";
+import ChangeObjects from "./pages/ChangeObjects";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,6 +21,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="empty-room" element={<EmptyRoom />} />
+            <Route path="change-objects" element={<ChangeObjects />} />
             <Route path="improve-render" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           </Route>

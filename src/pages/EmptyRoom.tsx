@@ -2,14 +2,14 @@ import UploadArea from "@/components/UploadArea";
 import SettingsSidebar from "@/components/SettingsSidebar";
 import PreviousGenerations from "@/components/PreviousGenerations";
 
-const Index = () => {
+const EmptyRoom = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-56px)]">
       <div className="px-8 py-4 border-b border-border">
         <nav className="flex items-center space-x-1 text-sm mb-2">
           <span className="text-muted-foreground">Home</span>
           <span className="mx-2 text-muted-foreground">{'>'}</span>
-          <span className="text-foreground font-medium">Completar cômodo</span>
+          <span className="text-foreground font-medium">Esvaziar cômodo</span>
         </nav>
       </div>
 
@@ -25,4 +25,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default EmptyRoom;
