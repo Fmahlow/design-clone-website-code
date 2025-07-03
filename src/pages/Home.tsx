@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-16 px-8">
+      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-8 px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
@@ -50,9 +50,9 @@ const Home = () => {
       </div>
 
       {/* Creation Tools */}
-      <div className="py-16 px-8">
+      <div className="py-8 px-8">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-foreground mb-12">Ferramentas de criação</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8">Ferramentas de criação</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {creationTools.map((tool, index) => {

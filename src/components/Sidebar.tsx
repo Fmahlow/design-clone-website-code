@@ -1,5 +1,6 @@
 import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
 import Broom from "./icons/Broom";
+import logo from "./logo.png";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -19,17 +20,18 @@ const Sidebar = () => {
   ];
 
   return (
-    <div 
-      className={`bg-card border-r border-border flex flex-col transition-all duration-300 ease-in-out ${
+    <div
+      className={`fixed top-0 left-0 h-full z-50 bg-card border-r border-border flex flex-col transition-all duration-300 ease-in-out ${
         isExpanded ? 'w-64' : 'w-16'
       }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div className="py-4 space-y-1 flex flex-col items-center">
+        <img src={logo} alt="Logo" className="w-10 h-10 mb-4" />
         {sidebarItems.map((item, index) => {
           if ('divider' in item) {
-            return <div key={index} className="border-t border-border my-2" />;
+            return <div key={index} className="border-t border-border my-4" />;
           }
 
           const Icon = item.icon;

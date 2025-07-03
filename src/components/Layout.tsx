@@ -6,11 +6,9 @@ const Layout = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Outlet />
-        </div>
+      <Sidebar />
+      <div>
+        <Outlet />
       </div>
     </div>
   );
