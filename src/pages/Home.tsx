@@ -40,7 +40,7 @@ const Home = () => {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
                 <h2 className="text-2xl font-bold mb-4">Soluções para design de interiores</h2>
                 <p className="text-purple-100">
-                  Esvazie cômodos, altere objetos e complete ambientes em segundos. Nossas ferramentas aceleram a criação de projetos realistas.
+                  Esvazie cômodos, altere objetos e complete ambientes em segundos.
                 </p>
               </div>
             </div>

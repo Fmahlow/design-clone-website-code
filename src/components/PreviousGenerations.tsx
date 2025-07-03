@@ -10,7 +10,7 @@ const PreviousGenerations = () => {
   }));
 
   return (
-    <div className="border-t border-border bg-card p-6">
+    <div className="border-t border-border bg-card p-6 -mt-[100px]">
       <div className="max-w-6xl mx-auto">
         <h3 className="text-lg font-semibold text-foreground mb-4">Gerações anteriores</h3>
         
