@@ -1,4 +1,4 @@
-import { FolderPlus, Image, Sparkles, Lightbulb } from "lucide-react";
+import { Broom, Armchair, PackagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,19 +7,19 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const creationTools = [
     {
-      icon: Image,
+      icon: Broom,
       title: "Esvaziar Cômodo",
       description: "Remova todos os móveis de uma foto e comece do zero.",
       link: "/empty-room"
     },
     {
-      icon: Sparkles,
+      icon: Armchair,
       title: "Alterar objetos",
       description: "Substitua itens da imagem por móveis diferentes.",
       link: "/change-objects"
     },
     {
-      icon: Lightbulb,
+      icon: PackagePlus,
       title: "Completar Cômodo",
       description: "Adicione móveis e decoração automaticamente ao ambiente.",
       link: "/improve-render"

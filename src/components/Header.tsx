@@ -18,7 +18,11 @@ const Header = () => {
       {/* Left side */}
       <div className="flex items-center space-x-6">
         <div className="flex items-center space-x-2">
-          <img src={logo} alt="Logo" className="w-16 h-16" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-16 h-16 -ml-[15px]"
+          />
         </div>
 
         {pageTitle && (
