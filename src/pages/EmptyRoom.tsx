@@ -13,15 +13,15 @@ const EmptyRoom = () => {
           </nav>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-0 pb-8 mr-2">
+      <div className="flex flex-1 overflow-hidden items-start">
+        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea />
             <PreviousGenerations />
           </div>
         </div>
 
-        <SettingsSidebar className="mr-2 self-start border border-gray-300" />
+        <SettingsSidebar className="mr-6 mt-2 self-start flex-none border border-gray-200" />
       </div>
     </div>
   );
