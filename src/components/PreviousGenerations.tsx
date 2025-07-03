@@ -21,7 +21,7 @@ const PreviousGenerations = () => {
   };
 
   return (
-    <div className="p-6 border-t border-border">
+    <div className="p-6">
       <div className="max-w-6xl mx-auto">
         <h3 className="text-lg font-semibold text-foreground mb-4">Gerações anteriores</h3>
 

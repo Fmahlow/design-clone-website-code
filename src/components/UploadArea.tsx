@@ -7,7 +7,7 @@ const UploadArea = () => {
 
   return (
     <div className="p-8">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-2 space-x-2">
@@ -22,7 +22,7 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area */}
-        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-md mx-auto">
+        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
           <div className="flex flex-col items-center space-y-4">
             
             <h3 className="text-base font-medium text-foreground">
