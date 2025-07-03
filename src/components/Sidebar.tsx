@@ -1,6 +1,7 @@
 import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
 import BrushCleaning from "./icons/BrushCleaning";
 import logo from "./logo.png";
+import nameLogo from "./name_logo.png";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -28,11 +29,35 @@ const Sidebar = () => {
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="py-2 space-y-0 flex flex-col items-center">
-        <img src={logo} alt="Logo" className="w-10 h-10 mb-4" />
+      <div
+        className={`py-2 space-y-0 flex flex-col transition-all ${
+          isExpanded ? 'items-start pl-2' : 'items-center'
+        }`}
+      >
+        <div
+          className={`flex items-center w-full transition-all mb-4 ${
+            isExpanded ? 'justify-start' : 'justify-center'
+          }`}
+        >
+          <img src={logo} alt="Logo" className="w-10 h-10" />
+          <img
+            src={nameLogo}
+            alt="Name Logo"
+            className={`ml-2 h-6 transition-all duration-300 ${
+              isExpanded ? 'opacity-100' : 'opacity-0 w-0'
+            }`}
+          />
+        </div>
         {sidebarItems.map((item, index) => {
           if ('divider' in item) {
-            return <div key={index} className="border-t border-border my-4" />;
+            return (
+              <div
+                key={index}
+                className={`border-t border-border my-4 mx-auto transition-all duration-300 ${
+                  isExpanded ? 'w-full' : 'w-8'
+                }`}
+              />
+            );
           }
 
           const Icon = item.icon;
