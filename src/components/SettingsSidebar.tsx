@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -7,33 +6,11 @@ import { Label } from "@/components/ui/label";
 const SettingsSidebar = () => {
   return (
     <div className="w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col h-full overflow-y-auto">
-      <div className="flex items-center space-x-2 mb-6">
-        <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-          <span className="text-sm">2</span>
-        </div>
-        <h3 className="text-lg font-semibold text-foreground">Detalhe sua imagem</h3>
-      </div>
-      
       <p className="text-sm text-muted-foreground mb-6">
         Descreva essa imagem aqui
       </p>
 
       <div className="space-y-6 flex-1">
-        {/* Motor */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">Motor</Label>
-          <Select defaultValue="v2">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="v1">v1</SelectItem>
-              <SelectItem value="v2">v2</SelectItem>
-              <SelectItem value="v3">v3</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
         {/* Ambiente */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-foreground">Ambiente</Label>
@@ -42,26 +19,13 @@ const SettingsSidebar = () => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="interior">Interior</SelectItem>
-              <SelectItem value="exterior">Exterior</SelectItem>
-              <SelectItem value="landscape">Landscape</SelectItem>
+              <SelectItem value="sala-estar">Sala de estar</SelectItem>
+              <SelectItem value="sala-jantar">Sala de jantar</SelectItem>
+              <SelectItem value="quarto">Quarto</SelectItem>
+              <SelectItem value="cozinha">Cozinha</SelectItem>
+              <SelectItem value="banheiro">Banheiro</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-
-        {/* Intensidade do Fotorrealismo */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium text-foreground">Intensidade do Fotorrealismo</Label>
-            <span className="text-sm text-muted-foreground">1</span>
-          </div>
-          <Slider
-            defaultValue={[1]}
-            max={10}
-            min={1}
-            step={1}
-            className="w-full"
-          />
         </div>
 
         {/* Detalhe as características */}
