@@ -13,7 +13,6 @@ const Sidebar = () => {
     { icon: Home, label: "Home", path: "/" },
     { icon: Grid3X3, label: "Meus projetos", path: "/projects" },
     { icon: Clock, label: "Minhas gerações", path: "/generations" },
-    { divider: true },
     { icon: HelpCircle, label: "Academy", path: "/academy" },
     { divider: true },
     { icon: BrushCleaning, label: "Esvaziar Cômodo", path: "/empty-room" },
@@ -39,7 +38,7 @@ const Sidebar = () => {
             isExpanded ? 'justify-start' : 'justify-center'
           }`}
         >
-          <img src={logo} alt="Logo" className="w-10 h-10" />
+          <img src={logo} alt="Logo" className="w-10 h-10 ml-2" />
           <img
             src={nameLogo}
             alt="Name Logo"
@@ -53,7 +52,7 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`border-t border-border my-4 mx-auto transition-all duration-300 ${
+                className={`border-t border-border my-4 ml-auto mr-2 transition-all duration-300 ${
                   isExpanded ? 'w-full' : 'w-8'
                 }`}
               />
