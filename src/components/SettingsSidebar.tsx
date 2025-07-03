@@ -10,14 +10,14 @@ interface SettingsSidebarProps {
 
 const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
   return (
-    <div className={cn("w-[20.8rem] bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-start", className)}>
-        <div className="flex items-center mb-2 space-x-2">
+    <div className={cn("w-[30%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
+        <div className="flex items-center justify-center mb-2 space-x-2">
           <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
             <span className="text-sm">2</span>
           </div>
-          <h2 className="text-lg font-semibold text-foreground">Detalhe sua imagem</h2>
+          <h2 className="text-lg font-semibold text-foreground text-center">Detalhe sua imagem</h2>
         </div>
-        <p className="text-sm text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-6 text-center">
           Descreva essa imagem aqui
         </p>
 
