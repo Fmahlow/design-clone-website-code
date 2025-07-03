@@ -5,8 +5,8 @@ import ObjectGallery from "@/components/ObjectGallery";
 const ChangeObjects = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-56px)]">
-      <div className="px-8 py-4 border-b border-border">
-        <nav className="flex items-center space-x-1 text-sm mb-2">
+      <div className="px-8 py-2 border-b border-border">
+        <nav className="flex items-center space-x-1 text-xs mb-1">
           <span className="text-muted-foreground">Home</span>
           <span className="mx-2 text-muted-foreground">{'>'}</span>
           <span className="text-foreground font-medium">Alterar objetos</span>
