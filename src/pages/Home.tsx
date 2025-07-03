@@ -1,5 +1,5 @@
 import { Armchair, PackagePlus } from "lucide-react";
-import Broom from "@/components/icons/Broom";
+import BrushCleaning from "@/components/icons/BrushCleaning";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const creationTools = [
     {
-      icon: Broom,
+      icon: BrushCleaning,
       title: "Esvaziar Cômodo",
       description: "Remova todos os móveis de uma foto e comece do zero.",
       link: "/empty-room"

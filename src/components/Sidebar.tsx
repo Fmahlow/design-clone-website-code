@@ -1,5 +1,5 @@
 import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
-import Broom from "./icons/Broom";
+import BrushCleaning from "./icons/BrushCleaning";
 import logo from "./logo.png";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -12,9 +12,10 @@ const Sidebar = () => {
     { icon: Home, label: "Home", path: "/" },
     { icon: Grid3X3, label: "Meus projetos", path: "/projects" },
     { icon: Clock, label: "Minhas gerações", path: "/generations" },
+    { divider: true },
     { icon: HelpCircle, label: "Academy", path: "/academy" },
     { divider: true },
-    { icon: Broom, label: "Esvaziar Cômodo", path: "/empty-room" },
+    { icon: BrushCleaning, label: "Esvaziar Cômodo", path: "/empty-room" },
     { icon: Armchair, label: "Alterar objetos", path: "/change-objects" },
     { icon: PackagePlus, label: "Completar Cômodo", path: "/improve-render" },
   ];
@@ -27,7 +28,7 @@ const Sidebar = () => {
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="py-4 space-y-1 flex flex-col items-center">
+      <div className="py-3 space-y-0.5 flex flex-col items-center">
         <img src={logo} alt="Logo" className="w-10 h-10 mb-4" />
         {sidebarItems.map((item, index) => {
           if ('divider' in item) {
@@ -41,18 +42,18 @@ const Sidebar = () => {
             <Link
               key={index}
               to={item.path}
-              className={`w-full flex items-center transition-colors px-3 py-2 mx-2 rounded-lg ${
+              className={`w-full flex items-center transition-colors px-3 py-1.5 mx-2 rounded-lg ${
                 isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  ? 'bg-primary/20 text-primary'
+                  : 'text-muted-foreground hover:bg-primary/30 hover:text-primary'
               } ${!isExpanded ? 'justify-center' : ''}`}
             >
               <div className="flex items-center justify-center w-10 h-10 shrink-0">
-                <Icon className="w-5 h-5" />
+                <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
               </div>
 
               {isExpanded && (
-                <span className="ml-3 text-sm font-medium whitespace-nowrap overflow-hidden">
+                <span className="ml-3 text-xs font-medium whitespace-nowrap overflow-hidden">
                   {item.label}
                 </span>
               )}
