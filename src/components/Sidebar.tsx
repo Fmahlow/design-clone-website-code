@@ -23,12 +23,12 @@ const Sidebar = () => {
   return (
     <div
       className={`sticky top-0 h-screen z-50 bg-card border-r border-border flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out ${
-        isExpanded ? 'w-64' : 'w-16'
+        isExpanded ? 'w-48' : 'w-16'
       }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="py-3 space-y-0.5 flex flex-col items-center">
+      <div className="py-2 space-y-0 flex flex-col items-center">
         <img src={logo} alt="Logo" className="w-10 h-10 mb-4" />
         {sidebarItems.map((item, index) => {
           if ('divider' in item) {
@@ -42,14 +42,14 @@ const Sidebar = () => {
             <Link
               key={index}
               to={item.path}
-              className={`w-full flex items-center transition-colors px-3 py-1.5 mx-2 rounded-lg ${
+              className={`w-full flex items-center transition-colors px-2 py-1 mx-1 rounded-lg ${
                 isActive
                   ? 'bg-primary/20 text-primary'
-                  : 'text-muted-foreground hover:bg-primary/30 hover:text-primary'
+                  : 'text-muted-foreground hover:bg-primary/50 hover:text-primary'
               } ${!isExpanded ? 'justify-center' : ''}`}
             >
-              <div className="flex items-center justify-center w-10 h-10 shrink-0">
-                <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
+              <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : ''}`} />
               </div>
 
               {isExpanded && (
