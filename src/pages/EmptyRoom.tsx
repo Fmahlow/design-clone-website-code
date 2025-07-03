@@ -14,14 +14,14 @@ const EmptyRoom = () => {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-y-auto px-8 pt-2 pb-8 mr-1">
+        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-0 pb-8 mr-2">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea />
             <PreviousGenerations />
           </div>
         </div>
 
-        <SettingsSidebar />
+        <SettingsSidebar className="mr-2 self-start border border-gray-300" />
       </div>
     </div>
   );
