@@ -1,4 +1,5 @@
-import { Broom, Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
+import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
+import Broom from "./icons/Broom";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 

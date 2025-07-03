@@ -1,4 +1,5 @@
-import { Broom, Armchair, PackagePlus } from "lucide-react";
+import { Armchair, PackagePlus } from "lucide-react";
+import Broom from "@/components/icons/Broom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
