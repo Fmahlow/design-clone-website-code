@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 
 const SettingsSidebar = () => {
   return (
-    <div className="w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col">
+    <div className="w-80 bg-sidebar-bg border-l border-border p-6 flex flex-col h-full overflow-y-auto">
       <div className="flex items-center space-x-2 mb-6">
         <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
           <span className="text-sm">2</span>

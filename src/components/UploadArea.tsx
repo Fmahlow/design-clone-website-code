@@ -7,8 +7,8 @@ const UploadArea = () => {
       <div className="max-w-4xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
-            <span className="text-2xl">📷</span>
+          <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full mb-4">
+            <span className="text-sm">1</span>
           </div>
           <h2 className="text-2xl font-semibold text-foreground mb-2">Envie uma imagem</h2>
           <p className="text-muted-foreground">
