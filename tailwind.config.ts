@@ -52,6 +52,9 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				'upload-area': 'hsl(var(--upload-area))',
+				'upload-border': 'hsl(var(--upload-border))',
+				'sidebar-bg': 'hsl(var(--sidebar-bg))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
