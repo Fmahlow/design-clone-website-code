@@ -22,14 +22,8 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area */}
-        <div className="bg-upload-area border-2 border-dashed border-upload-border rounded-xl p-8 text-center mb-8 max-w-xl mx-auto">
+        <div className="bg-upload-area rounded-xl p-8 text-center mb-8 max-w-md mx-auto">
           <div className="flex flex-col items-center space-y-4">
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="w-16 h-12 bg-muted rounded-lg"></div>
-              <div className="w-16 h-12 bg-muted rounded-lg"></div>
-              <div className="w-16 h-12 bg-muted rounded-lg"></div>
-              <div className="w-16 h-12 bg-muted rounded-lg"></div>
-            </div>
             
             <h3 className="text-base font-medium text-foreground">
               Para começar completar o cômodo da sua imagem
