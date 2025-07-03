@@ -7,13 +7,6 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const creationTools = [
     {
-      icon: FolderPlus,
-      title: "Criar novo projeto",
-      description: "Inicie um novo projeto do zero",
-      link: "/new-project",
-      featured: true
-    },
-    {
       icon: Image,
       title: "Esvaziar Cômodo",
       description: "Remova todos os móveis de uma foto e comece do zero.",
@@ -41,12 +34,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Mais precisão nos seus resultados.
-              </h1>
-              <p className="text-lg text-purple-100 mb-6 leading-relaxed">
-                Receba análises detalhadas e precisas que ajudam a destacar o melhor de cada imagem. Nossa avaliação identifica pontos-chave para ajustes e proporciona recomendações práticas, garantindo resultados de alta qualidade e impacto visual.
-              </p>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-4">Adicionar aqui o banner!</h1>
             </div>
             <div className="flex justify-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">

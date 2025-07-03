@@ -1,7 +1,10 @@
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 
 const UploadArea = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-4xl mx-auto">
@@ -27,7 +30,7 @@ const UploadArea = () => {
             </div>
             
             <h3 className="text-lg font-medium text-foreground">
-              Para começar renderizar a sua imagem
+              Para começar completar o cômodo da sua imagem
               <br />
               arraste um arquivo
             </h3>
@@ -36,10 +39,16 @@ const UploadArea = () => {
               Ou clique no botão abaixo para enviar
             </p>
             
-            <Button className="mt-4">
+            <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
               <Upload className="w-4 h-4 mr-2" />
               Enviar arquivo
             </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+            />
           </div>
         </div>
       </div>

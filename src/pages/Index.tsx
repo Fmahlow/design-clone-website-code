@@ -9,9 +9,9 @@ const Index = () => {
         <nav className="flex items-center space-x-1 text-sm mb-2">
           <span className="text-muted-foreground">Home</span>
           <span className="mx-2 text-muted-foreground">{'>'}</span>
-          <span className="text-foreground font-medium">Melhorar render</span>
+          <span className="text-foreground font-medium">Completar cômodo</span>
         </nav>
-        <h1 className="text-lg font-semibold text-foreground">Melhorar render</h1>
+        <h1 className="text-lg font-semibold text-foreground">Completar cômodo</h1>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
