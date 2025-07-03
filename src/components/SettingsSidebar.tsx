@@ -10,8 +10,7 @@ interface SettingsSidebarProps {
 
 const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
   return (
-    <div className={cn("w-80 bg-sidebar-bg p-4 flex flex-col overflow-y-auto self-start", className)}>
-      <div className="bg-card rounded-2xl p-4">
+    <div className={cn("w-[20.8rem] bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-start", className)}>
         <div className="flex items-center mb-2 space-x-2">
           <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
             <span className="text-sm">2</span>
@@ -57,7 +56,6 @@ const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
         <div className="mt-6">
           <Button className="w-full">⚡ Gerar imagem</Button>
         </div>
-      </div>
     </div>
   );
 };
