@@ -37,3 +37,4 @@ const ObjectGallery = ({ className }: ObjectGalleryProps) => {
 };
 
 export default ObjectGallery;
+
