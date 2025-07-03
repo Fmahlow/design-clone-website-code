@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import logo from "./logo.png";
 import { useLocation } from "react-router-dom";
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
       <div className="flex items-center space-x-6">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-primary-foreground" />
+            <img src={logo} alt="Logo" className="w-5 h-5" />
           </div>
         </div>
 

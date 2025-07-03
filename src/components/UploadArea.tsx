@@ -10,11 +10,13 @@ const UploadArea = () => {
       <div className="max-w-4xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full mb-4">
-            <span className="text-sm">1</span>
+          <div className="flex items-center justify-center mb-4 space-x-2">
+            <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+              <span className="text-sm">1</span>
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">Envie uma imagem</h2>
           </div>
-          <h2 className="text-2xl font-semibold text-foreground mb-2">Envie uma imagem</h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas para gerar suas imagens.
           </p>
         </div>
