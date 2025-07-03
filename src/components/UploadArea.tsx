@@ -22,7 +22,7 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area */}
-        <div className="bg-upload-area rounded-xl p-8 text-center mb-8 max-w-md mx-auto">
+        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-md mx-auto">
           <div className="flex flex-col items-center space-y-4">
             
             <h3 className="text-base font-medium text-foreground">
