@@ -14,12 +14,14 @@ const ChangeObjects = () => {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-y-auto">
-          <UploadArea />
-          <PreviousGenerations />
+        <div className="flex-1 flex flex-col overflow-y-auto p-8">
+          <div className="bg-card rounded-2xl overflow-hidden">
+            <UploadArea />
+            <PreviousGenerations />
+          </div>
         </div>
 
-        <ObjectGallery className="-ml-[50px]" />
+        <ObjectGallery />
       </div>
     </div>
   );

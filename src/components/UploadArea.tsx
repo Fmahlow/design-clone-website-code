@@ -6,7 +6,7 @@ const UploadArea = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex-1 p-8">
+    <div className="p-8">
       <div className="max-w-4xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-6">

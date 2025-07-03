@@ -21,7 +21,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full z-50 bg-card border-r border-border flex flex-col transition-all duration-300 ease-in-out ${
+      className={`sticky top-0 h-screen z-50 bg-card border-r border-border flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out ${
         isExpanded ? 'w-64' : 'w-16'
       }`}
       onMouseEnter={() => setIsExpanded(true)}
