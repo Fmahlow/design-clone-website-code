@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Index from "./pages/Index";
 import EmptyRoom from "./pages/EmptyRoom";
 import ChangeObjects from "./pages/ChangeObjects";
+import Generations from "./pages/Generations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="empty-room" element={<EmptyRoom />} />
             <Route path="change-objects" element={<ChangeObjects />} />
             <Route path="improve-render" element={<Index />} />
+            <Route path="generations" element={<Generations />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -58,15 +58,10 @@ const Home = () => {
             {creationTools.map((tool, index) => {
               const Icon = tool.icon;
               return (
-                <Card key={index} className={`group hover:shadow-lg transition-shadow cursor-pointer ${tool.featured ? 'ring-2 ring-primary' : ''}`}>
+                <Card key={index} className="group hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                       <Icon className="w-6 h-6 text-blue-500" />
-                      {tool.beta && (
-                        <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                          BETA
-                        </Badge>
-                      )}
                     </div>
                     <CardTitle className="text-lg">{tool.title}</CardTitle>
                   </CardHeader>
