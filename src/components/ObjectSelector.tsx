@@ -4,8 +4,6 @@ interface ObjectSelectorProps {
   image: string | null;
 }
 
-const SCALE_FACTOR = 4;
-const PIXEL_THRESHOLD = 500000;
 
 const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,32 +55,16 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
     if (!workerRef.current) return;
     isEncoded.current = false;
     setStatus("Segmentando objetos...");
-    const img = new Image();
-    img.onload = () => {
-      const originalWidth = img.naturalWidth;
-      const originalHeight = img.naturalHeight;
-      const shouldResize = originalWidth * originalHeight > PIXEL_THRESHOLD;
-      const resizedWidth = shouldResize ? Math.floor(originalWidth / SCALE_FACTOR) : originalWidth;
-      const resizedHeight = shouldResize ? Math.floor(originalHeight / SCALE_FACTOR) : originalHeight;
 
-      const resizeCanvas = document.createElement("canvas");
-      resizeCanvas.width = resizedWidth;
-      resizeCanvas.height = resizedHeight;
-      const rCtx = resizeCanvas.getContext("2d")!;
-      rCtx.drawImage(img, 0, 0, resizedWidth, resizedHeight);
-      const resizedData = resizeCanvas.toDataURL();
+    if (containerRef.current) {
+      const el = containerRef.current;
+      el.style.backgroundImage = `url(${data})`;
+      el.style.backgroundRepeat = 'no-repeat';
+      el.style.backgroundPosition = 'center';
+      el.style.backgroundSize = 'contain';
+    }
 
-      if (containerRef.current) {
-        const el = containerRef.current;
-        el.style.backgroundImage = `url(${resizedData})`;
-        el.style.backgroundRepeat = 'no-repeat';
-        el.style.backgroundPosition = 'center';
-        el.style.backgroundSize = 'contain';
-      }
-
-      workerRef.current!.postMessage({ type: "segment", data: { image: resizedData } });
-    };
-    img.src = data;
+    workerRef.current!.postMessage({ type: "segment", data: { image: data } });
   };
 
   const getPoint = (e: MouseEvent) => {
