@@ -1,5 +1,4 @@
-import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3 } from "lucide-react";
-import BrushCleaning from "./icons/BrushCleaning";
+import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3, BrushCleaning} from "lucide-react";
 import logo from "./logo.png";
 import nameLogo from "./name_logo.png";
 import { useState } from "react";
@@ -52,7 +51,7 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`border-t border-border my-4 ml-auto mr-2 transition-all duration-300 ${
+                className={`border-t border-border my-4 ml-4 mr-4 transition-2 duration-300 ${
                   isExpanded ? 'w-full' : 'w-8'
                 }`}
               />
