@@ -49,8 +49,10 @@ const ChangeObjects = () => {
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea onImageSelected={handleUpload} />
             {image && (
-              <div className="h-96 mt-4">
-                <ObjectSelector image={image} />
+              <div className="mt-4 flex justify-center">
+                <div className="w-full max-w-3xl h-[32rem]">
+                  <ObjectSelector image={image} />
+                </div>
               </div>
             )}
             <PreviousGenerations />
