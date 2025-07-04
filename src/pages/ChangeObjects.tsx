@@ -1,8 +1,20 @@
 import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectGallery from "@/components/ObjectGallery";
+import ObjectSelector from "@/components/ObjectSelector";
+import { useState } from "react";
 
 const ChangeObjects = () => {
+  const [image, setImage] = useState<string | null>(null);
+
+  const handleUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImage(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-56px)]">
       <div className="px-4 py-1">
@@ -16,7 +28,12 @@ const ChangeObjects = () => {
       <div className="flex flex-1 overflow-hidden items-start">
         <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
-            <UploadArea />
+            <UploadArea onImageSelected={handleUpload} />
+            {image && (
+              <div className="h-96 mt-4">
+                <ObjectSelector image={image} />
+              </div>
+            )}
             <PreviousGenerations />
           </div>
         </div>

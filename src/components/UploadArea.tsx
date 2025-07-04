@@ -2,7 +2,11 @@ import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
-const UploadArea = () => {
+interface UploadAreaProps {
+  onImageSelected?: (file: File) => void;
+}
+
+const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -44,6 +48,10 @@ const UploadArea = () => {
               type="file"
               accept="image/*"
               className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) onImageSelected?.(file);
+              }}
             />
           </div>
         </div>
