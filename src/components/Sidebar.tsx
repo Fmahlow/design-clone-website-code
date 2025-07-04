@@ -34,7 +34,7 @@ const Sidebar = () => {
         }`}
       >
         <div
-          className={`flex items-center w-full transition-all mb-4 ${
+          className={`flex items-center w-full transition-all mb-8 ${
             isExpanded ? 'justify-start' : 'justify-center'
           }`}
         >
@@ -70,7 +70,7 @@ const Sidebar = () => {
                 isActive
                   ? 'bg-primary/20 text-primary'
                   : 'text-muted-foreground hover:bg-primary/50 hover:text-primary'
-              } ${!isExpanded ? 'justify-center w-10' : 'w-[calc(100%-1rem)]'}`}
+              } ${!isExpanded ? 'justify-center w-10' : 'w-[calc(100%-1rem)]'} ${index === 0 ? 'mt-6' : ''}`}
             >
               <div className="flex items-center justify-center w-8 h-8 shrink-0">
                 <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : ''}`} />
