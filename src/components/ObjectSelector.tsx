@@ -7,6 +7,7 @@ interface ObjectSelectorProps {
 
 const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker>();
 
@@ -56,21 +57,17 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
     isEncoded.current = false;
     setStatus("Segmentando objetos...");
 
-    if (containerRef.current) {
-      const el = containerRef.current;
-      el.style.backgroundImage = `url(${data})`;
-      el.style.backgroundRepeat = 'no-repeat';
-      el.style.backgroundPosition = 'center';
-      el.style.backgroundSize = 'contain';
+    if (imgRef.current) {
+      imgRef.current.src = data;
     }
 
     workerRef.current!.postMessage({ type: "segment", data: { image: data } });
   };
 
   const getPoint = (e: MouseEvent) => {
-    const container = containerRef.current;
-    if (!container) return { point: [0, 0], label: 1 };
-    const bb = container.getBoundingClientRect();
+    const img = imgRef.current;
+    if (!img) return { point: [0, 0], label: 1 };
+    const bb = img.getBoundingClientRect();
     const x = Math.max(0, Math.min((e.clientX - bb.left) / bb.width, 1));
     const y = Math.max(0, Math.min((e.clientY - bb.top) / bb.height, 1));
     return { point: [x, y] as [number, number], label: 1 };
@@ -105,8 +102,10 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
 
     offCtx.putImageData(imageData, 0, 0);
 
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
+    const img = imgRef.current;
+    if (!img) return;
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
     const ctx = canvas.getContext("2d")!;
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -142,10 +141,15 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   }, [modelReady]);
 
   return (
-    <div
-      className="w-full h-full relative border bg-center bg-no-repeat bg-contain"
-      ref={containerRef}
-    >
+    <div className="w-full h-full relative" ref={containerRef}>
+      {image && (
+        <img
+          ref={imgRef}
+          src={image}
+          alt="Imagem carregada"
+          className="w-full h-full object-contain"
+        />
+      )}
       <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" />
       {status && (
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-xs">
