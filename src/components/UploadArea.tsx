@@ -33,24 +33,28 @@ const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
               <img
                 src={preview}
                 alt="Pré-visualização"
-                className="max-h-64 object-contain rounded-lg border"
+                className="max-h-96 w-full object-contain rounded-lg border"
               />
             )}
-            
-            <h3 className="text-base font-medium text-foreground">
-              Para começar completar o cômodo da sua imagem
-              <br />
-              arraste um arquivo
-            </h3>
 
-            <p className="text-muted-foreground text-xs">
-              Ou clique no botão abaixo para enviar
-            </p>
-            
-            <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
-              <Upload className="w-4 h-4 mr-2" />
-              Enviar arquivo
-            </Button>
+            {!preview && (
+              <>
+                <h3 className="text-base font-medium text-foreground">
+                  Para começar completar o cômodo da sua imagem
+                  <br />
+                  arraste um arquivo
+                </h3>
+
+                <p className="text-muted-foreground text-xs">
+                  Ou clique no botão abaixo para enviar
+                </p>
+
+                <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Enviar arquivo
+                </Button>
+              </>
+            )}
             <input
               ref={fileInputRef}
               type="file"

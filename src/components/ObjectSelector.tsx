@@ -16,6 +16,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const isDecoding = useRef(false);
   const lastPoints = useRef<{ point: [number, number]; label: number }[]>([]);
   const [modelReady, setModelReady] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
     const worker = new Worker(new URL("../../worker_selecionar_objetos.js", import.meta.url), { type: "module" });
@@ -26,7 +27,10 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       if (type === "ready") {
         setModelReady(true);
       } else if (type === "segment_result") {
-        if (data === "done") {
+        if (data === "start") {
+          setStatus("Segmentando objetos...");
+        } else if (data === "done") {
+          setStatus("Segmentação concluída");
           isEncoded.current = true;
         }
       } else if (type === "decode_result") {
@@ -52,6 +56,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const segment = (data: string) => {
     if (!workerRef.current) return;
     isEncoded.current = false;
+    setStatus("Segmentando objetos...");
     const img = new Image();
     img.onload = () => {
       const originalWidth = img.naturalWidth;
@@ -132,13 +137,32 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       isDecoding.current = true;
       workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
     };
+    const handleDown = (e: MouseEvent) => {
+      if (!isEncoded.current) return;
+      lastPoints.current = [{ ...getPoint(e), label: e.button === 2 ? 0 : 1 }];
+      isDecoding.current = true;
+      workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
+    };
+    const preventContext = (e: MouseEvent) => e.preventDefault();
+
     container.addEventListener("mousemove", handleMove);
-    return () => container.removeEventListener("mousemove", handleMove);
+    container.addEventListener("mousedown", handleDown);
+    container.addEventListener("contextmenu", preventContext);
+    return () => {
+      container.removeEventListener("mousemove", handleMove);
+      container.removeEventListener("mousedown", handleDown);
+      container.removeEventListener("contextmenu", preventContext);
+    };
   }, [modelReady]);
 
   return (
     <div className="w-full h-full relative border" ref={containerRef}>
       <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" />
+      {status && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-xs">
+          {status}
+        </div>
+      )}
     </div>
   );
 };
