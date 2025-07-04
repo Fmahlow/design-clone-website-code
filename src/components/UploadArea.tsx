@@ -3,10 +3,20 @@ import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 
 interface UploadAreaProps {
-  onImageSelected?: (file: File) => void;
+  /**
+   * Called when the user selects an image. The base64 encoded image is passed
+   * as a parameter.
+   */
+  onImageSelected?: (dataUrl: string) => void;
+  /**
+   * Allows custom rendering of the uploaded preview. When provided, this
+   * function receives the image data URL and should return the element to be
+   * displayed instead of the default <img> preview.
+   */
+  renderPreview?: (image: string) => React.ReactNode;
 }
 
-const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -30,11 +40,17 @@ const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
         <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
           <div className="flex flex-col items-center space-y-4">
             {preview && (
-              <img
-                src={preview}
-                alt="Pré-visualização"
-                className="max-h-96 w-full object-contain rounded-lg border"
-              />
+              <>
+                {renderPreview ? (
+                  renderPreview(preview)
+                ) : (
+                  <img
+                    src={preview}
+                    alt="Pré-visualização"
+                    className="max-h-96 w-full object-contain rounded-lg border"
+                  />
+                )}
+              </>
             )}
 
             {!preview && (
@@ -64,9 +80,12 @@ const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
                 const file = e.target.files?.[0];
                 if (file) {
                   const reader = new FileReader();
-                  reader.onload = (ev) => setPreview(ev.target?.result as string);
+                  reader.onload = (ev) => {
+                    const result = ev.target?.result as string;
+                    setPreview(result);
+                    onImageSelected?.(result);
+                  };
                   reader.readAsDataURL(file);
-                  onImageSelected?.(file);
                 }
               }}
             />

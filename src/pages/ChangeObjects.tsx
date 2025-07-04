@@ -14,24 +14,12 @@ const ChangeObjects = () => {
     }))
   );
 
-  const handleUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImage(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
+  const handleUpload = (dataUrl: string) => {
+    setImage(dataUrl);
   };
 
   const handleReplace = () => {
-    if (!image) return;
-    setGallery((prev) => [
-      ...prev,
-      {
-        id: prev.length,
-        url: image,
-        alt: `Objeto ${prev.length + 1}`,
-      },
-    ]);
+    // TODO: implement object replacement logic
   };
 
   return (
@@ -47,14 +35,14 @@ const ChangeObjects = () => {
       <div className="flex flex-1 overflow-hidden items-start">
         <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
-            <UploadArea onImageSelected={handleUpload} />
-            {image && (
-              <div className="mt-4 flex justify-center">
-                <div className="w-full max-w-3xl h-[32rem]">
-                  <ObjectSelector image={image} />
+            <UploadArea
+              onImageSelected={handleUpload}
+              renderPreview={(img) => (
+                <div className="w-full max-w-3xl h-[32rem] mx-auto">
+                  <ObjectSelector image={img} />
                 </div>
-              </div>
-            )}
+              )}
+            />
             <PreviousGenerations />
           </div>
         </div>
