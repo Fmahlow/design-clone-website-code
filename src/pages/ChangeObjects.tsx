@@ -6,6 +6,13 @@ import { useState } from "react";
 
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
+  const [gallery, setGallery] = useState(
+    Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      url: `https://placehold.co/100x100?text=${i + 1}`,
+      alt: `Objeto ${i + 1}`,
+    }))
+  );
 
   const handleUpload = (file: File) => {
     const reader = new FileReader();
@@ -13,6 +20,18 @@ const ChangeObjects = () => {
       setImage(e.target?.result as string);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleReplace = () => {
+    if (!image) return;
+    setGallery((prev) => [
+      ...prev,
+      {
+        id: prev.length,
+        url: image,
+        alt: `Objeto ${prev.length + 1}`,
+      },
+    ]);
   };
 
   return (
@@ -38,7 +57,11 @@ const ChangeObjects = () => {
           </div>
         </div>
 
-        <ObjectGallery className="mr-6 mt-2 self-start flex-none border border-gray-200" />
+        <ObjectGallery
+          images={gallery}
+          onReplace={handleReplace}
+          className="mr-6 mt-2 self-start flex-none border border-gray-200"
+        />
       </div>
     </div>
   );

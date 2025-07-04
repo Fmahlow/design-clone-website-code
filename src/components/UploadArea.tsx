@@ -1,6 +1,6 @@
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface UploadAreaProps {
   onImageSelected?: (file: File) => void;
@@ -8,6 +8,7 @@ interface UploadAreaProps {
 
 const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   return (
     <div className="p-10">
@@ -28,6 +29,13 @@ const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
         {/* Upload area */}
         <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
           <div className="flex flex-col items-center space-y-4">
+            {preview && (
+              <img
+                src={preview}
+                alt="Pré-visualização"
+                className="max-h-64 object-contain rounded-lg border"
+              />
+            )}
             
             <h3 className="text-base font-medium text-foreground">
               Para começar completar o cômodo da sua imagem
@@ -50,7 +58,12 @@ const UploadArea = ({ onImageSelected }: UploadAreaProps) => {
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-                if (file) onImageSelected?.(file);
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (ev) => setPreview(ev.target?.result as string);
+                  reader.readAsDataURL(file);
+                  onImageSelected?.(file);
+                }
               }}
             />
           </div>

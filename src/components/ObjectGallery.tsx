@@ -1,16 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+interface GalleryImage {
+  id: number;
+  url: string;
+  alt: string;
+}
+
 interface ObjectGalleryProps {
+  images: GalleryImage[];
+  onReplace?: () => void;
   className?: string;
 }
 
-const ObjectGallery = ({ className }: ObjectGalleryProps) => {
-  const images = Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    url: `https://placehold.co/100x100?text=${i + 1}`,
-    alt: `Objeto ${i + 1}`,
-  }));
+const ObjectGallery = ({ images, onReplace, className }: ObjectGalleryProps) => {
 
   return (
     <div
@@ -24,14 +27,18 @@ const ObjectGallery = ({ className }: ObjectGalleryProps) => {
       </h2>
       <div className="grid grid-cols-2 gap-3 mb-4">
         {images.map((image) => (
-          <button
+          <div
             key={image.id}
-            className="w-full h-20 bg-muted rounded-lg hover:opacity-80"
+            className="w-full h-20 bg-muted rounded-lg overflow-hidden flex items-center justify-center"
             aria-label={image.alt}
-          />
+          >
+            <img src={image.url} alt={image.alt} className="object-cover w-full h-full" />
+          </div>
         ))}
       </div>
-      <Button className="mt-auto w-full">⚡ Substituir</Button>
+      <Button className="mt-auto w-full" onClick={onReplace}>
+        ⚡ Substituir
+      </Button>
     </div>
   );
 };
