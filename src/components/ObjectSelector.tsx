@@ -73,7 +73,11 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       const resizedData = resizeCanvas.toDataURL();
 
       if (containerRef.current) {
-        containerRef.current.style.backgroundImage = `url(${resizedData})`;
+        const el = containerRef.current;
+        el.style.backgroundImage = `url(${resizedData})`;
+        el.style.backgroundRepeat = 'no-repeat';
+        el.style.backgroundPosition = 'center';
+        el.style.backgroundSize = 'contain';
       }
 
       workerRef.current!.postMessage({ type: "segment", data: { image: resizedData } });
@@ -156,7 +160,10 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   }, [modelReady]);
 
   return (
-    <div className="w-full h-full relative border" ref={containerRef}>
+    <div
+      className="w-full h-full relative border bg-center bg-no-repeat bg-contain"
+      ref={containerRef}
+    >
       <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" />
       {status && (
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-xs">
