@@ -66,11 +66,11 @@ const Sidebar = () => {
             <Link
               key={index}
               to={item.path}
-              className={`flex items-center transition-colors px-1 py-0.5 mx-2 my-1 rounded-md ${
+              className={`flex items-center transition-colors px-1 py-1 mx-2 my-1 rounded-md min-h-[32px] ${
                 isActive
                   ? 'bg-primary/20 text-primary'
                   : 'text-muted-foreground hover:bg-primary/50 hover:text-primary'
-              } ${!isExpanded ? 'justify-center' : ''}`}
+              } ${!isExpanded ? 'justify-center w-10' : 'w-[calc(100%-1rem)]'}`}
             >
               <div className="flex items-center justify-center w-8 h-8 shrink-0">
                 <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : ''}`} />
