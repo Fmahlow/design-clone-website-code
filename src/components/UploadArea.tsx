@@ -37,7 +37,11 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
         </div>
 
         {/* Upload area */}
-        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
+        <div
+          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto ${
+            preview ? "p-0" : "p-8"
+          }`}
+        >
           <div className="flex flex-col items-center space-y-4">
             {preview && (
               <>
@@ -47,7 +51,7 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
                   <img
                     src={preview}
                     alt="Pré-visualização"
-                    className="max-h-96 w-full object-contain rounded-lg border"
+                    className="w-full object-contain rounded-lg border"
                   />
                 )}
               </>
