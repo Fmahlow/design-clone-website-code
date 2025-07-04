@@ -52,8 +52,8 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`border-t border-border my-4 ml-auto mr-2 transition-all duration-300 ${
-                  isExpanded ? 'w-full' : 'w-8'
+                className={`border-t border-border my-6 mx-3 transition-all duration-300 ${
+                  isExpanded ? 'w-[calc(100%-1.5rem)]' : 'w-8'
                 }`}
               />
             );
