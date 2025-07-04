@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Play } from "lucide-react";
 
@@ -44,9 +43,6 @@ const Generations = () => {
       {/* Page Content */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <h1 className="text-2xl font-bold text-foreground mb-6">Minhas gerações</h1>
-
           {/* Filters */}
           <div className="flex items-center gap-4 mb-6">
             <Select value={sortBy} onValueChange={setSortBy}>
@@ -58,14 +54,6 @@ const Generations = () => {
                 <SelectItem value="oldest">Mais antigas</SelectItem>
               </SelectContent>
             </Select>
-
-            <Button 
-              variant={sortBy === "newest" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSortBy("newest")}
-            >
-              Edições mais recentes
-            </Button>
           </div>
 
           {/* Gallery Grid */}

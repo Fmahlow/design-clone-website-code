@@ -13,6 +13,8 @@ const Header = () => {
     pageTitle = "Esvaziar cômodo";
   } else if (location.pathname === "/change-objects") {
     pageTitle = "Alterar objetos";
+  } else if (location.pathname === "/generations") {
+    pageTitle = "Minhas gerações";
   }
 
   return (
