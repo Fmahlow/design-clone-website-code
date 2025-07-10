@@ -23,7 +23,7 @@ const UploadArea = () => {
 
   return (
     <div className="p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-2 space-x-2">
@@ -41,9 +41,9 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area with prompt, preview and button inside larger dashed box */}
-        <div className="bg-card rounded-xl p-8 text-center mb-4 mx-auto max-w-4xl">
+        <div className="bg-card rounded-xl p-8 text-center mb-2 mx-auto max-w-5xl">
           <div
-            className="relative w-full h-96 border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
+            className="relative w-full h-[32rem] border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
             onClick={() => fileInputRef.current?.click()}
           >
             {/* Remove button */}

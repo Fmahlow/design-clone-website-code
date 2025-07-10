@@ -1,5 +1,4 @@
-import { Armchair, PackagePlus } from "lucide-react";
-import BrushCleaning from "@/components/icons/BrushCleaning";
+import { Armchair, PackagePlus, BrushCleaning } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
