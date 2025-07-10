@@ -14,7 +14,7 @@ const EmptyRoom = () => {
       </div>
 
       <div className="flex flex-1 overflow-hidden items-start">
-        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8">
+        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8 max-h-[calc(100vh-80px)]">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea />
             <PreviousGenerations />

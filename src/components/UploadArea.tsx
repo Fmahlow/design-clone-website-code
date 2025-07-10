@@ -46,7 +46,7 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
         {/* Upload area */}
         <div
           className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto relative ${
-            preview ? "p-0 h-[500px]" : "p-8"
+            preview ? "p-0 h-[600px]" : "p-8"
           }`}
         >
           {preview && (
