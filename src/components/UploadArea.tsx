@@ -1,4 +1,4 @@
-import { Upload } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 
@@ -20,6 +20,13 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
+  const handleRemoveImage = () => {
+    setPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="p-10">
       <div className="max-w-4xl mx-auto">
@@ -38,23 +45,33 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
 
         {/* Upload area */}
         <div
-          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto ${
-            preview ? "p-0" : "p-8"
+          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto relative ${
+            preview ? "p-0 h-96" : "p-8"
           }`}
         >
-          <div className="flex flex-col items-center space-y-4">
+          {preview && (
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute top-4 right-4 z-10 bg-background/80 hover:bg-background"
+              onClick={handleRemoveImage}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+          <div className="flex flex-col items-center space-y-4 h-full">
             {preview && (
-              <>
+              <div className="w-full h-full flex items-center justify-center">
                 {renderPreview ? (
                   renderPreview(preview)
                 ) : (
                   <img
                     src={preview}
                     alt="Pré-visualização"
-                    className="w-full object-contain rounded-lg border"
+                    className="max-w-full max-h-full object-contain rounded-lg"
                   />
                 )}
-              </>
+              </div>
             )}
 
             {!preview && (
