@@ -2,7 +2,12 @@ import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 
-const UploadArea = () => {
+interface UploadAreaProps {
+  onImageSelected?: (dataUrl: string) => void;
+  renderPreview?: (img: string) => React.ReactNode;
+}
+
+const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -10,7 +15,11 @@ const UploadArea = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result as string);
+    reader.onload = () => {
+      const data = reader.result as string;
+      setPreview(data);
+      onImageSelected?.(data);
+    };
     reader.readAsDataURL(file);
   };
 
@@ -76,11 +85,15 @@ const UploadArea = () => {
               )}
 
               {preview && (
-                <img
-                  src={preview}
-                  alt="Pré-visualização"
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                renderPreview ? (
+                  renderPreview(preview)
+                ) : (
+                  <img
+                    src={preview}
+                    alt="Pré-visualização"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                )
               )}
 
               {/* Upload button inside dashed area only when no preview */}
