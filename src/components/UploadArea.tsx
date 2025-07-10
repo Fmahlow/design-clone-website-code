@@ -1,9 +1,16 @@
-import { Upload } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
 const UploadArea = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   return (
     <div className="p-8">
@@ -30,6 +37,35 @@ const UploadArea = () => {
               <br />
               arraste um arquivo
             </h3>
+        <div
+          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto relative ${
+            preview ? "p-4" : "p-8"
+          }`}
+        >
+          {preview && (
+            <Button
+              variant="destructive"
+              size="sm"
+              className="absolute top-3 right-3 z-10 h-8 w-8 p-0"
+              onClick={handleRemoveImage}
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          )}
+          <div className="flex flex-col items-center space-y-4 h-full">
+            {preview && (
+              <div className="w-full h-full flex items-center justify-center">
+                {renderPreview ? (
+                  renderPreview(preview)
+                ) : (
+                  <img
+                    src={preview}
+                    alt="Pré-visualização"
+                    className="max-w-full max-h-full object-contain rounded-lg"
+                  />
+                )}
+              </div>
+            )}
 
             <p className="text-muted-foreground text-xs">
               Ou clique no botão abaixo para enviar

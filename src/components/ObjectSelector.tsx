@@ -64,9 +64,9 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
     workerRef.current!.postMessage({ type: "segment", data: { image: data } });
   };
 
-  const getPoint = (e: MouseEvent) => {
+  const getPoint = (e: MouseEvent): { point: [number, number]; label: number } => {
     const img = imgRef.current;
-    if (!img) return { point: [0, 0], label: 1 };
+    if (!img) return { point: [0, 0] as [number, number], label: 1 };
     const bb = img.getBoundingClientRect();
     const x = Math.max(0, Math.min((e.clientX - bb.left) / bb.width, 1));
     const y = Math.max(0, Math.min((e.clientY - bb.top) / bb.height, 1));
@@ -118,13 +118,15 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
 
     const handleMove = (e: MouseEvent) => {
       if (!isEncoded.current || isDecoding.current) return;
-      lastPoints.current = [getPoint(e)];
+      const point = getPoint(e);
+      lastPoints.current = [point];
       isDecoding.current = true;
       workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
     };
     const handleDown = (e: MouseEvent) => {
       if (!isEncoded.current) return;
-      lastPoints.current = [{ ...getPoint(e), label: e.button === 2 ? 0 : 1 }];
+      const point = getPoint(e);
+      lastPoints.current = [{ point: point.point, label: e.button === 2 ? 0 : 1 }];
       isDecoding.current = true;
       workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
     };
