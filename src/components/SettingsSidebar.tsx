@@ -54,7 +54,13 @@ const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
 
         {/* Generate button */}
         <div className="mt-6">
-          <Button className="w-full">⚡ Gerar imagem</Button>
+          <Button variant="gradient" className="w-full flex items-center justify-center">
+            Gerar imagem
+            <span className="relative ml-2">
+              <span className="text-lg">💎</span>
+              <span className="absolute -top-1 -right-2 bg-background text-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center">2</span>
+            </span>
+          </Button>
         </div>
     </div>
   );

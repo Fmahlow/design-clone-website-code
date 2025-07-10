@@ -36,8 +36,12 @@ const ObjectGallery = ({ images, onReplace, className }: ObjectGalleryProps) => 
           </div>
         ))}
       </div>
-      <Button className="w-full" onClick={onReplace}>
-        ⚡ Substituir
+      <Button variant="gradient" className="w-full flex items-center justify-center" onClick={onReplace}>
+        Substituir
+        <span className="relative ml-2">
+          <span className="text-lg">💎</span>
+          <span className="absolute -top-1 -right-2 bg-background text-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center">2</span>
+        </span>
       </Button>
     </div>
   );

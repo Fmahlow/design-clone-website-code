@@ -86,6 +86,7 @@ const UploadArea = () => {
               {/* Upload button inside dashed area only when no preview */}
               {!preview && (
                 <Button
+                  variant="gradient"
                   className="mt-4 inline-flex items-center"
                   onClick={e => {
                     e.stopPropagation();
