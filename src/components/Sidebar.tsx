@@ -51,8 +51,8 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`border-t border-border my-4 ml-4 mr-4 transition-all duration-300 ${
-                  isExpanded ? 'w-full' : 'w-8'
+                className={`border-t border-border my-6 ml-4 mr-4 transition-all duration-300 ${
+                  isExpanded ? 'w-[calc(100%-2rem)]' : 'w-8'
                 }`}
               />
             );
@@ -65,7 +65,7 @@ const Sidebar = () => {
             <Link
               key={index}
               to={item.path}
-              className={`w-full flex items-center transition-colors px-2 py-1 mx-1 rounded-lg ${
+              className={`flex items-center transition-colors px-2 py-1 mx-1 rounded-lg w-[calc(100%-0.5rem)] ${
                 isActive
                   ? 'bg-primary/20 text-primary'
                   : 'text-muted-foreground hover:bg-primary/50 hover:text-primary'
