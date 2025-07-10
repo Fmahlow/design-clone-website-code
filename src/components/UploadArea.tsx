@@ -46,17 +46,17 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
         {/* Upload area */}
         <div
           className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto relative ${
-            preview ? "p-0 h-96" : "p-8"
+            preview ? "p-0 h-[500px]" : "p-8"
           }`}
         >
           {preview && (
             <Button
-              variant="outline"
-              size="icon"
-              className="absolute top-4 right-4 z-10 bg-background/80 hover:bg-background"
+              variant="destructive"
+              size="sm"
+              className="absolute top-3 right-3 z-10 h-8 w-8 p-0"
               onClick={handleRemoveImage}
             >
-              <X className="h-4 w-4" />
+              <X className="h-3 w-3" />
             </Button>
           )}
           <div className="flex flex-col items-center space-y-4 h-full">
