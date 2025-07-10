@@ -40,10 +40,10 @@ const UploadArea = () => {
           </p>
         </div>
 
-        {/* Upload area with prompt, preview and button inside dashed box */}
-        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
+        {/* Upload area with prompt, preview and button inside larger dashed box */}
+        <div className="bg-card rounded-xl p-8 text-center mb-8 mx-auto max-w-4xl">
           <div
-            className="relative w-full h-80 border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
+            className="relative w-full h-96 border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
             onClick={() => fileInputRef.current?.click()}
           >
             {/* Remove button */}
@@ -64,35 +64,38 @@ const UploadArea = () => {
             {/* Inner content: prompt or preview */}
             <div className="flex flex-col items-center justify-center h-full p-4 space-y-4">
               {!preview && (
-                <h3 className="text-base font-medium text-foreground">
-                  Para completar o cômodo da sua imagem, arraste um arquivo
-                  ou clique abaixo:
-                </h3>
+                <>
+                  <h3 className="text-base font-medium text-foreground">
+                    Para completar o cômodo da sua imagem, arraste um arquivo
+                    ou clique abaixo:
+                  </h3>
+                  <p className="text-muted-foreground text-xs">
+                    Ou clique no botão abaixo para enviar
+                  </p>
+                </>
               )}
 
-              {preview ? (
+              {preview && (
                 <img
                   src={preview}
                   alt="Pré-visualização"
                   className="w-full h-full object-contain rounded-lg"
                 />
-              ) : (
-                <p className="text-muted-foreground text-xs">
-                  Ou clique no botão abaixo para enviar
-                </p>
               )}
 
-              {/* Upload button now inside dashed area */}
-              <Button
-                className="mt-4 inline-flex items-center"
-                onClick={e => {
-                  e.stopPropagation();
-                  fileInputRef.current?.click();
-                }}
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Enviar arquivo
-              </Button>
+              {/* Upload button inside dashed area only when no preview */}
+              {!preview && (
+                <Button
+                  className="mt-4 inline-flex items-center"
+                  onClick={e => {
+                    e.stopPropagation();
+                    fileInputRef.current?.click();
+                  }}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Enviar arquivo
+                </Button>
+              )}
             </div>
           </div>
 
