@@ -15,6 +15,8 @@ const Header = () => {
     pageTitle = "Alterar objetos";
   } else if (location.pathname === "/generations") {
     pageTitle = "Minhas gerações";
+  } else if (location.pathname === "/academy") {
+    pageTitle = "Academy";
   }
 
   return (
