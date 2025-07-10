@@ -1,14 +1,23 @@
 import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const UploadArea = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setPreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const handleRemoveImage = () => {
     setPreview(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -30,58 +39,53 @@ const UploadArea = () => {
 
         {/* Upload area */}
         <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
-          <div className="flex flex-col items-center space-y-4">
-            
-            <h3 className="text-base font-medium text-foreground">
-              Para começar completar o cômodo da sua imagem
-              <br />
-              arraste um arquivo
-            </h3>
-        <div
-          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto relative ${
-            preview ? "p-4" : "p-8"
-          }`}
-        >
-          {preview && (
-            <Button
-              variant="destructive"
-              size="sm"
-              className="absolute top-3 right-3 z-10 h-8 w-8 p-0"
-              onClick={handleRemoveImage}
-            >
-              <X className="h-3 w-3" />
-            </Button>
-          )}
-          <div className="flex flex-col items-center space-y-4 h-full">
+          <h3 className="text-base font-medium text-foreground mb-4">
+            Para completar o cômodo da sua imagem, arraste um arquivo ou clique abaixo:
+          </h3>
+          <div
+            className={`relative w-full h-64 border-dashed border-2 border-muted rounded-lg ${
+              preview ? "p-4" : "p-8"
+            }`}
+            onClick={() => fileInputRef.current?.click()}
+          >
             {preview && (
-              <div className="w-full h-full flex items-center justify-center">
-                {renderPreview ? (
-                  renderPreview(preview)
-                ) : (
-                  <img
-                    src={preview}
-                    alt="Pré-visualização"
-                    className="max-w-full max-h-full object-contain rounded-lg"
-                  />
-                )}
-              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="absolute top-3 right-3 z-10 h-8 w-8 p-0"
+                onClick={e => {
+                  e.stopPropagation();
+                  handleRemoveImage();
+                }}
+              >
+                <X className="h-3 w-3" />
+              </Button>
             )}
-
-            <p className="text-muted-foreground text-xs">
-              Ou clique no botão abaixo para enviar
-            </p>
-            
-            <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
-              <Upload className="w-4 h-4 mr-2" />
-              Enviar arquivo
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-            />
+            <div className="flex flex-col items-center justify-center h-full space-y-4">
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="Pré-visualização"
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                />
+              ) : (
+                <p className="text-muted-foreground text-xs">
+                  Arraste um arquivo para cá
+                </p>
+              )}
+            </div>
           </div>
+          <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
+            <Upload className="w-4 h-4 mr-2" />
+            Enviar arquivo
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png, image/jpeg"
+            className="hidden"
+            onChange={handleFileChange}
+          />
         </div>
       </div>
     </div>
