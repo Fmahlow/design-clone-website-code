@@ -18,7 +18,7 @@ const ObjectGallery = ({ images, onReplace, className }: ObjectGalleryProps) => 
   return (
     <div
       className={cn(
-        "w-[20%] mr-8 bg-sidebar-bg p-6 flex flex-col h-full overflow-y-auto",
+        "w-[20%] mr-8 bg-sidebar-bg p-6 flex flex-col h-full overflow-y-auto rounded-2xl",
         className
       )}
     >
@@ -36,7 +36,7 @@ const ObjectGallery = ({ images, onReplace, className }: ObjectGalleryProps) => 
           </div>
         ))}
       </div>
-      <Button className="mt-auto w-full" onClick={onReplace}>
+      <Button className="w-full" onClick={onReplace}>
         ⚡ Substituir
       </Button>
     </div>
