@@ -1,27 +1,12 @@
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-interface UploadAreaProps {
-  /**
-   * Called when the user selects an image. The base64 encoded image is passed
-   * as a parameter.
-   */
-  onImageSelected?: (dataUrl: string) => void;
-  /**
-   * Allows custom rendering of the uploaded preview. When provided, this
-   * function receives the image data URL and should return the element to be
-   * displayed instead of the default <img> preview.
-   */
-  renderPreview?: (image: string) => React.ReactNode;
-}
-
-const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
+const UploadArea = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(null);
 
   return (
-    <div className="p-10">
+    <div className="p-8">
       <div className="max-w-4xl mx-auto">
         {/* Main heading */}
         <div className="text-center mb-6">
@@ -37,61 +22,28 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
         </div>
 
         {/* Upload area */}
-        <div
-          className={`bg-card rounded-xl text-center mb-8 w-full max-w-5xl mx-auto ${
-            preview ? "p-0" : "p-8"
-          }`}
-        >
+        <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
           <div className="flex flex-col items-center space-y-4">
-            {preview && (
-              <>
-                {renderPreview ? (
-                  renderPreview(preview)
-                ) : (
-                  <img
-                    src={preview}
-                    alt="Pré-visualização"
-                    className="w-full object-contain rounded-lg border"
-                  />
-                )}
-              </>
-            )}
+            
+            <h3 className="text-base font-medium text-foreground">
+              Para começar completar o cômodo da sua imagem
+              <br />
+              arraste um arquivo
+            </h3>
 
-            {!preview && (
-              <>
-                <h3 className="text-base font-medium text-foreground">
-                  Para começar completar o cômodo da sua imagem
-                  <br />
-                  arraste um arquivo
-                </h3>
-
-                <p className="text-muted-foreground text-xs">
-                  Ou clique no botão abaixo para enviar
-                </p>
-
-                <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
-                  <Upload className="w-4 h-4 mr-2" />
-                  Enviar arquivo
-                </Button>
-              </>
-            )}
+            <p className="text-muted-foreground text-xs">
+              Ou clique no botão abaixo para enviar
+            </p>
+            
+            <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
+              <Upload className="w-4 h-4 mr-2" />
+              Enviar arquivo
+            </Button>
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (ev) => {
-                    const result = ev.target?.result as string;
-                    setPreview(result);
-                    onImageSelected?.(result);
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
             />
           </div>
         </div>
