@@ -4,7 +4,7 @@ import PreviousGenerations from "@/components/PreviousGenerations";
 
 const EmptyRoom = () => {
   return (
-    <div className="flex flex-col h-[calc(100vh-56px)]">
+    <div className="flex flex-col min-h-screen">
       <div className="px-4 py-1">
           <nav className="flex items-center space-x-1 text-xs mb-0">
             <span className="text-muted-foreground">Home</span>
@@ -13,8 +13,8 @@ const EmptyRoom = () => {
           </nav>
       </div>
 
-      <div className="flex flex-1 overflow-hidden items-start">
-        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8 max-h-[calc(100vh-80px)]">
+      <div className="flex flex-1 items-start">
+        <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea />
             <PreviousGenerations />
