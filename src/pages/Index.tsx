@@ -14,14 +14,14 @@ const Index = () => {
       </div>
 
       <div className="flex flex-1 overflow-hidden items-start">
-        <div className="flex-1 flex flex-col overflow-y-auto px-2 pt-2 pb-8">
+        <div className="flex-1 flex flex-col overflow-y-auto px-1 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea />
             <PreviousGenerations />
           </div>
         </div>
 
-        <SettingsSidebar className="mr-6 mt-2 self-start flex-none border border-gray-200" />
+        <SettingsSidebar className="mr-2 mt-2 self-start flex-none border border-gray-200" />
       </div>
     </div>
   );
