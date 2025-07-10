@@ -30,24 +30,23 @@ const UploadArea = () => {
             <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
               <span className="text-sm">1</span>
             </div>
-            <h2 className="text-lg font-semibold text-foreground">Envie uma imagem</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              Envie uma imagem
+            </h2>
           </div>
           <p className="text-muted-foreground text-xs">
-            Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas para gerar suas imagens.
+            Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas
+            para gerar suas imagens.
           </p>
         </div>
 
-        {/* Upload area */}
+        {/* Upload area with prompt, preview and button inside dashed box */}
         <div className="bg-card rounded-xl p-8 text-center mb-8 max-w-lg mx-auto">
-          <h3 className="text-base font-medium text-foreground mb-4">
-            Para completar o cômodo da sua imagem, arraste um arquivo ou clique abaixo:
-          </h3>
           <div
-            className={`relative w-full h-64 border-dashed border-2 border-muted rounded-lg ${
-              preview ? "p-4" : "p-8"
-            }`}
+            className="relative w-full h-80 border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
             onClick={() => fileInputRef.current?.click()}
           >
+            {/* Remove button */}
             {preview && (
               <Button
                 variant="destructive"
@@ -61,24 +60,43 @@ const UploadArea = () => {
                 <X className="h-3 w-3" />
               </Button>
             )}
-            <div className="flex flex-col items-center justify-center h-full space-y-4">
+
+            {/* Inner content: prompt or preview */}
+            <div className="flex flex-col items-center justify-center h-full p-4 space-y-4">
+              {!preview && (
+                <h3 className="text-base font-medium text-foreground">
+                  Para completar o cômodo da sua imagem, arraste um arquivo
+                  ou clique abaixo:
+                </h3>
+              )}
+
               {preview ? (
                 <img
                   src={preview}
                   alt="Pré-visualização"
-                  className="max-w-full max-h-full object-contain rounded-lg"
+                  className="w-full h-full object-contain rounded-lg"
                 />
               ) : (
                 <p className="text-muted-foreground text-xs">
-                  Arraste um arquivo para cá
+                  Ou clique no botão abaixo para enviar
                 </p>
               )}
+
+              {/* Upload button now inside dashed area */}
+              <Button
+                className="mt-4 inline-flex items-center"
+                onClick={e => {
+                  e.stopPropagation();
+                  fileInputRef.current?.click();
+                }}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Enviar arquivo
+              </Button>
             </div>
           </div>
-          <Button className="mt-4" onClick={() => fileInputRef.current?.click()}>
-            <Upload className="w-4 h-4 mr-2" />
-            Enviar arquivo
-          </Button>
+
+          {/* Hidden file input */}
           <input
             ref={fileInputRef}
             type="file"
