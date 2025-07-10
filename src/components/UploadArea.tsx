@@ -25,7 +25,7 @@ const UploadArea = () => {
     <div className="p-8">
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
           <div className="flex items-center justify-center mb-2 space-x-2">
             <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
               <span className="text-sm">1</span>
@@ -41,7 +41,7 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area with prompt, preview and button inside larger dashed box */}
-        <div className="bg-card rounded-xl p-8 text-center mb-2 mx-auto max-w-5xl">
+        <div className="bg-card rounded-xl px-8 py-4 text-center mb-1 mx-auto max-w-5xl">
           <div
             className="relative w-full h-[32rem] border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
             onClick={() => fileInputRef.current?.click()}
