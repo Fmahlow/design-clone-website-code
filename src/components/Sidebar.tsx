@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
     <div
       className={`sticky top-0 h-screen z-50 bg-card border-r border-border flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out ${
-        isExpanded ? 'w-48' : 'w-16'
+        isExpanded ? 'w-40' : 'w-16'
       }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}

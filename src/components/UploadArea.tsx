@@ -41,7 +41,7 @@ const UploadArea = () => {
         </div>
 
         {/* Upload area with prompt, preview and button inside larger dashed box */}
-        <div className="bg-card rounded-xl p-8 text-center mb-2 mx-auto max-w-5xl">
+        <div className="bg-card rounded-xl p-8 text-center mb-0 mx-auto max-w-5xl">
           <div
             className="relative w-full h-[32rem] border-dashed border-2 border-muted rounded-lg cursor-pointer overflow-hidden"
             onClick={() => fileInputRef.current?.click()}
@@ -79,7 +79,7 @@ const UploadArea = () => {
                 <img
                   src={preview}
                   alt="Pré-visualização"
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-contain rounded-lg"
                 />
               )}
 
