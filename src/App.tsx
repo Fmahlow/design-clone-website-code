@@ -11,6 +11,7 @@ import ChangeObjects from "./pages/ChangeObjects";
 import Generations from "./pages/Generations";
 import Projects from "./pages/Projects";
 import NotFound from "./pages/NotFound";
+import Academy from "./pages/Academy";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="improve-render" element={<Index />} />
             <Route path="generations" element={<Generations />} />
             <Route path="projects" element={<Projects />} />
+            <Route path="academy" element={<Academy />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           </Route>
           <Route path="*" element={<NotFound />} />
