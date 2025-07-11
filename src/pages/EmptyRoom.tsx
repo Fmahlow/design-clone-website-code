@@ -28,14 +28,6 @@ const EmptyRoom = () => {
     setObjects(objects.filter(o => o !== obj));
   };
 
-  const handleGenerate = async () => {
-    if (!image) return;
-    const blob = await (await fetch(image)).blob();
-    const form = new FormData();
-    form.append('image', blob, 'image.png');
-    objects.forEach(o => form.append('objects', o));
-    await fetch('/api/edit', { method: 'POST', body: form });
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -71,7 +63,6 @@ const EmptyRoom = () => {
           className="mr-6 mt-2 self-start flex-none border border-gray-200"
           objects={objects}
           onRemoveObject={handleRemove}
-          onGenerate={handleGenerate}
           disableGenerate={loading}
         />
       </div>
