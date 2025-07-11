@@ -70,25 +70,25 @@ const Header = () => {
             </div>
             
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-              <PopoverTrigger asChild>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant="ghost" 
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
                       className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 h-auto"
                       onClick={() => setIsPopoverOpen(true)}
                     >
                       💎 9961
                     </Button>
-                  </TooltipTrigger>
-                  <TooltipContent 
-                    side="bottom" 
-                    className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg max-w-[200px] z-[60]"
-                  >
-                    💎 Com Diamantes, você decide onde investir seus créditos na MobilIA
-                  </TooltipContent>
-                </Tooltip>
-              </PopoverTrigger>
+                  </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg max-w-[200px] z-[60]"
+                >
+                  💎 Com Diamantes, você decide onde investir seus créditos na MobilIA
+                </TooltipContent>
+              </Tooltip>
               <PopoverContent 
                 align="end" 
                 className="w-80 bg-gray-900 text-white border-gray-700 p-4 rounded-lg z-[60]"
