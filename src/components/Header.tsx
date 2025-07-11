@@ -1,4 +1,12 @@
 import { useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const location = useLocation();
@@ -48,9 +56,30 @@ const Header = () => {
           <div className="bg-blue-500 text-white px-2 py-1 rounded text-xs">
             💎 9961
           </div>
-          <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-            <span className="text-sm font-medium">F</span>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center space-x-1 focus:outline-none">
+              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium">F</span>
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 bg-background border border-border">
+              <DropdownMenuItem className="cursor-pointer">
+                Meu perfil
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer flex items-center justify-between">
+                <span>Alterar idioma</span>
+                <span className="text-xs">🇺🇸</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Ajuda & feedback
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer text-red-600">
+                Encerrar sessão
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
