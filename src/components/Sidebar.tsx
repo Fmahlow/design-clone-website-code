@@ -51,7 +51,7 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`border-t border-border my-6 ml-4 mr-4 transition-all duration-300 ${
+                className={`border-t border-border my-12 ml-4 mr-4 transition-all duration-300 ${
                   isExpanded ? 'w-[calc(100%-2rem)]' : 'w-8'
                 }`}
               />
