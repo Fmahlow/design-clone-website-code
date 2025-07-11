@@ -2,23 +2,30 @@ import UploadArea from "@/components/UploadArea";
 import SettingsSidebar from "@/components/SettingsSidebar";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import { useState } from "react";
+import { useYolo } from "@/lib/useYolo";
 
 const EmptyRoom = () => {
   const [image, setImage] = useState<string | null>(null);
   const [objects, setObjects] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const { detect } = useYolo();
 
   const handleUpload = async (dataUrl: string) => {
     setImage(dataUrl);
     setObjects([]);
     setLoading(true);
-    const blob = await (await fetch(dataUrl)).blob();
-    const form = new FormData();
-    form.append('image', blob, 'image.png');
     try {
-      const res = await fetch('/api/detect', { method: 'POST', body: form });
-      const json = await res.json();
-      setObjects(json.objects || []);
+      const img = new Image();
+      const loaded = new Promise(res => {
+        img.onload = () => res(null);
+      });
+      img.src = dataUrl;
+      await loaded;
+      const results = await detect(img);
+      const names = Array.from(
+        new Set(results.map((r: any) => r.class || r.label || r.name))
+      );
+      setObjects(names);
     } finally {
       setLoading(false);
     }
