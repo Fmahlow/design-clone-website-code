@@ -28,7 +28,7 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div
-        className={`py-2 space-y-0 flex flex-col transition-all ${
+        className={`py-2 flex flex-col transition-all ${
           isExpanded ? 'items-start pl-2' : 'items-center'
         }`}
       >
@@ -65,7 +65,7 @@ const Sidebar = () => {
             <Link
               key={index}
               to={item.path}
-              className={`flex items-center transition-colors px-2 py-1 mx-1 rounded-lg w-[calc(100%-0.5rem)] ${
+              className={`flex items-center transition-colors px-2 py-1 mx-1 mb-1 rounded-lg w-[calc(100%-0.5rem)] ${
                 isActive
                   ? 'bg-primary/20 text-primary'
                   : 'text-muted-foreground hover:bg-primary/50 hover:text-primary'
