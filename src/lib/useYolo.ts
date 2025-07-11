@@ -15,6 +15,7 @@ export function useYolo() {
 
     async function loadModel() {
       if (window.yoloModel) {
+        console.log("YOLO model already loaded");
         setModel(window.yoloModel);
         return;
       }
@@ -22,11 +23,15 @@ export function useYolo() {
         await new Promise<void>(resolve => {
           const script = document.createElement("script");
           script.src = "https://cdn.jsdelivr.net/npm/yolov8-tfjs/dist/yolov8.min.js";
-          script.onload = () => resolve();
+          script.onload = () => {
+            console.log("yolov8 script loaded");
+            resolve();
+          };
           document.body.appendChild(script);
         });
       }
       window.yoloModel = await window.yolov8.load();
+      console.log("YOLO model loaded");
       setModel(window.yoloModel);
     }
 
