@@ -31,10 +31,12 @@ let image_inputs = null;
 let ready = false;
 
 self.onmessage = async (e) => {
+    console.log('[worker] Mensagem recebida', e.data);
     const [model, processor] = await SegmentAnythingSingleton.getInstance();
     if (!ready) {
         // Indicate that we are ready to accept requests
         ready = true;
+        console.log('[worker] Pronto para receber mensagens');
         self.postMessage({
             type: 'ready',
         });
@@ -46,6 +48,7 @@ self.onmessage = async (e) => {
         image_embeddings = null;
 
     } else if (type === 'segment') {
+        console.log('[worker] Iniciando segmentação');
         // Indicate that we are starting to segment the image
         self.postMessage({
             type: 'segment_result',
@@ -58,6 +61,7 @@ self.onmessage = async (e) => {
         image_embeddings = await model.get_image_embeddings(image_inputs)
 
         // Indicate that we have computed the image embeddings, and we are ready to accept decoding requests
+        console.log('[worker] Segmentação concluída');
         self.postMessage({
             type: 'segment_result',
             data: 'done',
@@ -81,6 +85,7 @@ self.onmessage = async (e) => {
         )
 
         // Generate the mask
+        console.log('[worker] Decodificando pontos');
         const outputs = await model({
             ...image_embeddings,
             input_points,
@@ -95,6 +100,7 @@ self.onmessage = async (e) => {
         );
 
         // Send the result back to the main thread
+        console.log('[worker] Máscara gerada');
         self.postMessage({
             type: 'decode_result',
             data: {

@@ -35,6 +35,7 @@ const BASE_URL = 'https://huggingface.co/datasets/Xenova/transformers.js-docs/re
 const worker = new Worker('worker.js', {
     type: 'module',
 });
+console.log('[index] Worker criado');
 
 // Create elements used to display selected points
 const star = document.createElement('div');
@@ -47,6 +48,7 @@ cross.className = 'icon';
 // Set up message handler
 worker.addEventListener('message', (e) => {
     const { type, data } = e.data;
+    console.log('[index] Mensagem do worker', type);
     if (type === 'ready') {
         modelReady = true;
         statusLabel.textContent = 'Pronto';
@@ -167,6 +169,7 @@ resetButton.addEventListener('click', () => {
 async function segment(data) {
     // Update state
     isEncoded = false;
+    console.log('[index] Segmentando imagem');
     if (!modelReady) {
         statusLabel.textContent = 'Carregando modelo...';
     }
@@ -205,6 +208,7 @@ async function segment(data) {
     cutButton.disabled = true;
 
     // Instruct worker to segment the resized image
+    console.log('[index] Enviando imagem para worker');
     worker.postMessage({ type: 'segment', data: { image: resizedData } });
 }
 
@@ -213,6 +217,7 @@ function handleFiles(files) {
     if (!file) {
         return;
     }
+    console.log('[index] Arquivo selecionado', file.name);
     const reader = new FileReader();
     reader.onload = e => segment(e.target.result);
     reader.readAsDataURL(file);
