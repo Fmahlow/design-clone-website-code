@@ -29,6 +29,7 @@ const EmptyRoom = () => {
     setSegData(null);
     setError(null);
     setLoading(true);
+    console.log("[EmptyRoom] Image selected, starting segmentation");
 
     try {
       // carrega a imagem
@@ -38,18 +39,21 @@ const EmptyRoom = () => {
         img.onerror = () => rej(new Error("Falha ao carregar imagem"));
         img.src = dataUrl;
       });
-
       if (modelError) throw new Error(modelError);
-      if (!ready)   console.warn("Modelo ainda não está pronto");
+      if (!ready) {
+        console.warn("Modelo ainda não está pronto");
+      }
 
       const result = await segment(img);
-      const labels = Array.from(new Set(Array.from(result.segmentationMap)));
-      setObjects(labels.map(l => result.legend[l]).filter(Boolean));
+      console.log("[EmptyRoom] Segmentation finished");
+      setObjects(Object.keys(result.legend));
       setSegData(result);
     } catch (err: any) {
+      console.error("[EmptyRoom] Segmentation error", err);
       setError(err.message);
     } finally {
       setLoading(false);
+      console.log("[EmptyRoom] Segmentation process finished");
     }
   };
 

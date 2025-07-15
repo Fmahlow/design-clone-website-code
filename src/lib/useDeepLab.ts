@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 export interface SegmentationResult {
   segmentationMap: Uint8Array;
-  legend: Record<number, string>;
+  /**
+   * Map of detected label names to their RGB color in the segmentation map.
+   */
+  legend: Record<string, [number, number, number]>;
   width: number;
   height: number;
 }
@@ -15,20 +18,28 @@ export function useDeepLab() {
   const [modelError, setModelError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("[useDeepLab] Loading DeepLab model");
     import("@tensorflow-models/deeplab")
       .then(m => m.load({ base: "pascal", quantizationBytes: 2 }))
       .then(model => {
+        console.log("[useDeepLab] Model loaded");
         modelRef.current = model;
         setReady(true);
       })
-      .catch(err => setModelError(err.message));
+      .catch(err => {
+        console.error("[useDeepLab] Failed to load model", err);
+        setModelError(err.message);
+      });
   }, []);
 
   const segment = async (img: HTMLImageElement): Promise<SegmentationResult> => {
     if (!modelRef.current) throw new Error("Modelo não está pronto");
     if (modelError) throw new Error(modelError);
+    console.log("[useDeepLab] Segmenting image");
     await tf.nextFrame();
-    return modelRef.current.segment(img);
+    const result = await modelRef.current.segment(img);
+    console.log("[useDeepLab] Segmentation done");
+    return result;
   };
 
   return { ready, segment, modelError };
