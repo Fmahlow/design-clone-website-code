@@ -3,27 +3,30 @@ import UploadArea from "@/components/UploadArea";
 import SettingsSidebar from "@/components/SettingsSidebar";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import { useEffect, useRef, useState } from "react";
-import { useYolo } from "@/lib/useYolo";
+import { useDeepLab, SegmentationResult } from "@/lib/useDeepLab";
 
-const ALLOWED_CLASSES = ["person","car","truck","bus","bench","potted plant"];
-const MIN_SCORE = 0.5;
-const MIN_AREA  = 1000;  // em pixels²
+const COLORS = [
+  [0,0,0], [128,0,0], [0,128,0], [128,128,0], [0,0,128], [128,0,128],
+  [0,128,128], [128,128,128], [64,0,0], [192,0,0], [64,128,0], [192,128,0],
+  [64,0,128], [192,0,128], [64,128,128], [192,128,128], [0,64,0], [128,64,0],
+  [0,192,0], [128,192,0], [0,64,128]
+];
 
 const EmptyRoom = () => {
   const [image, setImage] = useState<string | null>(null);
   const [objects, setObjects] = useState<string[]>([]);
-  const [preds, setPreds] = useState<any[]>([]);
+  const [segData, setSegData] = useState<SegmentationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { ready, detect, modelError } = useYolo();
+  const { ready, segment, modelError } = useDeepLab();
 
   const handleUpload = async (dataUrl: string) => {
     setImage(dataUrl);
     setObjects([]);
-    setPreds([]);
+    setSegData(null);
     setError(null);
     setLoading(true);
 
@@ -39,23 +42,10 @@ const EmptyRoom = () => {
       if (modelError) throw new Error(modelError);
       if (!ready)   console.warn("Modelo ainda não está pronto");
 
-      // rodar detecção
-      const raw = await detect(img);
-
-      // aplicar filtros:
-      // Na parte de filtragem, altere para:
-      const filtered = raw
-      .filter(r => r.score >= 0.3)           
-      // .filter(r => ALLOWED_CLASSES.includes(r.class))  // comente pra testar
-      .filter(r => {
-        const [, , w, h] = r.bbox;
-        return w * h >= 100;                   // área mínima em 100 px²
-      });
-
-
-      console.log("📋 Labels filtrados:", filtered.map(r => r.class));
-      setPreds(filtered);
-      setObjects(Array.from(new Set(filtered.map(r => r.class))));
+      const result = await segment(img);
+      const labels = Array.from(new Set(Array.from(result.segmentationMap)));
+      setObjects(labels.map(l => result.legend[l]).filter(Boolean));
+      setSegData(result);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -66,7 +56,7 @@ const EmptyRoom = () => {
   useEffect(() => {
     const imgEl = imgRef.current;
     const canvas = canvasRef.current;
-    if (!imgEl || !canvas) return;
+    if (!imgEl || !canvas || !segData) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -74,25 +64,23 @@ const EmptyRoom = () => {
     canvas.height = imgEl.clientHeight;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    preds.forEach(p => {
-      const [x,y,w,h] = p.bbox as number[];
-      const sx = canvas.width  / imgEl.naturalWidth;
-      const sy = canvas.height / imgEl.naturalHeight;
-
-      ctx.strokeStyle = "#3b82f6";
-      ctx.lineWidth   = 2;
-      ctx.strokeRect( x*sx, y*sy, w*sx, h*sy );
-
-      const label = `${p.class} ${(p.score*100).toFixed(0)}%`;
-      ctx.fillStyle = "rgba(59,130,246,0.8)";
-      ctx.font       = "12px sans-serif";
-      const tw = ctx.measureText(label).width + 4;
-      const th = 14;
-      ctx.fillRect( x*sx, y*sy - th, tw, th );
-      ctx.fillStyle = "#fff";
-      ctx.fillText(label, x*sx + 2, y*sy - 2);
-    });
-  }, [preds, image]);
+    const { segmentationMap, width, height } = segData;
+    const off = document.createElement("canvas");
+    off.width = width;
+    off.height = height;
+    const offCtx = off.getContext("2d")!;
+    const imgData = offCtx.createImageData(width, height);
+    for (let i = 0; i < segmentationMap.length; i++) {
+      const c = COLORS[segmentationMap[i] % COLORS.length];
+      const j = i * 4;
+      imgData.data[j] = c[0];
+      imgData.data[j+1] = c[1];
+      imgData.data[j+2] = c[2];
+      imgData.data[j+3] = 120;
+    }
+    offCtx.putImageData(imgData, 0, 0);
+    ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
+  }, [segData, image]);
 
   return (
     <div className="flex flex-col min-h-screen">
