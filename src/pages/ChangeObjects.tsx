@@ -32,13 +32,13 @@ const ChangeObjects = () => {
           </nav>
       </div>
 
-      <div className="flex flex-1 items-start gap-4 overflow-hidden px-4 pt-2 pb-8">
-        <div className="flex-1 min-w-0">
-          <div className="bg-card rounded-2xl overflow-hidden border border-border w-full">
+      <div className="flex flex-1 items-start overflow-auto">
+        <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
+          <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea
               onImageSelected={handleUpload}
               renderPreview={(img) => (
-                <div className="w-full h-[32rem] mx-auto">
+                <div className="w-full max-w-3xl h-[32rem] mx-auto">
                   <ObjectSelector image={img} />
                 </div>
               )}
@@ -47,13 +47,11 @@ const ChangeObjects = () => {
           </div>
         </div>
 
-        <div className="w-80 flex-shrink-0">
-          <ObjectGallery
-            images={gallery}
-            onReplace={handleReplace}
-            className="border border-gray-200"
-          />
-        </div>
+        <ObjectGallery
+          images={gallery}
+          onReplace={handleReplace}
+          className="mr-6 mt-2 self-start flex-none border border-gray-200"
+        />
       </div>
     </div>
   );

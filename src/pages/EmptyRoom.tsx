@@ -28,7 +28,7 @@ const EmptyRoom = () => {
       const results = await detect(img);
       const names = Array.from(
         new Set(results.map((r: any) => r.class || r.label || r.name)),
-      ) as string[];
+      );
       setObjects(names);
       setPreds(results);
     } finally {
@@ -96,9 +96,9 @@ const EmptyRoom = () => {
         </nav>
       </div>
 
-      <div className="flex flex-1 items-start gap-4 overflow-hidden px-4 pt-2 pb-8">
-        <div className="flex-1 min-w-0">
-          <div className="bg-card rounded-2xl overflow-hidden border border-border w-full">
+      <div className="flex flex-1 items-start">
+        <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
+          <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea
               onImageSelected={handleUpload}
               renderPreview={(img) => (
@@ -125,14 +125,12 @@ const EmptyRoom = () => {
           </div>
         </div>
 
-        <div className="w-80 flex-shrink-0">
-          <SettingsSidebar
-            className="border border-gray-200"
-            objects={objects}
-            onRemoveObject={handleRemove}
-            disableGenerate={loading}
-          />
-        </div>
+        <SettingsSidebar
+          className="mr-6 mt-2 self-start flex-none border border-gray-200"
+          objects={objects}
+          onRemoveObject={handleRemove}
+          disableGenerate={loading}
+        />
       </div>
     </div>
   );
