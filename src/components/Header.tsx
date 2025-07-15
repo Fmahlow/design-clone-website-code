@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
@@ -24,6 +24,7 @@ import { useState } from "react";
 const Header = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   let pageTitle = "";
   let showGreeting = false;
 
@@ -113,6 +114,7 @@ const Header = () => {
                     <Button 
                       variant="link" 
                       className="text-blue-400 text-xs p-0 h-auto underline hover:text-blue-300"
+                      onClick={() => navigate('/profile/diamonds')}
                     >
                       Extrato de transações
                     </Button>
@@ -129,7 +131,7 @@ const Header = () => {
                 <ChevronDown className="w-4 h-4 text-muted-foreground" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-background border border-border z-[60]">
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/profile')}>
                   Meu perfil
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer flex items-center justify-between">

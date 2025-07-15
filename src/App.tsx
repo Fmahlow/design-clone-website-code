@@ -12,6 +12,10 @@ import Generations from "./pages/Generations";
 import Projects from "./pages/Projects";
 import NotFound from "./pages/NotFound";
 import Academy from "./pages/Academy";
+import Profile, { ProfileOverview } from "./pages/Profile";
+import ProfilePersonalData from "./pages/ProfilePersonalData";
+import ProfileBilling from "./pages/ProfileBilling";
+import ProfileDiamonds from "./pages/ProfileDiamonds";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +34,12 @@ const App = () => (
             <Route path="generations" element={<Generations />} />
             <Route path="projects" element={<Projects />} />
             <Route path="academy" element={<Academy />} />
+            <Route path="profile" element={<Profile />}>
+              <Route index element={<ProfileOverview />} />
+              <Route path="personal-data" element={<ProfilePersonalData />} />
+              <Route path="billing" element={<ProfileBilling />} />
+              <Route path="diamonds" element={<ProfileDiamonds />} />
+            </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -28,7 +28,7 @@ const EmptyRoom = () => {
       const results = await detect(img);
       const names = Array.from(
         new Set(results.map((r: any) => r.class || r.label || r.name)),
-      );
+      ) as string[];
       setObjects(names);
       setPreds(results);
     } finally {
