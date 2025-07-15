@@ -35,16 +35,6 @@ const EmptyRoom = () => {
         img.onerror = () => rej(new Error("Falha ao carregar imagem"));
         img.src = dataUrl;
       });
-<<<<<<< Updated upstream
-      img.src = dataUrl;
-      await loaded;
-      const results = await detect(img);
-      const names = Array.from(
-        new Set(results.map((r: any) => r.class || r.label || r.name)),
-      ) as string[];
-      setObjects(names);
-      setPreds(results);
-=======
 
       if (modelError) throw new Error(modelError);
       if (!ready)   console.warn("Modelo ainda não está pronto");
@@ -68,7 +58,6 @@ const EmptyRoom = () => {
       setObjects(Array.from(new Set(filtered.map(r => r.class))));
     } catch (err: any) {
       setError(err.message);
->>>>>>> Stashed changes
     } finally {
       setLoading(false);
     }
