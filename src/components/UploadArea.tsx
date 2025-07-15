@@ -14,10 +14,13 @@ const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    console.log("[UploadArea] Arquivo selecionado", file);
     const reader = new FileReader();
     reader.onload = () => {
       const data = reader.result as string;
+      console.log("[UploadArea] Pré-visualização gerada");
       setPreview(data);
+      console.log("[UploadArea] Chamando onImageSelected");
       onImageSelected?.(data);
     };
     reader.readAsDataURL(file);

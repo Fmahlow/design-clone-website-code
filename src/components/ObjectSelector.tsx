@@ -18,21 +18,26 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("[ObjectSelector] Criando worker");
     const worker = new Worker(new URL("../../worker_selecionar_objetos.js", import.meta.url), { type: "module" });
     workerRef.current = worker;
 
     const handleMessage = (e: MessageEvent) => {
       const { type, data } = e.data;
       if (type === "ready") {
+        console.log("[ObjectSelector] Worker pronto");
         setModelReady(true);
       } else if (type === "segment_result") {
         if (data === "start") {
+          console.log("[ObjectSelector] Iniciou segmentação");
           setStatus("Segmentando objetos...");
         } else if (data === "done") {
+          console.log("[ObjectSelector] Segmentação concluída");
           setStatus("Segmentação concluída");
           isEncoded.current = true;
         }
       } else if (type === "decode_result") {
+        console.log("[ObjectSelector] Resultado de decode recebido");
         isDecoding.current = false;
         if (isEncoded.current) {
           drawMask(data.mask, data.scores);
@@ -55,6 +60,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const segment = (data: string) => {
     if (!workerRef.current) return;
     isEncoded.current = false;
+    console.log("[ObjectSelector] Enviando imagem para segmentação");
     setStatus("Segmentando objetos...");
 
     if (imgRef.current) {
@@ -74,6 +80,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   };
 
   const drawMask = (mask: any, scores: number[]) => {
+    console.log("[ObjectSelector] Desenhando máscara");
     const canvas = maskCanvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -121,6 +128,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       const point = getPoint(e);
       lastPoints.current = [point];
       isDecoding.current = true;
+      console.log("[ObjectSelector] Decodificando ponto", point);
       workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
     };
     const handleDown = (e: MouseEvent) => {
@@ -128,6 +136,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       const point = getPoint(e);
       lastPoints.current = [{ point: point.point, label: e.button === 2 ? 0 : 1 }];
       isDecoding.current = true;
+      console.log("[ObjectSelector] Decodificando ponto fixo", lastPoints.current);
       workerRef.current?.postMessage({ type: "decode", data: lastPoints.current });
     };
     const preventContext = (e: MouseEvent) => e.preventDefault();
