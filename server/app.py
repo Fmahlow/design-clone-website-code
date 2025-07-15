@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import time
 from transformers import pipeline
 import torch
 from PIL import Image
@@ -18,6 +19,12 @@ def detect_objects():
     outputs = detector(image)
     labels = sorted({o['label'] for o in outputs})
     return jsonify({"objects": labels})
+
+
+@app.get("/time")
+def get_time():
+    """Return the current unix timestamp."""
+    return jsonify({"time": time.time()})
 
 
 if __name__ == "__main__":
