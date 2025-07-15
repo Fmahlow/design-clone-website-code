@@ -5,14 +5,23 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface SettingsSidebarProps {
-  className?: string;
-  objects?: string[];
-  onRemoveObject?: (obj: string) => void;
-  onGenerate?: () => void;
-  disableGenerate?: boolean;
+  className?: string
+  objects?: string[]
+  onRemoveObject?: (obj: string) => void
+  onGenerate?: () => void
+  disableGenerate?: boolean
+  /** Optional handler to demonstrate calling a Python script */
+  onShowTime?: () => void
 }
 
-const SettingsSidebar = ({ className, objects = [], onRemoveObject, onGenerate, disableGenerate }: SettingsSidebarProps) => {
+const SettingsSidebar = ({
+  className,
+  objects = [],
+  onRemoveObject,
+  onGenerate,
+  disableGenerate,
+  onShowTime,
+}: SettingsSidebarProps) => {
   return (
     <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
         <div className="flex items-center justify-center mb-2 space-x-2">
@@ -78,6 +87,18 @@ const SettingsSidebar = ({ className, objects = [], onRemoveObject, onGenerate, 
                 <span className="text-lg">💎</span>
                 <span className="absolute -top-1 -right-2 bg-background text-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center">2</span>
               </span>
+            </Button>
+          </div>
+        )}
+
+        {onShowTime && (
+          <div className="mt-2">
+            <Button
+              variant="gradient"
+              className="w-full flex items-center justify-center"
+              onClick={onShowTime}
+            >
+              Ver tempo
             </Button>
           </div>
         )}
