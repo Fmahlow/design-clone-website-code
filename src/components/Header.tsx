@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <TooltipProvider>
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-2 bg-card border-b border-border w-screen">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-2 bg-card border-b border-border w-full">
         {/* Left side */}
         <div className="flex items-center space-x-6">
           {showGreeting ? (
