@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     proxy: {
       '/time': 'http://localhost:8000',
       '/detect': 'http://localhost:8000',
+      '/style': 'http://localhost:8000',
     },
   },
   plugins: [
