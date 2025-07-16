@@ -1,4 +1,4 @@
-import { Armchair, PackagePlus, BrushCleaning } from "lucide-react";
+import { Armchair, PackagePlus, BrushCleaning, RefreshCcwDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,7 +19,7 @@ const Home = () => {
       link: "/change-objects"
     },
     {
-      icon: BrushCleaning,
+      icon: RefreshCcwDot,
       title: "Mudar Estilo",
       description: "Aplique um novo estilo de design ao ambiente.",
       link: "/change-style"
