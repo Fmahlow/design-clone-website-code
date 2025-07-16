@@ -2,6 +2,7 @@ import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import StyleSidebar from "@/components/StyleSidebar";
 import { useState } from "react";
+import useGenerations from "@/hooks/useGenerations";
 
 async function blobToDataURL(blob: Blob): Promise<string> {
   return new Promise(resolve => {
@@ -12,6 +13,7 @@ async function blobToDataURL(blob: Blob): Promise<string> {
 }
 
 const ChangeStyle = () => {
+  const { addGeneration } = useGenerations();
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +34,7 @@ const ChangeStyle = () => {
       const outBlob = await res.blob();
       const dataUrl = await blobToDataURL(outBlob);
       setImage(dataUrl);
+      addGeneration(dataUrl);
     } catch (err) {
       console.error('style generation failed', err);
     } finally {
