@@ -27,7 +27,7 @@ const ObjectGallery = ({ images, onReplace, className }: ObjectGalleryProps) => 
           <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
             <span className="text-sm">2</span>
           </div>
-          <h2 className="text-lg font-semibold text-foreground">Escolha o objeto</h2>
+          <h2 className="text-lg font-semibold text-foreground">Mudar objeto</h2>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">

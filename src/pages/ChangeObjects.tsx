@@ -2,10 +2,12 @@ import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectGallery from "@/components/ObjectGallery";
 import ObjectSelector from "@/components/ObjectSelector";
+import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState } from "react";
 
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
+  const [description, setDescription] = useState("");
   const [gallery, setGallery] = useState(
     Array.from({ length: 8 }, (_, i) => ({
       id: i,
@@ -18,8 +20,8 @@ const ChangeObjects = () => {
     setImage(dataUrl);
   };
 
-  const handleReplace = () => {
-    // TODO: implement object replacement logic
+  const handleGenerate = () => {
+    // TODO: implement generation logic
   };
 
   return (
@@ -47,10 +49,11 @@ const ChangeObjects = () => {
           </div>
         </div>
 
-        <ObjectGallery
-          images={gallery}
-          onReplace={handleReplace}
-          className="mr-6 mt-2 self-start flex-none border border-gray-200"
+        <DescriptionSidebar
+          description={description}
+          onDescriptionChange={setDescription}
+          onGenerate={handleGenerate}
+          className="mr-6 mt-2 self-start flex-none"
         />
       </div>
     </div>
