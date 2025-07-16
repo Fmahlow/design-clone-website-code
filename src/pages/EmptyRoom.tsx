@@ -30,7 +30,9 @@ const EmptyRoom = () => {
         throw new Error(`Unexpected status ${res.status}`);
       }
       const data = await res.json();
-      alert(`Timestamp: ${data.time}`);
+      // Append the timestamp to the objects list so it appears in the
+      // "Objetos a excluir" text area.
+      setObjects(prev => [...prev, `Timestamp: ${data.time}`]);
     } catch (err) {
       console.error('Failed to fetch time', err);
     }
