@@ -25,7 +25,7 @@ const EmptyRoom = () => {
 
   const handleShowTime = async () => {
     try {
-      const res = await fetch('http://localhost:8000/time');
+      const res = await fetch('/time');
       const data = await res.json();
       alert(`Timestamp: ${data.time}`);
     } catch (err) {
