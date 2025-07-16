@@ -26,6 +26,9 @@ const EmptyRoom = () => {
   const handleShowTime = async () => {
     try {
       const res = await fetch('/time');
+      if (!res.ok) {
+        throw new Error(`Unexpected status ${res.status}`);
+      }
       const data = await res.json();
       alert(`Timestamp: ${data.time}`);
     } catch (err) {

@@ -8,6 +8,10 @@ export default defineConfig(({ mode }) => ({
     host: true,  // bind explícito em IPv4 + IPv6
     port: 8080,
     open: true,
+    proxy: {
+      '/time': 'http://localhost:8000',
+      '/detect': 'http://localhost:8000',
+    },
   },
   plugins: [
     react(),
