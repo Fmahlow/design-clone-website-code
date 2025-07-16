@@ -92,13 +92,23 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
 
     const img = imgRef.current;
     if (!img) return;
-    canvas.width = img.clientWidth;
-    canvas.height = img.clientHeight;
+    
+    // Ajustar canvas para coincidir exatamente com a imagem
+    const imgRect = img.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    
+    canvas.width = img.offsetWidth;
+    canvas.height = img.offsetHeight;
+    canvas.style.left = `${img.offsetLeft}px`;
+    canvas.style.top = `${img.offsetTop}px`;
+    canvas.style.width = `${img.offsetWidth}px`;
+    canvas.style.height = `${img.offsetHeight}px`;
+    
     const ctx = canvas.getContext("2d")!;
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Desenhar todas as máscaras selecionadas
+    // Desenhar todas as máscaras selecionadas (permanecem destacadas)
     selectedMasks.forEach((selectedMask, index) => {
       const offCanvas = document.createElement("canvas");
       offCanvas.width = selectedMask.mask.width;
@@ -106,15 +116,8 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       const offCtx = offCanvas.getContext("2d")!;
       const imageData = offCtx.createImageData(offCanvas.width, offCanvas.height);
 
-      // Cores diferentes para cada máscara
-      const colors = [
-        [0, 114, 189],    // azul
-        [255, 165, 0],    // laranja
-        [34, 139, 34],    // verde
-        [220, 20, 60],    // vermelho
-        [138, 43, 226],   // roxo
-      ];
-      const color = colors[index % colors.length];
+      // Usar sempre azul para máscaras selecionadas
+      const color = [0, 114, 189]; // azul
 
       for (let i = 0; i < imageData.data.length; ++i) {
         if (selectedMask.mask.data[selectedMask.numMasks * i + selectedMask.bestIndex] === 1) {
@@ -122,7 +125,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
           imageData.data[offset] = color[0];
           imageData.data[offset + 1] = color[1];
           imageData.data[offset + 2] = color[2];
-          imageData.data[offset + 3] = 150; // semi-transparente
+          imageData.data[offset + 3] = 180; // mais opaco para máscaras selecionadas
         }
       }
 
@@ -130,8 +133,8 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       ctx.drawImage(offCanvas, 0, 0, canvas.width, canvas.height);
     });
 
-    // Desenhar a máscara atual (temporária)
-    if (!addToSelection) {
+    // Desenhar a máscara atual (temporária - preview do hover)
+    if (!addToSelection && mask) {
       const offCanvas = document.createElement("canvas");
       offCanvas.width = mask.width;
       offCanvas.height = mask.height;
@@ -147,10 +150,10 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
       for (let i = 0; i < imageData.data.length; ++i) {
         if (mask.data[numMasks * i + bestIndex] === 1) {
           const offset = 4 * i;
-          imageData.data[offset] = 255;
-          imageData.data[offset + 1] = 255;
-          imageData.data[offset + 2] = 255;
-          imageData.data[offset + 3] = 100; // mais transparente para preview
+          imageData.data[offset] = 0;    // azul
+          imageData.data[offset + 1] = 114;
+          imageData.data[offset + 2] = 189;
+          imageData.data[offset + 3] = 120; // mais transparente para preview
         }
       }
 
@@ -172,9 +175,11 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   const resetSelections = () => {
     setSelectedMasks([]);
     setCurrentMask(null);
-    // Redesenhar apenas com as máscaras selecionadas (que agora estão vazias)
-    if (currentMask) {
-      drawMask(currentMask.mask, currentMask.scores);
+    // Limpar o canvas
+    const canvas = maskCanvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d")!;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
 
@@ -222,7 +227,7 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
           className="w-full h-full object-contain"
         />
       )}
-      <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" />
+      <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" style={{ position: 'absolute' }} />
       
       {/* Reset button */}
       {selectedMasks.length > 0 && (
