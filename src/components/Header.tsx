@@ -36,6 +36,8 @@ const Header = () => {
     pageTitle = "Esvaziar cômodo";
   } else if (location.pathname === "/change-objects") {
     pageTitle = "Alterar objetos";
+  } else if (location.pathname === "/change-style") {
+    pageTitle = "Mudar Estilo";
   } else if (location.pathname === "/generations") {
     pageTitle = "Minhas gerações";
   } else if (location.pathname === "/academy") {
