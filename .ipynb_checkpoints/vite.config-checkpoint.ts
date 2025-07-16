@@ -7,9 +7,6 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: true,  // bind explícito em IPv4 + IPv6
     port: 8080,
-    allowedHosts: [
-      'f99d1af397ea.ngrok-free.app'
-    ],
     open: true,
     proxy: {
       '/time': 'http://localhost:8000',
