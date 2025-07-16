@@ -75,7 +75,6 @@ const UploadArea = ({ onImageSelected, renderPreview, image }: UploadAreaProps) 
                 onClick={e => {
                   e.stopPropagation();
                   handleRemoveImage();
-                  fileInputRef.current?.click();
                 }}
               >
                 <X className="h-3 w-3" />
