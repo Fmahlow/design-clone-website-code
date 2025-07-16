@@ -3,11 +3,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface StyleSidebarProps {
   className?: string;
   disableGenerate?: boolean;
-  onGenerate?: () => void;
+  onGenerate?: (style: string) => void;
 }
 
 const styles = [
@@ -30,6 +31,12 @@ const styles = [
 ];
 
 const StyleSidebar = ({ className, disableGenerate, onGenerate }: StyleSidebarProps) => {
+  const [style, setStyle] = useState("nenhum");
+
+  const handleGenerate = () => {
+    onGenerate?.(style);
+  };
+
   return (
     <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
       <div className="flex items-center justify-center mb-2 space-x-2">
@@ -48,7 +55,7 @@ const StyleSidebar = ({ className, disableGenerate, onGenerate }: StyleSidebarPr
 
         <div className="space-y-2">
           <Label className="text-sm font-medium text-foreground">Estilo</Label>
-          <Select defaultValue="Nenhum">
+          <Select defaultValue="Nenhum" onValueChange={setStyle}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -66,7 +73,7 @@ const StyleSidebar = ({ className, disableGenerate, onGenerate }: StyleSidebarPr
           <Button
             variant="gradient"
             className="w-full flex items-center justify-center"
-            onClick={onGenerate}
+            onClick={handleGenerate}
             disabled={disableGenerate}
           >
             Mudar Estilo

@@ -1,15 +1,23 @@
 import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface UploadAreaProps {
   onImageSelected?: (dataUrl: string) => void;
   renderPreview?: (img: string) => React.ReactNode;
+  image?: string | null;
 }
 
-const UploadArea = ({ onImageSelected, renderPreview }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, renderPreview, image }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(image ?? null);
+
+  // keep preview in sync when parent controls the image
+  useEffect(() => {
+    if (image !== undefined) {
+      setPreview(image);
+    }
+  }, [image]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
