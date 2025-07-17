@@ -14,6 +14,11 @@ from diffusers import (
     StableDiffusionControlNetPipeline,
     FluxKontextPipeline,
 )
+from diffusers.utils import check_min_version
+from controlnet_flux import FluxControlNetModel
+from transformer_flux import FluxTransformer2DModel
+from pipeline_flux_controlnet_inpaint import FluxControlNetInpaintingPipeline
+import huggingface_hub
 from controlnet_aux_local import NormalBaeDetector
 from huggingface_hub import HfApi
 #from flux.content_filters import PixtralContentFilter
@@ -167,6 +172,24 @@ flux_pipe = FluxKontextPipeline.from_pretrained(
 flux_pipe.to("cuda")
 #integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
+# Initialize Flux ControlNet inpainting pipeline
+check_min_version("0.30.2")
+huggingface_hub.login(os.getenv("HF_TOKEN_FLUX"))
+transformer = FluxTransformer2DModel.from_pretrained(
+    "black-forest-labs/FLUX.1-dev", subfolder="transformer", torch_dtype=torch.bfloat16
+)
+controlnet_inpaint = FluxControlNetModel.from_pretrained(
+    "alimama-creative/FLUX.1-dev-Controlnet-Inpainting-Beta", torch_dtype=torch.bfloat16
+)
+inpaint_pipe = FluxControlNetInpaintingPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-dev",
+    controlnet=controlnet_inpaint,
+    transformer=transformer,
+    torch_dtype=torch.bfloat16,
+).to("cuda")
+inpaint_pipe.transformer.to(torch.bfloat16)
+inpaint_pipe.controlnet.to(torch.bfloat16)
+
 # Style prompts in Portuguese
 style_prompts = {
     "nenhum": "",
@@ -227,6 +250,28 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
 
     return result
 
+
+def inpaint_image(image: Image.Image, mask: Image.Image) -> Image.Image:
+    size = (768, 768)
+    image_resized = image.convert("RGB").resize(size)
+    mask_resized = mask.convert("RGB").resize(size)
+    generator = torch.Generator(device="cuda").manual_seed(random.randint(0, MAX_SEED))
+    result = inpaint_pipe(
+        prompt="",
+        height=size[1],
+        width=size[0],
+        control_image=image_resized,
+        control_mask=mask_resized,
+        num_inference_steps=24,
+        generator=generator,
+        controlnet_conditioning_scale=0.9,
+        guidance_scale=3.5,
+        true_guidance_scale=3.5,
+        negative_prompt="",
+    ).images[0]
+
+    return result.resize(image.size)
+
 @app.post("/detect")
 def detect_objects():
     file = request.files.get("image")
@@ -253,6 +298,21 @@ def change_style():
         return jsonify({"error": "no image provided"}), 400
     img = Image.open(file.stream).convert("RGB")
     result = process_image(img, style)
+    buf = io.BytesIO()
+    result.save(buf, format="PNG")
+    buf.seek(0)
+    return send_file(buf, mimetype="image/png")
+
+
+@app.post("/inpaint")
+def flux_inpaint():
+    file = request.files.get("image")
+    mask_file = request.files.get("mask")
+    if file is None or mask_file is None:
+        return jsonify({"error": "image and mask required"}), 400
+    img = Image.open(file.stream).convert("RGB")
+    mask = Image.open(mask_file.stream).convert("RGB")
+    result = inpaint_image(img, mask)
     buf = io.BytesIO()
     result.save(buf, format="PNG")
     buf.seek(0)

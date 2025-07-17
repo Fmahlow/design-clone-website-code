@@ -9,6 +9,7 @@ interface DescriptionSidebarProps {
   onDescriptionChange?: (description: string) => void;
   onGenerate?: () => void;
   disableGenerate?: boolean;
+  hideDescription?: boolean;
 }
 
 const DescriptionSidebar = ({
@@ -17,6 +18,7 @@ const DescriptionSidebar = ({
   onDescriptionChange,
   onGenerate,
   disableGenerate,
+  hideDescription,
 }: DescriptionSidebarProps) => {
   return (
     <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
@@ -26,20 +28,22 @@ const DescriptionSidebar = ({
         </div>
         <h2 className="text-lg font-semibold text-foreground text-center">Detalhe sua imagem</h2>
       </div>
-      <p className="text-sm text-muted-foreground mb-6 text-center">Descreva o que quer mudar</p>
-
-      <div className="space-y-6">
-        {/* Descrição */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">Descreva o que quer mudar</Label>
-          <Textarea
-            placeholder="Digite aqui o que você quer alterar na imagem..."
-            className="min-h-[150px] resize-none"
-            value={description}
-            onChange={(e) => onDescriptionChange?.(e.target.value)}
-          />
-        </div>
-      </div>
+      {!hideDescription && (
+        <>
+          <p className="text-sm text-muted-foreground mb-6 text-center">Descreva o que quer mudar</p>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-foreground">Descreva o que quer mudar</Label>
+              <Textarea
+                placeholder="Digite aqui o que você quer alterar na imagem..."
+                className="min-h-[150px] resize-none"
+                value={description}
+                onChange={(e) => onDescriptionChange?.(e.target.value)}
+              />
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Generate button */}
       {onGenerate && (
