@@ -43,7 +43,6 @@ api = HfApi()
 
 class Preprocessor:
     MODEL_ID = "lllyasviel/Annotators"
-
     def __init__(self):
         self.model = None
         self.name = ""
@@ -165,11 +164,11 @@ print(
 
 # Initialize Flux Kontext pipeline for chat-based edits
 print("loading Flux Kontext pipeline")
-flux_pipe = FluxKontextPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-Kontext-dev",
-    torch_dtype=torch.bfloat16,
-)
-flux_pipe.to("cuda")
+#flux_pipe = FluxKontextPipeline.from_pretrained(
+#    "black-forest-labs/FLUX.1-Kontext-dev",
+#    torch_dtype=torch.bfloat16,
+#)
+#flux_pipe.to("cuda")
 #integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
 # Initialize Flux ControlNet inpainting pipeline

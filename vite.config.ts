@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => ({
       '/detect': 'http://localhost:8000',
       '/style': 'http://localhost:8000',
         '/flux-edit': 'http://localhost:8000',
+        '/inpaint': 'http://localhost:8000',
+        
     },
   },
   plugins: [
