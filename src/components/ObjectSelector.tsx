@@ -249,6 +249,11 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     };
   }, [modelReady, currentMask]);
 
+  // Redesenhar quando a seleção é atualizada para manter o destaque
+  useEffect(() => {
+    drawMask(currentMask?.mask ?? null, currentMask?.scores ?? []);
+  }, [selectedMasks]);
+
   return (
     <div className="relative inline-block" ref={containerRef}>
       {image && (
