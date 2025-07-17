@@ -16,7 +16,7 @@ from diffusers import (
 )
 from controlnet_aux_local import NormalBaeDetector
 from huggingface_hub import HfApi
-#from flux.content_filters import PixtralContentFilter
+from flux.content_filters import PixtralContentFilter
 
 app = Flask(__name__)
 
@@ -160,12 +160,12 @@ print(
 
 # Initialize Flux Kontext pipeline for chat-based edits
 print("loading Flux Kontext pipeline")
-#flux_pipe = FluxKontextPipeline.from_pretrained(
+flux_pipe = FluxKontextPipeline.from_pretrained(
     "black-forest-labs/FLUX.1-Kontext-dev",
     torch_dtype=torch.bfloat16,
 )
 flux_pipe.to("cuda")
-#integrity_checker = PixtralContentFilter(torch.device("cuda"))
+integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
 # Style prompts in Portuguese
 style_prompts = {
