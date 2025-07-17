@@ -1,6 +1,5 @@
 import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
-import ObjectGallery from "@/components/ObjectGallery";
 import ObjectSelector, { ObjectSelectorHandle } from "@/components/ObjectSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState, useRef } from "react";
@@ -10,13 +9,6 @@ const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
   const [description, setDescription] = useState("");
   const [maskPreview, setMaskPreview] = useState<string | null>(null);
-  const [gallery, setGallery] = useState(
-    Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      url: `https://placehold.co/100x100?text=${i + 1}`,
-      alt: `Objeto ${i + 1}`,
-    }))
-  );
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const { addGeneration } = useGenerations();
@@ -30,10 +22,6 @@ const ChangeObjects = () => {
     const dataUrl = selectorRef.current?.exportMask();
     if (!dataUrl) return;
     setMaskPreview(dataUrl);
-    setGallery(prev => [
-      { id: Date.now(), url: dataUrl, alt: 'Máscara' },
-      ...prev,
-    ]);
     addGeneration(dataUrl);
   };
 
@@ -68,7 +56,6 @@ const ChangeObjects = () => {
             <PreviousGenerations />
           </div>
         </div>
-        <ObjectGallery images={gallery} className="mr-6 mt-2 self-start flex-none" />
 
         <DescriptionSidebar
           description={description}
