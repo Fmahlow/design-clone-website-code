@@ -1,13 +1,15 @@
 import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectGallery from "@/components/ObjectGallery";
-import ObjectSelector from "@/components/ObjectSelector";
+import ObjectSelector, { ObjectSelectorHandle } from "@/components/ObjectSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import useGenerations from "@/hooks/useGenerations";
 
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
   const [description, setDescription] = useState("");
+  const [maskPreview, setMaskPreview] = useState<string | null>(null);
   const [gallery, setGallery] = useState(
     Array.from({ length: 8 }, (_, i) => ({
       id: i,
@@ -16,12 +18,23 @@ const ChangeObjects = () => {
     }))
   );
 
+  const selectorRef = useRef<ObjectSelectorHandle>(null);
+  const { addGeneration } = useGenerations();
+
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
+    setMaskPreview(null);
   };
 
   const handleGenerate = () => {
-    // TODO: implement generation logic
+    const dataUrl = selectorRef.current?.exportMask();
+    if (!dataUrl) return;
+    setMaskPreview(dataUrl);
+    setGallery(prev => [
+      { id: Date.now(), url: dataUrl, alt: 'Máscara' },
+      ...prev,
+    ]);
+    addGeneration(dataUrl);
   };
 
   return (
@@ -40,14 +53,22 @@ const ChangeObjects = () => {
             <UploadArea
               onImageSelected={handleUpload}
               renderPreview={(img) => (
-                <div className="w-full max-w-3xl h-[32rem] mx-auto">
-                  <ObjectSelector image={img} />
+                <div className="w-fit mx-auto relative">
+                  <ObjectSelector ref={selectorRef} image={img} />
+                  {maskPreview && (
+                    <img
+                      src={maskPreview}
+                      alt="Máscara"
+                      className="absolute inset-0 pointer-events-none"
+                    />
+                  )}
                 </div>
               )}
             />
             <PreviousGenerations />
           </div>
         </div>
+        <ObjectGallery images={gallery} className="mr-6 mt-2 self-start flex-none" />
 
         <DescriptionSidebar
           description={description}
