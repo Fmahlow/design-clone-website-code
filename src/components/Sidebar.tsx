@@ -1,5 +1,5 @@
 
-import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3, BrushCleaning, RefreshCcwDot } from "lucide-react";
+import { Armchair, PackagePlus, Home, Clock, HelpCircle, Grid3X3, BrushCleaning, RefreshCcwDot, MessageCircle } from "lucide-react";
 import logo from "./logo.png";
 import nameLogo from "./name_logo.png";
 import { useState } from "react";
@@ -17,6 +17,7 @@ const Sidebar = () => {
     { divider: true },
     { icon: BrushCleaning, label: "Esvaziar Cômodo", path: "/empty-room" },
     { icon: Armchair, label: "Alterar objetos", path: "/change-objects" },
+    { icon: MessageCircle, label: "Edição por Chat", path: "/chat-edit" },
     { icon: RefreshCcwDot, label: "Mudar Estilo", path: "/change-style" },
     { icon: PackagePlus, label: "Completar Cômodo", path: "/improve-render" },
   ];

@@ -12,9 +12,11 @@ from diffusers import (
     ControlNetModel,
     DPMSolverMultistepScheduler,
     StableDiffusionControlNetPipeline,
+    FluxKontextPipeline,
 )
 from controlnet_aux_local import NormalBaeDetector
 from huggingface_hub import HfApi
+from flux.content_filters import PixtralContentFilter
 
 app = Flask(__name__)
 
@@ -156,6 +158,15 @@ print(
     f"CUDA memory allocated: {torch.cuda.max_memory_allocated(device='cuda') / 1e9:.2f} GB"
 )
 
+# Initialize Flux Kontext pipeline for chat-based edits
+print("loading Flux Kontext pipeline")
+flux_pipe = FluxKontextPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-Kontext-dev",
+    torch_dtype=torch.bfloat16,
+)
+flux_pipe.to("cuda")
+integrity_checker = PixtralContentFilter(torch.device("cuda"))
+
 # Style prompts in Portuguese
 style_prompts = {
     "nenhum": "",
@@ -244,6 +255,31 @@ def change_style():
     result = process_image(img, style)
     buf = io.BytesIO()
     result.save(buf, format="PNG")
+    buf.seek(0)
+    return send_file(buf, mimetype="image/png")
+
+
+@app.post("/flux-edit")
+def flux_edit():
+    """Run the Flux Kontext pipeline to edit the image based on a text prompt."""
+    file = request.files.get("image")
+    prompt = request.form.get("prompt", "")
+    if file is None or not prompt:
+        return jsonify({"error": "image and prompt required"}), 400
+    img = Image.open(file.stream).convert("RGB")
+    image = flux_pipe(image=img, prompt=prompt, guidance_scale=2.5).images[0]
+    image_ = np.array(image) / 255.0
+    image_ = 2 * image_ - 1
+    image_ = (
+        torch.from_numpy(image_)
+        .to("cuda", dtype=torch.float32)
+        .unsqueeze(0)
+        .permute(0, 3, 1, 2)
+    )
+    if integrity_checker.test_image(image_):
+        return jsonify({"error": "flagged"}), 400
+    buf = io.BytesIO()
+    image.save(buf, format="PNG")
     buf.seek(0)
     return send_file(buf, mimetype="image/png")
 

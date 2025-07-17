@@ -1,4 +1,4 @@
-import { Armchair, PackagePlus, BrushCleaning, RefreshCcwDot } from "lucide-react";
+import { Armchair, PackagePlus, BrushCleaning, RefreshCcwDot, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,12 @@ const Home = () => {
       title: "Alterar objetos",
       description: "Substitua itens da imagem por móveis diferentes.",
       link: "/change-objects"
+    },
+    {
+      icon: MessageCircle,
+      title: "Edição por Chat",
+      description: "Altere a imagem descrevendo em texto o que deseja modificar.",
+      link: "/chat-edit"
     },
     {
       icon: RefreshCcwDot,
