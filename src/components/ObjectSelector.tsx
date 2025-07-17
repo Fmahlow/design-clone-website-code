@@ -287,7 +287,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
       )}
     </div>
   );
-};
+});
 
 export default ObjectSelector;
 
