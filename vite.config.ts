@@ -8,13 +8,14 @@ export default defineConfig(({ mode }) => ({
     host: true,  // bind explícito em IPv4 + IPv6
     port: 8080,
     allowedHosts: [
-      'f99d1af397ea.ngrok-free.app'
+      '678cbe411efb.ngrok-free.app'
     ],
     open: true,
     proxy: {
       '/time': 'http://localhost:8000',
       '/detect': 'http://localhost:8000',
       '/style': 'http://localhost:8000',
+        '/flux-edit': 'http://localhost:8000',
     },
   },
   plugins: [

@@ -160,7 +160,7 @@ print(
 
 # Initialize Flux Kontext pipeline for chat-based edits
 print("loading Flux Kontext pipeline")
-#flux_pipe = FluxKontextPipeline.from_pretrained(
+flux_pipe = FluxKontextPipeline.from_pretrained(
     "black-forest-labs/FLUX.1-Kontext-dev",
     torch_dtype=torch.bfloat16,
 )
@@ -276,8 +276,8 @@ def flux_edit():
         .unsqueeze(0)
         .permute(0, 3, 1, 2)
     )
-    if integrity_checker.test_image(image_):
-        return jsonify({"error": "flagged"}), 400
+    #if integrity_checker.test_image(image_):
+    #    return jsonify({"error": "flagged"}), 400
     buf = io.BytesIO()
     image.save(buf, format="PNG")
     buf.seek(0)
