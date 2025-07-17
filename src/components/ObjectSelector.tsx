@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
 
@@ -6,8 +6,11 @@ interface ObjectSelectorProps {
   image: string | null;
 }
 
+export interface ObjectSelectorHandle {
+  exportMask: () => string | null;
+}
 
-const ObjectSelector = ({ image }: ObjectSelectorProps) => {
+const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ image }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -183,6 +186,35 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
     }
   };
 
+  const exportMask = (): string | null => {
+    if (selectedMasks.length === 0) return null;
+    const width = selectedMasks[0].mask.width;
+    const height = selectedMasks[0].mask.height;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, width, height);
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+    selectedMasks.forEach(sm => {
+      for (let i = 0; i < width * height; i++) {
+        if (sm.mask.data[sm.numMasks * i + sm.bestIndex] === 1) {
+          const off = i * 4;
+          data[off] = 255;
+          data[off + 1] = 255;
+          data[off + 2] = 255;
+          data[off + 3] = 255;
+        }
+      }
+    });
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL('image/png');
+  };
+
+  useImperativeHandle(ref, () => ({ exportMask }), [selectedMasks]);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -218,13 +250,13 @@ const ObjectSelector = ({ image }: ObjectSelectorProps) => {
   }, [modelReady, currentMask]);
 
   return (
-    <div className="w-full h-full relative" ref={containerRef}>
+    <div className="relative inline-block" ref={containerRef}>
       {image && (
         <img
           ref={imgRef}
           src={image}
           alt="Imagem carregada"
-          className="w-full h-full object-contain"
+          className="block"
         />
       )}
       <canvas ref={maskCanvasRef} className="absolute inset-0 pointer-events-none" style={{ position: 'absolute' }} />
