@@ -7,22 +7,44 @@ import useGenerations from "@/hooks/useGenerations";
 
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
-  const [description, setDescription] = useState("");
-  const [maskPreview, setMaskPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const { addGeneration } = useGenerations();
 
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
-    setMaskPreview(null);
   };
 
-  const handleGenerate = () => {
-    const dataUrl = selectorRef.current?.exportMask();
-    if (!dataUrl) return;
-    setMaskPreview(dataUrl);
-    addGeneration(dataUrl);
+  async function blobToDataURL(blob: Blob): Promise<string> {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  const handleGenerate = async () => {
+    const maskData = selectorRef.current?.exportMask();
+    if (!maskData || !image) return;
+    setLoading(true);
+    try {
+      const imageBlob = await fetch(image).then(r => r.blob());
+      const maskBlob = await fetch(maskData).then(r => r.blob());
+      const form = new FormData();
+      form.append('image', imageBlob, 'image.png');
+      form.append('mask', maskBlob, 'mask.png');
+      const res = await fetch('/inpaint', { method: 'POST', body: form });
+      if (!res.ok) throw new Error('failed');
+      const outBlob = await res.blob();
+      const dataUrl = await blobToDataURL(outBlob);
+      setImage(dataUrl);
+      addGeneration(dataUrl);
+    } catch (err) {
+      console.error('inpaint failed', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,13 +65,6 @@ const ChangeObjects = () => {
               renderPreview={(img) => (
                 <div className="w-fit mx-auto relative">
                   <ObjectSelector ref={selectorRef} image={img} />
-                  {maskPreview && (
-                    <img
-                      src={maskPreview}
-                      alt="Máscara"
-                      className="absolute inset-0 pointer-events-none"
-                    />
-                  )}
                 </div>
               )}
             />
@@ -58,9 +73,9 @@ const ChangeObjects = () => {
         </div>
 
         <DescriptionSidebar
-          description={description}
-          onDescriptionChange={setDescription}
+          hideDescription
           onGenerate={handleGenerate}
+          disableGenerate={loading}
           className="mr-6 mt-2 self-start flex-none"
         />
       </div>
