@@ -250,13 +250,13 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
     return result
 
 
-def inpaint_image(image: Image.Image, mask: Image.Image) -> Image.Image:
+def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str) -> Image.Image:
     size = (768, 768)
     image_resized = image.convert("RGB").resize(size)
     mask_resized = mask.convert("RGB").resize(size)
     generator = torch.Generator(device="cuda").manual_seed(random.randint(0, MAX_SEED))
     result = inpaint_pipe(
-        prompt="",
+        prompt=prompt,
         height=size[1],
         width=size[0],
         control_image=image_resized,
@@ -307,11 +307,12 @@ def change_style():
 def flux_inpaint():
     file = request.files.get("image")
     mask_file = request.files.get("mask")
+    prompt = request.form.get("prompt", "")
     if file is None or mask_file is None:
         return jsonify({"error": "image and mask required"}), 400
     img = Image.open(file.stream).convert("RGB")
     mask = Image.open(mask_file.stream).convert("RGB")
-    result = inpaint_image(img, mask)
+    result = inpaint_image(img, mask, prompt)
     buf = io.BytesIO()
     result.save(buf, format="PNG")
     buf.seek(0)
