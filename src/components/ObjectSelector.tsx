@@ -19,7 +19,6 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
   const isEncoded = useRef(false);
   const isDecoding = useRef(false);
   const lastPoints = useRef<{ point: [number, number]; label: number }[]>([]);
-  const selectionFixed = useRef(false);
   const [selectedMasks, setSelectedMasks] = useState<any[]>([]);
   const [currentMask, setCurrentMask] = useState<{mask: any, scores: number[]} | null>(null);
   const [modelReady, setModelReady] = useState(false);
@@ -173,13 +172,11 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
       if (scores[i] > scores[bestIndex]) bestIndex = i;
     }
     setSelectedMasks(prev => [...prev, { mask, scores, numMasks, bestIndex }]);
-    selectionFixed.current = true;
   };
 
   const resetSelections = () => {
     setSelectedMasks([]);
     setCurrentMask(null);
-    selectionFixed.current = false;
     // Limpar o canvas
     const canvas = maskCanvasRef.current;
     if (canvas) {
@@ -222,7 +219,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     if (!container) return;
 
     const handleMove = (e: MouseEvent) => {
-      if (!isEncoded.current || isDecoding.current || selectionFixed.current) return;
+      if (!isEncoded.current || isDecoding.current) return;
       const point = getPoint(e);
       lastPoints.current = [point];
       isDecoding.current = true;

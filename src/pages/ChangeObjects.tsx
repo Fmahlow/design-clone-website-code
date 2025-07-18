@@ -8,6 +8,7 @@ import useGenerations from "@/hooks/useGenerations";
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [prompt, setPrompt] = useState("");
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const { addGeneration } = useGenerations();
@@ -34,6 +35,7 @@ const ChangeObjects = () => {
       const form = new FormData();
       form.append('image', imageBlob, 'image.png');
       form.append('mask', maskBlob, 'mask.png');
+      form.append('prompt', prompt);
       const res = await fetch('/inpaint', { method: 'POST', body: form });
       if (!res.ok) throw new Error('failed');
       const outBlob = await res.blob();
@@ -73,7 +75,8 @@ const ChangeObjects = () => {
         </div>
 
         <DescriptionSidebar
-          hideDescription
+          description={prompt}
+          onDescriptionChange={setPrompt}
           onGenerate={handleGenerate}
           disableGenerate={loading}
           className="mr-6 mt-2 self-start flex-none"
