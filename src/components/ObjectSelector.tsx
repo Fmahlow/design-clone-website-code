@@ -20,6 +20,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
   const isDecoding = useRef(false);
   const lastPoints = useRef<{ point: [number, number]; label: number }[]>([]);
   const [selectedMasks, setSelectedMasks] = useState<any[]>([]);
+  const selectedMasksRef = useRef<any[]>([]);
   const [currentMask, setCurrentMask] = useState<{mask: any, scores: number[]} | null>(null);
   const [modelReady, setModelReady] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -112,7 +113,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Desenhar todas as máscaras selecionadas (permanecem destacadas)
-    selectedMasks.forEach((selectedMask, index) => {
+    selectedMasksRef.current.forEach((selectedMask, index) => {
       const offCanvas = document.createElement("canvas");
       offCanvas.width = selectedMask.mask.width;
       offCanvas.height = selectedMask.mask.height;
@@ -171,11 +172,16 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     for (let i = 1; i < numMasks; ++i) {
       if (scores[i] > scores[bestIndex]) bestIndex = i;
     }
-    setSelectedMasks(prev => [...prev, { mask, scores, numMasks, bestIndex }]);
+    setSelectedMasks(prev => {
+      const updated = [...prev, { mask, scores, numMasks, bestIndex }];
+      selectedMasksRef.current = updated;
+      return updated;
+    });
   };
 
   const resetSelections = () => {
     setSelectedMasks([]);
+    selectedMasksRef.current = [];
     setCurrentMask(null);
     // Limpar o canvas
     const canvas = maskCanvasRef.current;
@@ -251,6 +257,11 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
   // Redesenhar quando a seleção é atualizada para manter o destaque
   useEffect(() => {
     drawMask(currentMask?.mask ?? null, currentMask?.scores ?? []);
+  }, [selectedMasks]);
+
+  // Manter referência atualizada das máscaras selecionadas
+  useEffect(() => {
+    selectedMasksRef.current = selectedMasks;
   }, [selectedMasks]);
 
   return (
