@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import useGenerations from "@/hooks/useGenerations";
 
-const PreviousGenerations = () => {
+interface PreviousGenerationsProps {
+  onSelect?: (img: string) => void;
+}
+
+const PreviousGenerations = ({ onSelect }: PreviousGenerationsProps) => {
   const { generations } = useGenerations();
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,6 +39,11 @@ const PreviousGenerations = () => {
               <div
                 key={image.id}
                 className="flex-shrink-0 w-20 h-20 bg-muted rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                onDoubleClick={() => onSelect?.(image.image)}
+                draggable
+                onDragStart={e => {
+                  e.dataTransfer.setData('text/plain', image.image);
+                }}
               >
                 <img src={image.image} alt="geração" className="w-full h-full object-cover" />
               </div>

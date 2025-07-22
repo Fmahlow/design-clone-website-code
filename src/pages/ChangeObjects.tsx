@@ -67,17 +67,15 @@ const ChangeObjects = () => {
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea
               onImageSelected={handleUpload}
+              onRemoveImage={() => originalImage && setImage(originalImage)}
               image={image}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto relative flex flex-col items-center gap-4">
-                  {originalImage && originalImage !== img && (
-                    <img src={originalImage} alt="Original" className="max-w-full rounded-lg" />
-                  )}
                   <ObjectSelector ref={selectorRef} image={img} />
                 </div>
               )}
             />
-            <PreviousGenerations />
+            <PreviousGenerations onSelect={(img) => { setImage(img); setOriginalImage(img); }} />
           </div>
         </div>
 
