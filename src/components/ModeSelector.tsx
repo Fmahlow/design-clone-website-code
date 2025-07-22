@@ -13,7 +13,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
       value={mode}
       onValueChange={(v) => v && onModeChange(v)}
       className={`bg-background/80 p-1 rounded-full shadow gap-1 ${className || ''}`}
-      variant="outline"
+      variant="default"
       size="sm"
     >
       <ToggleGroupItem className="rounded-full px-4" value="texto">Texto</ToggleGroupItem>

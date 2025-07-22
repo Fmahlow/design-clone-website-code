@@ -77,8 +77,10 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     preview.style.height = `${brushSize}px`;
     preview.style.left = `${pos.x - brushSize / 2}px`;
     preview.style.top = `${pos.y - brushSize / 2}px`;
-    preview.style.background = tool === 'erase' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
-    preview.style.border = tool === 'erase' ? '1px solid red' : '1px solid white';
+    preview.style.background =
+      tool === 'erase' ? 'rgba(0,0,0,0.2)' : 'rgba(128,0,128,0.2)';
+    preview.style.border =
+      tool === 'erase' ? '1px solid red' : '1px solid rgba(128,0,128,0.8)';
   };
 
   const hidePreview = () => {
@@ -99,7 +101,7 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       ctx.strokeStyle = 'rgba(0,0,0,1)';
     } else {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = 'white';
+      ctx.strokeStyle = 'rgba(128,0,128,0.5)';
     }
     ctx.beginPath();
     if (last.current) {
@@ -143,6 +145,21 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       window.removeEventListener('mouseup', handleUp);
     };
   }, [brushSize, tool]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          redo();
+        } else {
+          undo();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const undo = () => {
     const canvas = canvasRef.current!;
