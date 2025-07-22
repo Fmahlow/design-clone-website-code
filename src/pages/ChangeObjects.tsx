@@ -5,6 +5,8 @@ import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
 import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Save, Download, Maximize2 } from "lucide-react";
 import translateToEnglish from "@/lib/translate";
 import useGenerations from "@/hooks/useGenerations";
 
@@ -18,6 +20,22 @@ const ChangeObjects = () => {
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const brushRef = useRef<BrushSelectorHandle>(null);
   const { addGeneration } = useGenerations();
+
+  const handleDownload = () => {
+    if (!image) return;
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'image.png';
+    link.click();
+  };
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
 
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
@@ -80,17 +98,19 @@ const ChangeObjects = () => {
               image={image}
               loading={loading}
               renderPreview={(img) => (
-                <div className="w-fit mx-auto relative flex flex-col items-center gap-4">
-                  {mode === 'inteligente' && (
-                    <ObjectSelector ref={selectorRef} image={img} />
-                  )}
-                  {mode === 'pincel' && (
-                    <BrushSelector ref={brushRef} image={img} />
-                  )}
-                  {(mode === 'texto' || mode === 'laco') && (
-                    <img src={img} alt="pré" className="block" />
-                  )}
-                  <ModeSelector mode={mode} onModeChange={setMode} className="absolute top-2 left-2" />
+                <div className="w-fit mx-auto flex flex-col items-center gap-2">
+                  <ModeSelector mode={mode} onModeChange={setMode} />
+                  <div className="relative">
+                    {mode === 'inteligente' && (
+                      <ObjectSelector ref={selectorRef} image={img} />
+                    )}
+                    {mode === 'pincel' && (
+                      <BrushSelector ref={brushRef} image={img} />
+                    )}
+                    {(mode === 'texto' || mode === 'laco') && (
+                      <img src={img} alt="pré" className="block" />
+                    )}
+                  </div>
                 </div>
               )}
             />
@@ -106,6 +126,19 @@ const ChangeObjects = () => {
           className="mr-6 mt-2 self-start flex-none"
         />
       </div>
+      {image && (
+        <div className="fixed bottom-4 right-4 flex flex-col space-y-2">
+          <Button size="icon" variant="secondary" onClick={handleDownload}>
+            <Save className="w-4 h-4" />
+          </Button>
+          <Button size="icon" variant="secondary" onClick={handleDownload}>
+            <Download className="w-4 h-4" />
+          </Button>
+          <Button size="icon" variant="secondary" onClick={toggleFullScreen}>
+            <Maximize2 className="w-4 h-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
