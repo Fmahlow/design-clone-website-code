@@ -7,6 +7,7 @@ import useGenerations from "@/hooks/useGenerations";
 
 const ChangeObjects = () => {
   const [image, setImage] = useState<string | null>(null);
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
 
@@ -15,6 +16,7 @@ const ChangeObjects = () => {
 
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
+    setOriginalImage(dataUrl);
   };
 
   async function blobToDataURL(blob: Blob): Promise<string> {
@@ -42,6 +44,7 @@ const ChangeObjects = () => {
       const dataUrl = await blobToDataURL(outBlob);
       setImage(dataUrl);
       addGeneration(dataUrl);
+      selectorRef.current?.resetSelections();
     } catch (err) {
       console.error('inpaint failed', err);
     } finally {
@@ -64,8 +67,12 @@ const ChangeObjects = () => {
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea
               onImageSelected={handleUpload}
+              image={image}
               renderPreview={(img) => (
-                <div className="w-fit mx-auto relative">
+                <div className="w-fit mx-auto relative flex flex-col items-center gap-4">
+                  {originalImage && originalImage !== img && (
+                    <img src={originalImage} alt="Original" className="max-w-full rounded-lg" />
+                  )}
                   <ObjectSelector ref={selectorRef} image={img} />
                 </div>
               )}

@@ -8,6 +8,7 @@ interface ObjectSelectorProps {
 
 export interface ObjectSelectorHandle {
   exportMask: () => string | null;
+  resetSelections: () => void;
 }
 
 const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ image }, ref) => {
@@ -218,7 +219,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     return canvas.toDataURL('image/png');
   };
 
-  useImperativeHandle(ref, () => ({ exportMask }), [selectedMasks]);
+  useImperativeHandle(ref, () => ({ exportMask, resetSelections }), [selectedMasks]);
 
   useEffect(() => {
     const container = containerRef.current;
