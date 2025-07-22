@@ -77,10 +77,19 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     preview.style.height = `${brushSize}px`;
     preview.style.left = `${pos.x - brushSize / 2}px`;
     preview.style.top = `${pos.y - brushSize / 2}px`;
+    const ring = getComputedStyle(document.documentElement)
+      .getPropertyValue('--sidebar-ring')
+      .trim();
     preview.style.background =
-      tool === 'erase' ? 'rgba(0,0,0,0.2)' : 'rgba(128,0,128,0.2)';
+      tool === 'erase'
+        ? 'rgba(0,0,0,0.2)'
+        : `hsla(${ring} / 0.2)`;
     preview.style.border =
-      tool === 'erase' ? '1px solid red' : '1px solid rgba(128,0,128,0.8)';
+      tool === 'erase'
+        ? '1px solid red'
+        : `1px solid hsla(${ring} / 0.8)`;
+    preview.style.color =
+      tool === 'erase' ? 'red' : `hsl(${ring})`;
   };
 
   const hidePreview = () => {
@@ -101,7 +110,10 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       ctx.strokeStyle = 'rgba(0,0,0,1)';
     } else {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = '#800080';
+      const ring = getComputedStyle(document.documentElement)
+        .getPropertyValue('--sidebar-ring')
+        .trim();
+      ctx.strokeStyle = `hsl(${ring})`;
     }
     ctx.beginPath();
     if (last.current) {
@@ -192,7 +204,12 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       <div className="relative inline-block">
         {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
         <canvas ref={canvasRef} className="absolute inset-0 opacity-50" />
-        <div ref={previewRef} className="absolute pointer-events-none rounded-full hidden" />
+        <div
+          ref={previewRef}
+          className="absolute pointer-events-none rounded-full hidden flex items-center justify-center select-none"
+        >
+          <span className="text-xs text-[hsl(var(--sidebar-ring))]">+</span>
+        </div>
       </div>
       {/* toolbar below image */}
       <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">

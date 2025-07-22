@@ -95,7 +95,7 @@ const ChangeObjects = () => {
             <ModeSelector
               mode={mode}
               onModeChange={setMode}
-              className="mx-auto mt-4 mb-2 w-fit"
+              className="ml-4 mt-2 mb-1 w-fit"
             />
             <UploadArea
               onImageSelected={handleUpload}

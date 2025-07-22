@@ -81,11 +81,11 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
   };
 
   return (
-    <div className="p-8">
+    <div className="px-8 pt-4 pb-8">
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         {!preview && (
-          <div className="text-center mb-4">
+          <div className="text-center mb-3">
             <div className="flex items-center justify-center mb-2 space-x-2">
               <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
                 <span className="text-sm">1</span>
