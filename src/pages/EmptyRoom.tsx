@@ -141,7 +141,11 @@ const EmptyRoom = () => {
                 </div>
               )}
             />
-            <PreviousGenerations />
+            <PreviousGenerations onSelect={(img) => {
+              setImage(img);
+              setSegData(null);
+              setObjects([]);
+            }} />
           </div>
         </div>
         <SettingsSidebar

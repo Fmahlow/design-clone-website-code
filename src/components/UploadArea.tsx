@@ -4,11 +4,12 @@ import { useRef, useState, useEffect } from "react";
 
 interface UploadAreaProps {
   onImageSelected?: (dataUrl: string) => void;
+  onRemoveImage?: () => void;
   renderPreview?: (img: string) => React.ReactNode;
   image?: string | null;
 }
 
-const UploadArea = ({ onImageSelected, renderPreview, image }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(image ?? null);
 
@@ -34,11 +35,37 @@ const UploadArea = ({ onImageSelected, renderPreview, image }: UploadAreaProps) 
     reader.readAsDataURL(file);
   };
 
+  const handleDataUrl = (data: string) => {
+    setPreview(data);
+    onImageSelected?.(data);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = reader.result as string;
+        handleDataUrl(data);
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+    const url = e.dataTransfer.getData('text/plain');
+    if (url) {
+      handleDataUrl(url);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => e.preventDefault();
+
   const handleRemoveImage = () => {
     setPreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    onRemoveImage?.();
   };
 
   return (
@@ -65,6 +92,8 @@ const UploadArea = ({ onImageSelected, renderPreview, image }: UploadAreaProps) 
           <div
             className={`relative w-full ${preview ? '' : 'h-[32rem]'} border-dashed border-2 border-muted rounded-lg ${!preview ? 'cursor-pointer' : ''} overflow-hidden flex items-center justify-center`}
             onClick={() => !preview && fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
           >
             {/* Remove button */}
             {preview && (

@@ -56,7 +56,7 @@ const ChangeStyle = () => {
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea onImageSelected={handleUpload} image={image} />
-            <PreviousGenerations />
+            <PreviousGenerations onSelect={(img) => setImage(img)} />
           </div>
         </div>
 
