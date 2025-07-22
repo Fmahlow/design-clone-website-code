@@ -27,7 +27,8 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
     >
       <span
         ref={indicatorRef}
-        className="absolute left-0 top-0 h-full rounded-full bg-muted transition-all duration-300"
+        className="absolute left-0 top-0 h-full rounded-full transition-all duration-300"
+        style={{ backgroundColor: 'hsl(var(--sidebar-ring) / 0.2)' }}
       />
       <ToggleGroup
         ref={groupRef}
@@ -38,10 +39,30 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         variant="default"
         size="sm"
       >
-        <ToggleGroupItem className="rounded-full px-4 transition-colors" value="texto">Texto</ToggleGroupItem>
-        <ToggleGroupItem className="rounded-full px-4 transition-colors" value="inteligente">Seleção Inteligente</ToggleGroupItem>
-        <ToggleGroupItem className="rounded-full px-4 transition-colors" value="pincel">Pincel</ToggleGroupItem>
-        <ToggleGroupItem className="rounded-full px-4 transition-colors" value="laco">Laço</ToggleGroupItem>
+        <ToggleGroupItem
+          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
+          value="texto"
+        >
+          Texto
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
+          value="inteligente"
+        >
+          Seleção Inteligente
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
+          value="pincel"
+        >
+          Pincel
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
+          value="laco"
+        >
+          Laço
+        </ToggleGroupItem>
       </ToggleGroup>
     </div>
   );
