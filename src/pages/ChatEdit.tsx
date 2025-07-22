@@ -2,6 +2,7 @@ import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState } from "react";
+import translateToEnglish from "@/lib/translate";
 import useGenerations from "@/hooks/useGenerations";
 
 async function blobToDataURL(blob: Blob): Promise<string> {
@@ -29,7 +30,8 @@ const ChatEdit = () => {
       const blob = await fetch(image).then(r => r.blob());
       const form = new FormData();
       form.append("image", blob, "image.png");
-      form.append("prompt", description);
+      const translated = await translateToEnglish(description);
+      form.append("prompt", translated);
       const res = await fetch("/flux-edit", { method: "POST", body: form });
       if (!res.ok) throw new Error("Failed to generate");
       const outBlob = await res.blob();
@@ -56,7 +58,7 @@ const ChatEdit = () => {
       <div className="flex flex-1 items-start overflow-auto">
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
-            <UploadArea onImageSelected={handleUpload} image={image} />
+            <UploadArea onImageSelected={handleUpload} image={image} loading={loading} />
             <PreviousGenerations onSelect={(img) => setImage(img)} />
           </div>
         </div>
