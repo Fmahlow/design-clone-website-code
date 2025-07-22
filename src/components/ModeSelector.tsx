@@ -12,14 +12,14 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
       type="single"
       value={mode}
       onValueChange={(v) => v && onModeChange(v)}
-      className={className}
+      className={`bg-background/80 p-1 rounded-full shadow gap-1 ${className || ''}`}
       variant="outline"
       size="sm"
     >
-      <ToggleGroupItem value="texto">Texto</ToggleGroupItem>
-      <ToggleGroupItem value="inteligente">Seleção Inteligente</ToggleGroupItem>
-      <ToggleGroupItem value="pincel">Pincel</ToggleGroupItem>
-      <ToggleGroupItem value="laco">Laço</ToggleGroupItem>
+      <ToggleGroupItem className="rounded-full px-4" value="texto">Texto</ToggleGroupItem>
+      <ToggleGroupItem className="rounded-full px-4" value="inteligente">Seleção Inteligente</ToggleGroupItem>
+      <ToggleGroupItem className="rounded-full px-4" value="pincel">Pincel</ToggleGroupItem>
+      <ToggleGroupItem className="rounded-full px-4" value="laco">Laço</ToggleGroupItem>
     </ToggleGroup>
   );
 };

@@ -15,6 +15,7 @@ interface BrushSelectorProps {
 const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ image }, ref) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const [brushSize, setBrushSize] = useState(20);
   const [tool, setTool] = useState<'brush' | 'erase'>('brush');
   const drawing = useRef(false);
@@ -67,6 +68,24 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     redoStack.current = [];
   };
 
+  const updatePreview = (e: MouseEvent) => {
+    const pos = getPos(e);
+    const preview = previewRef.current;
+    if (!preview) return;
+    preview.style.display = 'block';
+    preview.style.width = `${brushSize}px`;
+    preview.style.height = `${brushSize}px`;
+    preview.style.left = `${pos.x - brushSize / 2}px`;
+    preview.style.top = `${pos.y - brushSize / 2}px`;
+    preview.style.background = tool === 'erase' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)';
+    preview.style.border = tool === 'erase' ? '1px solid red' : '1px solid white';
+  };
+
+  const hidePreview = () => {
+    const preview = previewRef.current;
+    if (preview) preview.style.display = 'none';
+  };
+
   const draw = (e: MouseEvent) => {
     if (!drawing.current) return;
     const canvas = canvasRef.current!;
@@ -111,10 +130,16 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     if (!canvas) return;
     canvas.addEventListener('mousedown', handleDown as any);
     canvas.addEventListener('mousemove', draw as any);
+    canvas.addEventListener('mousemove', updatePreview as any);
+    canvas.addEventListener('mouseenter', updatePreview as any);
+    canvas.addEventListener('mouseleave', hidePreview);
     window.addEventListener('mouseup', handleUp);
     return () => {
       canvas.removeEventListener('mousedown', handleDown as any);
       canvas.removeEventListener('mousemove', draw as any);
+      canvas.removeEventListener('mousemove', updatePreview as any);
+      canvas.removeEventListener('mouseenter', updatePreview as any);
+      canvas.removeEventListener('mouseleave', hidePreview);
       window.removeEventListener('mouseup', handleUp);
     };
   }, [brushSize, tool]);
@@ -146,12 +171,14 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
   };
 
   return (
-    <div className="relative inline-block">
-      {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
-      <canvas ref={canvasRef} className="absolute inset-0" />
-
-      {/* toolbar */}
-      <div className="absolute bottom-2 left-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
+    <div className="inline-block">
+      <div className="relative inline-block">
+        {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
+        <canvas ref={canvasRef} className="absolute inset-0" />
+        <div ref={previewRef} className="absolute pointer-events-none rounded-full hidden" />
+      </div>
+      {/* toolbar below image */}
+      <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
         <Button size="icon" variant="ghost" onClick={undo}><Undo2 className="w-4 h-4" /></Button>
         <Button size="icon" variant="ghost" onClick={redo}><Redo2 className="w-4 h-4" /></Button>
         <Button size="icon" variant={tool==='brush'? 'default':'ghost'} onClick={()=>setTool('brush')}><Brush className="w-4 h-4" /></Button>
