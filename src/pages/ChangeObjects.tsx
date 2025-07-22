@@ -123,6 +123,17 @@ const ChangeObjects = () => {
                     {mode === 'texto' && (
                       <img src={img} alt="pré" className="block" />
                     )}
+                    <div className="absolute bottom-2 right-2 flex flex-col space-y-2">
+                      <Button size="icon" variant="secondary" onClick={handleDownload}>
+                        <Save className="w-4 h-4" />
+                      </Button>
+                      <Button size="icon" variant="secondary" onClick={handleDownload}>
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button size="icon" variant="secondary" onClick={toggleFullScreen}>
+                        <Maximize2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -139,19 +150,6 @@ const ChangeObjects = () => {
           className="mr-6 mt-2 self-start flex-none"
         />
       </div>
-      {image && (
-        <div className="fixed bottom-4 right-4 flex flex-col space-y-2">
-          <Button size="icon" variant="secondary" onClick={handleDownload}>
-            <Save className="w-4 h-4" />
-          </Button>
-          <Button size="icon" variant="secondary" onClick={handleDownload}>
-            <Download className="w-4 h-4" />
-          </Button>
-          <Button size="icon" variant="secondary" onClick={toggleFullScreen}>
-            <Maximize2 className="w-4 h-4" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
