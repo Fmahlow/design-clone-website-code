@@ -12,15 +12,11 @@ from diffusers import (
     ControlNetModel,
     DPMSolverMultistepScheduler,
     StableDiffusionControlNetPipeline,
+    StableDiffusionInpaintPipeline,
     FluxKontextPipeline,
 )
 from diffusers.utils import check_min_version
-from controlnet_flux import FluxControlNetModel
-from transformer_flux import FluxTransformer2DModel
-from pipeline_flux_controlnet_inpaint import FluxControlNetInpaintingPipeline
-import huggingface_hub
 from controlnet_aux_local import NormalBaeDetector
-from huggingface_hub import HfApi
 #from flux.content_filters import PixtralContentFilter
 
 app = Flask(__name__)
@@ -38,7 +34,6 @@ API_KEY = os.environ.get("API_KEY", None)
 
 print("CUDA version:", torch.version.cuda)
 print("loading everything")
-api = HfApi()
 
 
 class Preprocessor:
@@ -171,23 +166,13 @@ print("loading Flux Kontext pipeline")
 #flux_pipe.to("cuda")
 #integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
-# Initialize Flux ControlNet inpainting pipeline
+# Initialize traditional Stable Diffusion inpainting pipeline
 check_min_version("0.30.2")
-huggingface_hub.login(os.getenv("HF_TOKEN_FLUX"))
-transformer = FluxTransformer2DModel.from_pretrained(
-    "black-forest-labs/FLUX.1-dev", subfolder="transformer", torch_dtype=torch.bfloat16
+inpaint_pipe = StableDiffusionInpaintPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-inpainting",
+    torch_dtype=torch.float16,
 )
-controlnet_inpaint = FluxControlNetModel.from_pretrained(
-    "alimama-creative/FLUX.1-dev-Controlnet-Inpainting-Beta", torch_dtype=torch.bfloat16
-)
-inpaint_pipe = FluxControlNetInpaintingPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-dev",
-    controlnet=controlnet_inpaint,
-    transformer=transformer,
-    torch_dtype=torch.bfloat16,
-).to("cuda")
-inpaint_pipe.transformer.to(torch.bfloat16)
-inpaint_pipe.controlnet.to(torch.bfloat16)
+inpaint_pipe.to("cuda")
 
 # Style prompts in Portuguese
 style_prompts = {
@@ -251,25 +236,15 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
 
 
 def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str) -> Image.Image:
-    size = (768, 768)
-    image_resized = image.convert("RGB").resize(size)
-    mask_resized = mask.convert("RGB").resize(size)
-    generator = torch.Generator(device="cuda").manual_seed(random.randint(0, MAX_SEED))
+    image = image.convert("RGB")
+    mask = mask.convert("RGB")
     result = inpaint_pipe(
         prompt=prompt,
-        height=size[1],
-        width=size[0],
-        control_image=image_resized,
-        control_mask=mask_resized,
-        num_inference_steps=24,
-        generator=generator,
-        controlnet_conditioning_scale=0.9,
-        guidance_scale=3.5,
-        true_guidance_scale=3.5,
-        negative_prompt="",
+        image=image,
+        mask_image=mask,
     ).images[0]
 
-    return result.resize(image.size)
+    return result
 
 @app.post("/detect")
 def detect_objects():
@@ -304,7 +279,7 @@ def change_style():
 
 
 @app.post("/inpaint")
-def flux_inpaint():
+def inpaint():
     file = request.files.get("image")
     mask_file = request.files.get("mask")
     prompt = request.form.get("prompt", "")
