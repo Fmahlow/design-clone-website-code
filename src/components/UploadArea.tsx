@@ -100,7 +100,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
         )}
 
         {/* Upload area with prompt, preview and button inside larger dashed box */}
-        <div className="bg-card rounded-xl px-8 py-4 text-center mb-1 mx-auto max-w-5xl">
+        <div className="bg-card rounded-xl px-8 py-2 text-center mb-1 mx-auto max-w-5xl">
           <div
             className={`relative w-full ${preview ? '' : 'h-[32rem]'} border-dashed border-2 border-muted rounded-lg ${!preview ? 'cursor-pointer' : ''} overflow-hidden flex items-center justify-center`}
             onClick={() => !preview && fileInputRef.current?.click()}
