@@ -2,6 +2,7 @@ import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectSelector, { ObjectSelectorHandle } from "@/components/ObjectSelector";
 import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
+import LassoSelector, { LassoSelectorHandle } from "@/components/LassoSelector";
 import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState, useRef } from "react";
@@ -19,6 +20,7 @@ const ChangeObjects = () => {
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const brushRef = useRef<BrushSelectorHandle>(null);
+  const lassoRef = useRef<LassoSelectorHandle>(null);
   const { addGeneration } = useGenerations();
 
   const handleDownload = () => {
@@ -54,6 +56,7 @@ const ChangeObjects = () => {
     let maskData: string | null = null;
     if (mode === 'inteligente') maskData = selectorRef.current?.exportMask() ?? null;
     else if (mode === 'pincel') maskData = brushRef.current?.exportMask() ?? null;
+    else if (mode === 'laco') maskData = lassoRef.current?.exportMask() ?? null;
     if (!maskData || !image) return;
     setLoading(true);
     try {
@@ -72,6 +75,7 @@ const ChangeObjects = () => {
       addGeneration(dataUrl);
       selectorRef.current?.resetSelections();
       brushRef.current?.resetSelections();
+      lassoRef.current?.resetSelections();
     } catch (err) {
       console.error('inpaint failed', err);
     } finally {
@@ -113,7 +117,10 @@ const ChangeObjects = () => {
                     {mode === 'pincel' && (
                       <BrushSelector ref={brushRef} image={img} />
                     )}
-                    {(mode === 'texto' || mode === 'laco') && (
+                    {mode === 'laco' && (
+                      <LassoSelector ref={lassoRef} image={img} />
+                    )}
+                    {mode === 'texto' && (
                       <img src={img} alt="pré" className="block" />
                     )}
                   </div>
