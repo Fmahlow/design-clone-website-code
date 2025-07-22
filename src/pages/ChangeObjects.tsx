@@ -92,14 +92,20 @@ const ChangeObjects = () => {
       <div className="flex flex-1 items-start overflow-auto">
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
+            <ModeSelector
+              mode={mode}
+              onModeChange={setMode}
+              className="mx-auto mt-4 mb-2 w-fit"
+            />
             <UploadArea
               onImageSelected={handleUpload}
-              onRemoveImage={() => originalImage && setImage(originalImage)}
+              onRemoveImage={() =>
+                originalImage && setImage(originalImage)
+              }
               image={image}
               loading={loading}
               renderPreview={(img) => (
-                <div className="w-fit mx-auto flex flex-col items-center gap-2">
-                  <ModeSelector mode={mode} onModeChange={setMode} />
+                <div className="w-fit mx-auto">
                   <div className="relative">
                     {mode === 'inteligente' && (
                       <ObjectSelector ref={selectorRef} image={img} />
