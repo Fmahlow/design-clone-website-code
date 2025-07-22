@@ -3,6 +3,7 @@ import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectSelector, { ObjectSelectorHandle } from "@/components/ObjectSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState, useRef } from "react";
+import translateToEnglish from "@/lib/translate";
 import useGenerations from "@/hooks/useGenerations";
 
 const ChangeObjects = () => {
@@ -37,7 +38,8 @@ const ChangeObjects = () => {
       const form = new FormData();
       form.append('image', imageBlob, 'image.png');
       form.append('mask', maskBlob, 'mask.png');
-      form.append('prompt', prompt);
+      const translated = await translateToEnglish(prompt);
+      form.append('prompt', translated);
       const res = await fetch('/inpaint', { method: 'POST', body: form });
       if (!res.ok) throw new Error('failed');
       const outBlob = await res.blob();
@@ -69,6 +71,7 @@ const ChangeObjects = () => {
               onImageSelected={handleUpload}
               onRemoveImage={() => originalImage && setImage(originalImage)}
               image={image}
+              loading={loading}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto relative flex flex-col items-center gap-4">
                   <ObjectSelector ref={selectorRef} image={img} />

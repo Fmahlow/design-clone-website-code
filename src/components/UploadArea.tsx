@@ -7,11 +7,23 @@ interface UploadAreaProps {
   onRemoveImage?: () => void;
   renderPreview?: (img: string) => React.ReactNode;
   image?: string | null;
+  loading?: boolean;
 }
 
-const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, loading = false }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(image ?? null);
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    if (!loading) {
+      setElapsed(0);
+      return;
+    }
+    setElapsed(0);
+    const id = setInterval(() => setElapsed(e => e + 1), 1000);
+    return () => clearInterval(id);
+  }, [loading]);
 
   // keep preview in sync when parent controls the image
   useEffect(() => {
@@ -95,6 +107,13 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image }: Up
             onDrop={handleDrop}
             onDragOver={handleDragOver}
           >
+            {preview && loading && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm text-white">
+                <img src="/src/components/logo.svg" className="w-16 h-16 wobble mb-2" alt="logo" />
+                <p>Aguarde, sua imagem está sendo gerada</p>
+                <p className="text-blue-500 mt-1">{elapsed}s</p>
+              </div>
+            )}
             {/* Remove button */}
             {preview && (
               <Button
@@ -111,7 +130,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image }: Up
             )}
 
             {/* Inner content: prompt or preview */}
-            <div className="flex flex-col items-center justify-center h-full p-4 space-y-4">
+            <div className={`flex flex-col items-center justify-center h-full p-4 space-y-4 ${loading && preview ? 'filter blur-sm' : ''}`}>
               {!preview && (
                 <>
                   <h3 className="text-base font-medium text-foreground">

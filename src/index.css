@@ -111,3 +111,12 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+}
+
+@keyframes wobble {
+ 0%,100% { transform: rotate(-5deg); }
+ 50% { transform: rotate(5deg); }
+}
+.wobble {
+  animation: wobble 3s ease-in-out infinite;
+}
