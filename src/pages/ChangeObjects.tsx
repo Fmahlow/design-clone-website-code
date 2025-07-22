@@ -1,6 +1,8 @@
 import UploadArea from "@/components/UploadArea";
 import PreviousGenerations from "@/components/PreviousGenerations";
 import ObjectSelector, { ObjectSelectorHandle } from "@/components/ObjectSelector";
+import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
+import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
 import { useState, useRef } from "react";
 import translateToEnglish from "@/lib/translate";
@@ -11,8 +13,10 @@ const ChangeObjects = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [mode, setMode] = useState("texto");
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
+  const brushRef = useRef<BrushSelectorHandle>(null);
   const { addGeneration } = useGenerations();
 
   const handleUpload = (dataUrl: string) => {
@@ -29,7 +33,9 @@ const ChangeObjects = () => {
   }
 
   const handleGenerate = async () => {
-    const maskData = selectorRef.current?.exportMask();
+    let maskData: string | null = null;
+    if (mode === 'inteligente') maskData = selectorRef.current?.exportMask() ?? null;
+    else if (mode === 'pincel') maskData = brushRef.current?.exportMask() ?? null;
     if (!maskData || !image) return;
     setLoading(true);
     try {
@@ -47,6 +53,7 @@ const ChangeObjects = () => {
       setImage(dataUrl);
       addGeneration(dataUrl);
       selectorRef.current?.resetSelections();
+      brushRef.current?.resetSelections();
     } catch (err) {
       console.error('inpaint failed', err);
     } finally {
@@ -74,7 +81,16 @@ const ChangeObjects = () => {
               loading={loading}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto relative flex flex-col items-center gap-4">
-                  <ObjectSelector ref={selectorRef} image={img} />
+                  {mode === 'inteligente' && (
+                    <ObjectSelector ref={selectorRef} image={img} />
+                  )}
+                  {mode === 'pincel' && (
+                    <BrushSelector ref={brushRef} image={img} />
+                  )}
+                  {(mode === 'texto' || mode === 'laco') && (
+                    <img src={img} alt="pré" className="block" />
+                  )}
+                  <ModeSelector mode={mode} onModeChange={setMode} className="absolute top-2 left-2" />
                 </div>
               )}
             />
