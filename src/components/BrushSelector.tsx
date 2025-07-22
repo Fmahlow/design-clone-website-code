@@ -101,7 +101,7 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       ctx.strokeStyle = 'rgba(0,0,0,1)';
     } else {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = 'rgba(128,0,128,0.5)';
+      ctx.strokeStyle = '#800080';
     }
     ctx.beginPath();
     if (last.current) {
@@ -191,7 +191,7 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     <div className="inline-block">
       <div className="relative inline-block">
         {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
-        <canvas ref={canvasRef} className="absolute inset-0" />
+        <canvas ref={canvasRef} className="absolute inset-0 opacity-50" />
         <div ref={previewRef} className="absolute pointer-events-none rounded-full hidden" />
       </div>
       {/* toolbar below image */}
