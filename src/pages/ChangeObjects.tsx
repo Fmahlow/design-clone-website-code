@@ -5,9 +5,15 @@ import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
 import LassoSelector, { LassoSelectorHandle } from "@/components/LassoSelector";
 import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Save, Download, Maximize2 } from "lucide-react";
+import { Save, Download, Maximize2, Minimize2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import translateToEnglish from "@/lib/translate";
 import useGenerations from "@/hooks/useGenerations";
 
@@ -17,6 +23,9 @@ const ChangeObjects = () => {
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState("texto");
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const previewRef = useRef<HTMLDivElement>(null);
 
   const selectorRef = useRef<ObjectSelectorHandle>(null);
   const brushRef = useRef<BrushSelectorHandle>(null);
@@ -31,13 +40,41 @@ const ChangeObjects = () => {
     link.click();
   };
 
-  const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-      document.exitFullscreen().catch(() => {});
+  const handleSaveAs = async () => {
+    if (!image) return;
+    try {
+      const blob = await fetch(image).then(r => r.blob());
+      const handle = await (window as any).showSaveFilePicker({
+        suggestedName: 'image.png',
+        types: [
+          { description: 'PNG Image', accept: { 'image/png': ['.png'] } },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    } catch {
+      handleDownload();
     }
   };
+
+  const toggleFullScreen = () => {
+    const el = previewRef.current;
+    if (!el) return;
+    if (!document.fullscreenElement) {
+      el.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else if (document.fullscreenElement === el) {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    }
+  };
+
+  useEffect(() => {
+    const handler = () => {
+      setIsFullscreen(document.fullscreenElement === previewRef.current);
+    };
+    document.addEventListener('fullscreenchange', handler);
+    return () => document.removeEventListener('fullscreenchange', handler);
+  }, []);
 
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
@@ -110,7 +147,7 @@ const ChangeObjects = () => {
               loading={loading}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto">
-                  <div className="relative">
+                  <div className="relative" ref={previewRef}>
                     {mode === 'inteligente' && (
                       <ObjectSelector ref={selectorRef} image={img} />
                     )}
@@ -123,17 +160,44 @@ const ChangeObjects = () => {
                     {mode === 'texto' && (
                       <img src={img} alt="pré" className="block" />
                     )}
-                    <div className="absolute bottom-2 right-2 flex flex-col space-y-2">
-                      <Button size="icon" variant="secondary" onClick={handleDownload}>
-                        <Save className="w-4 h-4" />
+                    <TooltipProvider>
+                      <div className="absolute bottom-2 right-2 flex flex-col space-y-2">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button size="icon" className="h-8 w-8 p-0" variant="secondary" onClick={handleSaveAs}>
+                              <Save className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Salvar como</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button size="icon" className="h-8 w-8 p-0" variant="secondary" onClick={handleDownload}>
+                              <Download className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Download</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button size="icon" className="h-8 w-8 p-0" variant="secondary" onClick={toggleFullScreen}>
+                              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Tela cheia</TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TooltipProvider>
+                    {isFullscreen && (
+                      <Button
+                        size="icon"
+                        variant="secondary"
+                        className="absolute top-2 right-2 h-8 w-8 p-0"
+                        onClick={toggleFullScreen}
+                      >
+                        <Minimize2 className="w-4 h-4" />
                       </Button>
-                      <Button size="icon" variant="secondary" onClick={handleDownload}>
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button size="icon" variant="secondary" onClick={toggleFullScreen}>
-                        <Maximize2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    )}
                   </div>
                 </div>
               )}
