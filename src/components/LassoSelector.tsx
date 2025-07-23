@@ -1,6 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2, Trash, CircleSlash } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface LassoSelectorHandle {
   exportMask: () => string | null;
@@ -22,6 +28,7 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
   const [current, setCurrent] = useState<Point[]>([]);
   const [selected, setSelected] = useState(0);
   const [invert, setInvert] = useState(false);
+  const [hover, setHover] = useState<Point | null>(null);
 
   useImperativeHandle(ref, () => ({
     exportMask: () => {
@@ -120,11 +127,14 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
           const y = pt.y * canvas.height;
           if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         });
+        if (hover) {
+          ctx.lineTo(hover.x * canvas.width, hover.y * canvas.height);
+        }
         ctx.stroke();
       }
     };
     draw();
-  }, [polygons, current, selected, image]);
+  }, [polygons, current, selected, image, hover]);
 
   const deleteCurrent = () => {
     setPolygons(prev => prev.filter((_, i) => i !== selected));
@@ -136,36 +146,69 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
     setSelected(0);
   };
 
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img) return;
+    const move = (e: MouseEvent) => {
+      if (current.length === 0) return;
+      setHover(getPoint(e));
+    };
+    const leave = () => setHover(null);
+    img.addEventListener('mousemove', move as any);
+    img.addEventListener('mouseleave', leave as any);
+    return () => {
+      img.removeEventListener('mousemove', move as any);
+      img.removeEventListener('mouseleave', leave as any);
+    };
+  }, [current]);
+
   return (
-    <div className="inline-block">
-      <div
-        className="relative inline-block"
-        onClick={e => handleClick(e as unknown as MouseEvent)}
-      >
-        {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
-        <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
-      </div>
-      <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
-        <select
-          className="text-xs border rounded px-1 py-0"
-          value={selected}
-          onChange={e => setSelected(parseInt(e.target.value))}
+    <TooltipProvider>
+      <div className="inline-block">
+        <div
+          className="relative inline-block"
+          onClick={e => handleClick(e as unknown as MouseEvent)}
         >
-          {polygons.map((_, i) => (
-            <option key={i} value={i}>{`Camada ${i + 1}`}</option>
-          ))}
-        </select>
-        <Button size="icon" variant="ghost" onClick={deleteCurrent} disabled={polygons.length === 0}>
-          <Trash2 className="w-4 h-4" />
-        </Button>
-        <Button size="icon" variant="ghost" onClick={deleteAll} disabled={polygons.length === 0}>
-          <Trash className="w-4 h-4" />
-        </Button>
-        <Button size="icon" variant={invert ? "default" : "ghost"} onClick={() => setInvert(v => !v)}>
-          <CircleSlash className="w-4 h-4" />
-        </Button>
+          {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
+          <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+        </div>
+        <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
+          <select
+            className="text-xs border rounded px-1 py-0"
+            value={selected}
+            onChange={e => setSelected(parseInt(e.target.value))}
+          >
+            {polygons.map((_, i) => (
+              <option key={i} value={i}>{`Camada ${i + 1}`}</option>
+            ))}
+          </select>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={deleteCurrent} disabled={polygons.length === 0}>
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Apagar camada</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={deleteAll} disabled={polygons.length === 0}>
+                <Trash className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Apagar todas as camadas</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant={invert ? "default" : "ghost"} onClick={() => setInvert(v => !v)}>
+                <CircleSlash className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Bloquear</TooltipContent>
+          </Tooltip>
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 });
 

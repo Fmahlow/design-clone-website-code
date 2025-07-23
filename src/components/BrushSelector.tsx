@@ -2,6 +2,12 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "re
 import { Undo2, Redo2, Brush, Eraser, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface BrushSelectorHandle {
   exportMask: () => string | null;
@@ -194,14 +200,14 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
   const clear = () => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext('2d')!;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    undoStack.current = [];
-    redoStack.current = [];
+    pushState();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
   return (
-    <div className="inline-block">
-      <div className="relative inline-block">
+    <TooltipProvider>
+      <div className="inline-block">
+        <div className="relative inline-block">
         {image && <img ref={imgRef} src={image} alt="imagem" className="block" />}
         <canvas ref={canvasRef} className="absolute inset-0 opacity-50" />
         <div
@@ -210,17 +216,48 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
         >
           <span className="text-xs text-[hsl(var(--sidebar-ring))]">+</span>
         </div>
+        </div>
+        {/* toolbar below image */}
+        <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={undo}><Undo2 className="w-4 h-4" /></Button>
+            </TooltipTrigger>
+            <TooltipContent>Undo</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={redo}><Redo2 className="w-4 h-4" /></Button>
+            </TooltipTrigger>
+            <TooltipContent>Redo</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant={tool==='brush'? 'default':'ghost'} onClick={()=>setTool('brush')}><Brush className="w-4 h-4" /></Button>
+            </TooltipTrigger>
+            <TooltipContent>Pincel</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant={tool==='erase'? 'default':'ghost'} onClick={()=>setTool('erase')}><Eraser className="w-4 h-4" /></Button>
+            </TooltipTrigger>
+            <TooltipContent>Borracha</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={clear}><Trash2 className="w-4 h-4" /></Button>
+            </TooltipTrigger>
+            <TooltipContent>Apagar tudo</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-24 ml-2"><Slider value={[brushSize]} min={1} max={100} onValueChange={(v)=>setBrushSize(v[0])} /></div>
+            </TooltipTrigger>
+            <TooltipContent>Espessura do pincel</TooltipContent>
+          </Tooltip>
+        </div>
       </div>
-      {/* toolbar below image */}
-      <div className="mt-2 flex items-center space-x-2 bg-background/80 p-1 rounded">
-        <Button size="icon" variant="ghost" onClick={undo}><Undo2 className="w-4 h-4" /></Button>
-        <Button size="icon" variant="ghost" onClick={redo}><Redo2 className="w-4 h-4" /></Button>
-        <Button size="icon" variant={tool==='brush'? 'default':'ghost'} onClick={()=>setTool('brush')}><Brush className="w-4 h-4" /></Button>
-        <Button size="icon" variant={tool==='erase'? 'default':'ghost'} onClick={()=>setTool('erase')}><Eraser className="w-4 h-4" /></Button>
-        <Button size="icon" variant="ghost" onClick={clear}><Trash2 className="w-4 h-4" /></Button>
-        <div className="w-24 ml-2"><Slider value={[brushSize]} min={1} max={100} onValueChange={(v)=>setBrushSize(v[0])} /></div>
-      </div>
-    </div>
+    </TooltipProvider>
   );
 });
 
