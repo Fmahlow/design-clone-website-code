@@ -12,8 +12,8 @@ from diffusers import (
     ControlNetModel,
     DPMSolverMultistepScheduler,
     StableDiffusionControlNetPipeline,
-    StableDiffusionInpaintPipeline,
     FluxKontextPipeline,
+    FluxKontextInpaintPipeline,
 )
 from diffusers.utils import check_min_version
 from controlnet_aux_local import NormalBaeDetector
@@ -166,11 +166,11 @@ print("loading Flux Kontext pipeline")
 #flux_pipe.to("cuda")
 #integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
-# Initialize traditional Stable Diffusion inpainting pipeline
+# Initialize Flux Kontext inpainting pipeline
 check_min_version("0.30.2")
-inpaint_pipe = StableDiffusionInpaintPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-2-inpainting",
-    torch_dtype=torch.float16,
+inpaint_pipe = FluxKontextInpaintPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-Kontext-dev",
+    torch_dtype=torch.bfloat16,
 )
 inpaint_pipe.to("cuda")
 
@@ -238,10 +238,13 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
 def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str) -> Image.Image:
     image = image.convert("RGB")
     mask = mask.convert("RGB")
+    mask = inpaint_pipe.mask_processor.blur(mask, blur_factor=12)
     result = inpaint_pipe(
         prompt=prompt,
         image=image,
         mask_image=mask,
+        image_reference=image,
+        strength=1.0,
     ).images[0]
 
     return result
