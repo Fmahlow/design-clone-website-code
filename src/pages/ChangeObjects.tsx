@@ -136,7 +136,7 @@ const ChangeObjects = () => {
             <ModeSelector
               mode={mode}
               onModeChange={setMode}
-              className="ml-4 mt-2 mb-1 w-fit"
+              className="ml-4 mt-2 mb-0 w-fit"
             />
             <UploadArea
               onImageSelected={handleUpload}
@@ -147,21 +147,23 @@ const ChangeObjects = () => {
               loading={loading}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto">
-                  <div className="relative" ref={previewRef}>
-                    {mode === 'inteligente' && (
-                      <ObjectSelector ref={selectorRef} image={img} />
-                    )}
-                    {mode === 'pincel' && (
-                      <BrushSelector ref={brushRef} image={img} />
-                    )}
-                    {mode === 'laco' && (
-                      <LassoSelector ref={lassoRef} image={img} />
-                    )}
-                    {mode === 'texto' && (
-                      <img src={img} alt="pré" className="block" />
-                    )}
+                  <div className="flex items-start" ref={previewRef}>
+                    <div className="relative">
+                      {mode === 'inteligente' && (
+                        <ObjectSelector ref={selectorRef} image={img} />
+                      )}
+                      {mode === 'pincel' && (
+                        <BrushSelector ref={brushRef} image={img} />
+                      )}
+                      {mode === 'laco' && (
+                        <LassoSelector ref={lassoRef} image={img} />
+                      )}
+                      {mode === 'texto' && (
+                        <img src={img} alt="pré" className="block" />
+                      )}
+                    </div>
                     <TooltipProvider>
-                      <div className="absolute bottom-2 right-2 flex flex-col space-y-2">
+                      <div className="flex flex-col space-y-2 ml-2 sticky top-2">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button size="icon" className="h-8 w-8 p-0" variant="secondary" onClick={handleSaveAs}>

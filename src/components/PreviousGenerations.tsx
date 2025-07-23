@@ -21,7 +21,7 @@ const PreviousGenerations = ({ onSelect }: PreviousGenerationsProps) => {
   };
 
   return (
-    <div className="px-6 pb-6 pt-2">
+    <div className="px-6 pb-4 pt-1">
       <div className="w-full mx-4">
         <h3 className="text-lg font-semibold text-foreground mb-2">Gerações anteriores</h3>
 

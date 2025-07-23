@@ -112,10 +112,12 @@ All colors MUST be HSL.
   }
 }
 
-@keyframes tilt {
-  0%,100% { transform: rotate(-2deg); }
-  50% { transform: rotate(2deg); }
+@keyframes wobble {
+  0%,100% { transform: rotate(-6deg); }
+  25% { transform: rotate(6deg); }
+  50% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
 }
-.tilt {
-  animation: tilt 3s ease-in-out infinite;
+.wobble {
+  animation: wobble 1.5s ease-in-out infinite;
 }

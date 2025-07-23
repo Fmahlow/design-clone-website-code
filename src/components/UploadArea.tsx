@@ -81,7 +81,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
   };
 
   return (
-    <div className="px-8 pt-2 pb-2">
+    <div className="px-8 pt-1 pb-2">
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         {!preview && (
@@ -109,7 +109,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
           >
             {preview && loading && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm text-white">
-                <img src="/src/components/logo.svg" className="w-16 h-16 tilt mb-2" alt="logo" />
+                <img src="/src/components/logo.svg" className="w-16 h-16 wobble mb-2" alt="logo" />
                 <p>Aguarde, sua imagem está sendo gerada</p>
                 <p className="text-blue-500 mt-1">{elapsed}s</p>
               </div>
