@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Trash2, Trash, CircleSlash } from "lucide-react";
 
 export interface LassoSelectorHandle {
   exportMask: () => string | null;
@@ -72,11 +73,20 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
 
   const handleClick = (e: MouseEvent) => {
     if (!image) return;
+    const p = getPoint(e);
+    if (current.length > 0) {
+      const first = current[0];
+      const dx = p.x - first.x;
+      const dy = p.y - first.y;
+      if (Math.sqrt(dx * dx + dy * dy) < 0.02) {
+        closePolygon();
+        return;
+      }
+    }
     if (e.detail === 2) {
       closePolygon();
       return;
     }
-    const p = getPoint(e);
     setCurrent(prev => [...prev, p]);
   };
 
@@ -91,7 +101,8 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = "hsl(var(--sidebar-ring))";
       ctx.fillStyle = "hsla(var(--sidebar-ring) / 0.3)";
-      polygons.forEach((poly, i) => {
+      ctx.lineWidth = 2;
+      polygons.forEach((poly) => {
         ctx.beginPath();
         poly.points.forEach((pt, idx) => {
           const x = pt.x * canvas.width;
@@ -99,7 +110,7 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
           if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         });
         ctx.closePath();
-        if (i === selected) ctx.fill();
+        ctx.fill();
         ctx.stroke();
       });
       if (current.length > 0) {
@@ -145,13 +156,13 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
           ))}
         </select>
         <Button size="icon" variant="ghost" onClick={deleteCurrent} disabled={polygons.length === 0}>
-          Del atual
+          <Trash2 className="w-4 h-4" />
         </Button>
         <Button size="icon" variant="ghost" onClick={deleteAll} disabled={polygons.length === 0}>
-          Del todas
+          <Trash className="w-4 h-4" />
         </Button>
         <Button size="icon" variant={invert ? "default" : "ghost"} onClick={() => setInvert(v => !v)}>
-          Inverter
+          <CircleSlash className="w-4 h-4" />
         </Button>
       </div>
     </div>
