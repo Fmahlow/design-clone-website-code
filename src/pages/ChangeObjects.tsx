@@ -147,7 +147,7 @@ const ChangeObjects = () => {
               loading={loading}
               renderPreview={(img) => (
                 <div className="w-fit mx-auto">
-                  <div className="flex items-start" ref={previewRef}>
+                  <div className="flex items-center" ref={previewRef}>
                     <div className="relative">
                       {mode === 'inteligente' && (
                         <ObjectSelector ref={selectorRef} image={img} />
@@ -163,7 +163,7 @@ const ChangeObjects = () => {
                       )}
                     </div>
                     <TooltipProvider>
-                      <div className="flex flex-col space-y-2 ml-2 sticky top-2">
+                      <div className="flex flex-col space-y-2 ml-2 self-center">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button size="icon" className="h-8 w-8 p-0" variant="secondary" onClick={handleSaveAs}>

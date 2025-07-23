@@ -192,6 +192,32 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     }
   };
 
+  const expandImageData = (imageData: ImageData): ImageData => {
+    const { width, height, data } = imageData;
+    const expanded = new Uint8ClampedArray(data.length);
+    const radius = Math.ceil(Math.max(width, height) * 0.025);
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const idx = (y * width + x) * 4;
+        if (data[idx + 3] > 0) {
+          for (let dy = -radius; dy <= radius; dy++) {
+            for (let dx = -radius; dx <= radius; dx++) {
+              const nx = x + dx;
+              const ny = y + dy;
+              if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+              const nidx = (ny * width + nx) * 4;
+              expanded[nidx] = 255;
+              expanded[nidx + 1] = 255;
+              expanded[nidx + 2] = 255;
+              expanded[nidx + 3] = 255;
+            }
+          }
+        }
+      }
+    }
+    return new ImageData(expanded, width, height);
+  };
+
   const exportMask = (): string | null => {
     if (selectedMasks.length === 0) return null;
     const width = selectedMasks[0].mask.width;
@@ -215,7 +241,8 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
         }
       }
     });
-    ctx.putImageData(imageData, 0, 0);
+    const expanded = expandImageData(imageData);
+    ctx.putImageData(expanded, 0, 0);
     return canvas.toDataURL('image/png');
   };
 
