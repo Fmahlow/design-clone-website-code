@@ -32,8 +32,14 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
   useImperativeHandle(ref, () => ({
     exportMask: () => {
       const canvas = canvasRef.current;
-      if (!canvas) return null;
-      return canvas.toDataURL('image/png');
+      const img = imgRef.current;
+      if (!canvas || !img) return null;
+      const out = document.createElement('canvas');
+      out.width = img.naturalWidth;
+      out.height = img.naturalHeight;
+      const ctx = out.getContext('2d')!;
+      ctx.drawImage(canvas, 0, 0, out.width, out.height);
+      return out.toDataURL('image/png');
     },
     resetSelections: () => {
       const canvas = canvasRef.current;

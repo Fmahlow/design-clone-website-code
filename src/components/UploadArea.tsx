@@ -81,7 +81,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
   };
 
   return (
-    <div className="px-8 pt-4 pb-8">
+    <div className="px-8 pt-2 pb-2">
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         {!preview && (
@@ -119,7 +119,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
               <Button
                 variant="destructive"
                 size="sm"
-                className="absolute top-3 right-3 z-10 h-8 w-8 p-0"
+                className="absolute top-2 right-2 z-10 h-8 w-8 p-0"
                 onClick={e => {
                   e.stopPropagation();
                   handleRemoveImage();

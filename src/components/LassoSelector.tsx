@@ -106,10 +106,23 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
       canvas.height = img.offsetHeight;
       const ctx = canvas.getContext("2d")!;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "hsl(var(--sidebar-ring))";
-      ctx.fillStyle = "hsla(var(--sidebar-ring) / 0.3)";
+
+      const ring = getComputedStyle(document.documentElement)
+        .getPropertyValue("--sidebar-ring")
+        .trim();
+      const palette = [
+        ring,
+        "140 70% 45%",
+        "60 90% 50%",
+        "210 90% 55%",
+        "300 70% 60%",
+      ];
+
       ctx.lineWidth = 2;
-      polygons.forEach((poly) => {
+      polygons.forEach((poly, i) => {
+        const color = palette[i % palette.length];
+        ctx.strokeStyle = `hsl(${color})`;
+        ctx.fillStyle = `hsla(${color} / 0.3)`;
         ctx.beginPath();
         poly.points.forEach((pt, idx) => {
           const x = pt.x * canvas.width;
@@ -120,7 +133,10 @@ const LassoSelector = forwardRef<LassoSelectorHandle, LassoSelectorProps>(({ ima
         ctx.fill();
         ctx.stroke();
       });
+
       if (current.length > 0) {
+        const color = palette[polygons.length % palette.length];
+        ctx.strokeStyle = `hsl(${color})`;
         ctx.beginPath();
         current.forEach((pt, idx) => {
           const x = pt.x * canvas.width;
