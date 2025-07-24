@@ -90,31 +90,42 @@ const ChangeObjects = () => {
   }
 
   const handleGenerate = async () => {
-    let maskData: string | null = null;
-    if (mode === 'inteligente') maskData = selectorRef.current?.exportMask() ?? null;
-    else if (mode === 'pincel') maskData = brushRef.current?.exportMask() ?? null;
-    else if (mode === 'laco') maskData = lassoRef.current?.exportMask() ?? null;
-    if (!maskData || !image) return;
+    if (!image) return;
     setLoading(true);
     try {
       const imageBlob = await fetch(image).then(r => r.blob());
-      const maskBlob = await fetch(maskData).then(r => r.blob());
+      const translated = await translateToEnglish(prompt);
       const form = new FormData();
       form.append('image', imageBlob, 'image.png');
-      form.append('mask', maskBlob, 'mask.png');
-      const translated = await translateToEnglish(prompt);
       form.append('prompt', translated);
-      const res = await fetch('/inpaint', { method: 'POST', body: form });
-      if (!res.ok) throw new Error('failed');
-      const outBlob = await res.blob();
-      const dataUrl = await blobToDataURL(outBlob);
-      setImage(dataUrl);
-      addGeneration(dataUrl);
-      selectorRef.current?.resetSelections();
-      brushRef.current?.resetSelections();
-      lassoRef.current?.resetSelections();
+
+      if (mode === 'texto') {
+        const res = await fetch('/flux-edit', { method: 'POST', body: form });
+        if (!res.ok) throw new Error('failed');
+        const outBlob = await res.blob();
+        const dataUrl = await blobToDataURL(outBlob);
+        setImage(dataUrl);
+        addGeneration(dataUrl);
+      } else {
+        let maskData: string | null = null;
+        if (mode === 'inteligente') maskData = selectorRef.current?.exportMask() ?? null;
+        else if (mode === 'pincel') maskData = brushRef.current?.exportMask() ?? null;
+        else if (mode === 'laco') maskData = lassoRef.current?.exportMask() ?? null;
+        if (!maskData) return;
+        const maskBlob = await fetch(maskData).then(r => r.blob());
+        form.append('mask', maskBlob, 'mask.png');
+        const res = await fetch('/inpaint', { method: 'POST', body: form });
+        if (!res.ok) throw new Error('failed');
+        const outBlob = await res.blob();
+        const dataUrl = await blobToDataURL(outBlob);
+        setImage(dataUrl);
+        addGeneration(dataUrl);
+        selectorRef.current?.resetSelections();
+        brushRef.current?.resetSelections();
+        lassoRef.current?.resetSelections();
+      }
     } catch (err) {
-      console.error('inpaint failed', err);
+      console.error('generation failed', err);
     } finally {
       setLoading(false);
     }

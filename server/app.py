@@ -159,12 +159,12 @@ print(
 
 # Initialize Flux Kontext pipeline for chat-based edits
 print("loading Flux Kontext pipeline")
-#flux_pipe = FluxKontextPipeline.from_pretrained(
-#    "black-forest-labs/FLUX.1-Kontext-dev",
-#    torch_dtype=torch.bfloat16,
-#)
-#flux_pipe.to("cuda")
-#integrity_checker = PixtralContentFilter(torch.device("cuda"))
+flux_pipe = FluxKontextPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-Kontext-dev",
+    torch_dtype=torch.bfloat16,
+)
+flux_pipe.to("cuda")
+integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
 # Initialize Flux Kontext inpainting pipeline
 check_min_version("0.30.2")
