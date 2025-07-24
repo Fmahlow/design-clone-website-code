@@ -38,7 +38,26 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       out.width = img.naturalWidth;
       out.height = img.naturalHeight;
       const ctx = out.getContext('2d')!;
+      // fill background black then draw the current mask scaled to the image size
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, out.width, out.height);
       ctx.drawImage(canvas, 0, 0, out.width, out.height);
+      // convert non-transparent pixels to white to ensure a binary mask
+      const imgData = ctx.getImageData(0, 0, out.width, out.height);
+      for (let i = 0; i < imgData.data.length; i += 4) {
+        if (imgData.data[i + 3] > 0) {
+          imgData.data[i] = 255;
+          imgData.data[i + 1] = 255;
+          imgData.data[i + 2] = 255;
+          imgData.data[i + 3] = 255;
+        } else {
+          imgData.data[i] = 0;
+          imgData.data[i + 1] = 0;
+          imgData.data[i + 2] = 0;
+          imgData.data[i + 3] = 255;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
       return out.toDataURL('image/png');
     },
     resetSelections: () => {
