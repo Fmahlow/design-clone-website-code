@@ -1,5 +1,11 @@
-import { useEffect, useRef } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { cn } from "@/lib/utils";
+import {
+  Type,
+  Sparkles,
+  Brush,
+  LassoSelect,
+} from "lucide-react";
 
 interface ModeSelectorProps {
   mode: string;
@@ -8,63 +14,28 @@ interface ModeSelectorProps {
 }
 
 const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
-  const groupRef = useRef<HTMLDivElement>(null);
-  const indicatorRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const group = groupRef.current;
-    const indicator = indicatorRef.current;
-    if (!group || !indicator) return;
-    const active = group.querySelector('[data-state="on"]') as HTMLElement | null;
-    if (!active) return;
-    indicator.style.width = `${active.offsetWidth}px`;
-    indicator.style.transform = `translateX(${active.offsetLeft}px)`;
-  }, [mode]);
-
   return (
-    <div
-      className={`relative inline-flex border border-border rounded-full ${className || ''}`}
+    <ToggleGroup
+      type="single"
+      value={mode}
+      onValueChange={(v) => v && onModeChange(v)}
+      className={cn("inline-flex gap-1 p-1 border border-border rounded-md bg-muted/60", className)}
+      variant="outline"
+      size="sm"
     >
-      <span
-        ref={indicatorRef}
-        className="absolute left-0 top-0 h-full rounded-full transition-all duration-300"
-        style={{ backgroundColor: 'hsl(var(--sidebar-ring) / 0.2)' }}
-      />
-      <ToggleGroup
-        ref={groupRef}
-        type="single"
-        value={mode}
-        onValueChange={(v) => v && onModeChange(v)}
-        className="relative p-1 gap-1"
-        variant="default"
-        size="sm"
-      >
-        <ToggleGroupItem
-          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
-          value="texto"
-        >
-          Texto
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
-          value="inteligente"
-        >
-          Seleção Inteligente
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
-          value="pincel"
-        >
-          Pincel
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          className="rounded-full px-4 transition-colors data-[state=on]:bg-transparent data-[state=on]:text-foreground"
-          value="laco"
-        >
-          Laço
-        </ToggleGroupItem>
-      </ToggleGroup>
-    </div>
+      <ToggleGroupItem value="texto" className="w-8 h-8 p-0">
+        <Type className="w-4 h-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="inteligente" className="w-8 h-8 p-0">
+        <Sparkles className="w-4 h-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="pincel" className="w-8 h-8 p-0">
+        <Brush className="w-4 h-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="laco" className="w-8 h-8 p-0">
+        <LassoSelect className="w-4 h-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
   );
 };
 
