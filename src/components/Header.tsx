@@ -67,11 +67,6 @@ const Header = () => {
         {/* Right side */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <div className="bg-orange-500 text-white px-3 py-1 rounded-md text-xs flex items-center space-x-2">
-              <span>⚠️</span>
-              <span>Assinatura • Expira em xx/xx/2025</span>
-            </div>
-            
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
               <Tooltip>
                 <TooltipTrigger asChild>

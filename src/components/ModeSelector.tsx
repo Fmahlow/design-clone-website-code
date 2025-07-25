@@ -37,7 +37,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
             <Type className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
-        <TooltipContent>Texto</TooltipContent>
+        <TooltipContent side="top">Texto</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -48,7 +48,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
             <Sparkles className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
-        <TooltipContent>Seleção inteligente</TooltipContent>
+        <TooltipContent side="top">Seleção inteligente</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -59,7 +59,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
             <Brush className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
-        <TooltipContent>Pincel</TooltipContent>
+        <TooltipContent side="top">Pincel</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -70,7 +70,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
             <LassoSelect className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
-        <TooltipContent>Laço</TooltipContent>
+        <TooltipContent side="top">Laço</TooltipContent>
       </Tooltip>
     </ToggleGroup>
   );
