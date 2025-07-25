@@ -15,63 +15,48 @@ interface ModeSelectorProps {
 }
 
 const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
+  const items = [
+    { value: 'texto', icon: Type, label: 'Texto' },
+    { value: 'inteligente', icon: Sparkles, label: 'Seleção inteligente' },
+    { value: 'pincel', icon: Brush, label: 'Pincel' },
+    { value: 'laco', icon: LassoSelect, label: 'Laço' },
+  ];
+
   return (
     <ToggleGroup
       type="single"
-      value={mode || "texto"}
+      value={mode}
       defaultValue="texto"
       onValueChange={(v) => v && onModeChange(v)}
       className={cn(
-        "inline-flex gap-1 p-1 border border-border rounded-md bg-gray-50",
+        'inline-flex gap-1 p-1 border border-border rounded-md bg-gray-50',
         className
       )}
       variant="default"
       size="sm"
     >
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem
-            value="texto"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
-          >
-            <Type className="w-4 h-4" />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent side="top">Texto</TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem
-            value="inteligente"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
-          >
-            <Sparkles className="w-4 h-4" />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent side="top">Seleção inteligente</TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem
-            value="pincel"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
-          >
-            <Brush className="w-4 h-4" />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent side="top">Pincel</TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem
-            value="laco"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
-          >
-            <LassoSelect className="w-4 h-4" />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent side="top">Laço</TooltipContent>
-      </Tooltip>
+      {items.map(({ value, icon: Icon, label }) => {
+        const isActive = mode === value;
+        return (
+          <Tooltip key={value}>
+            <TooltipTrigger asChild>
+              <ToggleGroupItem
+                value={value}
+                className={cn(
+                  'w-8 h-8 p-0 flex items-center justify-center',
+                  isActive
+                    ? 'bg-white text-black'
+                    : 'text-gray-600',
+                  'hover:bg-muted/50'
+                )}
+              >
+                <Icon className="w-4 h-4" />
+              </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>{label}</TooltipContent>
+          </Tooltip>
+        );
+      })}
     </ToggleGroup>
   );
 };
