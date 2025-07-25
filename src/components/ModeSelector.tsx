@@ -21,7 +21,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
       value={mode}
       onValueChange={(v) => v && onModeChange(v)}
       className={cn(
-        "inline-flex gap-1 p-1 border border-border rounded-md bg-gray-100",
+        "inline-flex gap-1 p-1 border border-border rounded-md bg-gray-50",
         className
       )}
       variant="default"
@@ -31,7 +31,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="texto"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-accent/70"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
           >
             <Type className="w-4 h-4" />
           </ToggleGroupItem>
@@ -42,7 +42,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="inteligente"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-accent/70"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
           >
             <Sparkles className="w-4 h-4" />
           </ToggleGroupItem>
@@ -53,7 +53,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="pincel"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-accent/70"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
           >
             <Brush className="w-4 h-4" />
           </ToggleGroupItem>
@@ -64,7 +64,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="laco"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-accent/70"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
           >
             <LassoSelect className="w-4 h-4" />
           </ToggleGroupItem>
