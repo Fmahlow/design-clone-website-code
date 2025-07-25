@@ -195,6 +195,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
   const expandImageData = (imageData: ImageData): ImageData => {
     const { width, height, data } = imageData;
     const expanded = new Uint8ClampedArray(data.length);
+    // expand the mask by roughly 5% of its size
     const radius = Math.ceil(Math.max(width, height) * 0.025);
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
