@@ -86,15 +86,19 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         {!preview && (
-          <div className={`mb-3 ${headerRight ? '' : 'text-center'}`}>
-            <div className={`flex items-center ${headerRight ? 'justify-between' : 'justify-center mb-2'}`}>
+          <div className={`mb-3 ${headerRight ? 'relative' : 'text-center'}`}>
+            {headerRight && (
+              <div className="absolute left-0 top-1/2 -translate-y-1/2">
+                {headerRight}
+              </div>
+            )}
+            <div className={`flex items-center justify-center mb-2`}>
               <div className="flex items-center space-x-2">
                 <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
                   <span className="text-sm">1</span>
                 </div>
                 <h2 className="text-lg font-semibold text-foreground">Enviar imagem</h2>
               </div>
-              {headerRight && <div className="ml-2">{headerRight}</div>}
             </div>
             <p className="text-muted-foreground text-xs text-center">
               Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas
