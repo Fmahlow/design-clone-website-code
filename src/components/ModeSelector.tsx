@@ -33,6 +33,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
           <ToggleGroupItem
             value="texto"
             className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
+          >
             <Type className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
@@ -43,6 +44,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
           <ToggleGroupItem
             value="inteligente"
             className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
+          >
             <Sparkles className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
@@ -53,6 +55,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
           <ToggleGroupItem
             value="pincel"
             className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
+          >
             <Brush className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
@@ -63,6 +66,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
           <ToggleGroupItem
             value="laco"
             className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:ring-2 data-[state=on]:ring-purple-600 data-[state=on]:ring-offset-2 data-[state=on]:ring-offset-background"
+          >
             <LassoSelect className="w-4 h-4" />
           </ToggleGroupItem>
         </TooltipTrigger>
