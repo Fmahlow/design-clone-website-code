@@ -8,9 +8,10 @@ interface UploadAreaProps {
   renderPreview?: (img: string) => React.ReactNode;
   image?: string | null;
   loading?: boolean;
+  headerRight?: React.ReactNode;
 }
 
-const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, loading = false }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, loading = false, headerRight }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(image ?? null);
   const [elapsed, setElapsed] = useState(0);
@@ -85,14 +86,17 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
       <div className="max-w-5xl mx-auto">
         {/* Main heading */}
         {!preview && (
-          <div className="text-center mb-3">
-            <div className="flex items-center justify-center mb-2 space-x-2">
-              <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
-                <span className="text-sm">1</span>
+          <div className={`mb-3 ${headerRight ? '' : 'text-center'}`}>
+            <div className={`flex items-center ${headerRight ? 'justify-between' : 'justify-center mb-2'}`}>
+              <div className="flex items-center space-x-2">
+                <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                  <span className="text-sm">1</span>
+                </div>
+                <h2 className="text-lg font-semibold text-foreground">Enviar imagem</h2>
               </div>
-              <h2 className="text-lg font-semibold text-foreground">Enviar imagem</h2>
+              {headerRight && <div className="ml-2">{headerRight}</div>}
             </div>
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground text-xs text-center">
               Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas
               para gerar suas imagens.
             </p>
