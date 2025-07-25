@@ -31,7 +31,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="texto"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary data-[state=on]:ring-2 data-[state=on]:ring-white"
           >
             <Type className="w-4 h-4" />
           </ToggleGroupItem>
@@ -42,7 +42,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="inteligente"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary data-[state=on]:ring-2 data-[state=on]:ring-white"
           >
             <Sparkles className="w-4 h-4" />
           </ToggleGroupItem>
@@ -53,7 +53,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="pincel"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary data-[state=on]:ring-2 data-[state=on]:ring-white"
           >
             <Brush className="w-4 h-4" />
           </ToggleGroupItem>
@@ -64,7 +64,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
         <TooltipTrigger asChild>
           <ToggleGroupItem
             value="laco"
-            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary"
+            className="w-8 h-8 p-0 hover:bg-muted/50 data-[state=on]:bg-primary/20 data-[state=on]:text-primary data-[state=on]:ring-2 data-[state=on]:ring-white"
           >
             <LassoSelect className="w-4 h-4" />
           </ToggleGroupItem>

@@ -144,12 +144,8 @@ const ChangeObjects = () => {
       <div className="flex flex-1 items-start overflow-auto">
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
-            <ModeSelector
-              mode={mode}
-              onModeChange={setMode}
-              className="ml-4 mt-2 mb-0 w-fit"
-            />
             <UploadArea
+              headerRight={<ModeSelector mode={mode} onModeChange={setMode} />}
               onImageSelected={handleUpload}
               onRemoveImage={() =>
                 originalImage && setImage(originalImage)

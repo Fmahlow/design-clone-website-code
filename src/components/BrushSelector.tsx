@@ -22,7 +22,7 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
-  const [brushSize, setBrushSize] = useState(20);
+  const [brushSize, setBrushSize] = useState(40);
   const [tool, setTool] = useState<'brush' | 'erase'>('brush');
   const drawing = useRef(false);
   const last = useRef<{x: number, y: number} | null>(null);
@@ -106,8 +106,9 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
     preview.style.display = 'block';
     preview.style.width = `${brushSize}px`;
     preview.style.height = `${brushSize}px`;
-    preview.style.left = `${pos.x - brushSize / 2}px`;
-    preview.style.top = `${pos.y - brushSize / 2}px`;
+    preview.style.left = `${pos.x}px`;
+    preview.style.top = `${pos.y}px`;
+    preview.style.transform = 'translate(-50%, -50%)';
     const ring = getComputedStyle(document.documentElement)
       .getPropertyValue('--sidebar-ring')
       .trim();
@@ -238,8 +239,9 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
         <div
           ref={previewRef}
           className="absolute pointer-events-none rounded-full hidden flex items-center justify-center select-none"
+          style={{ transform: 'translate(-50%, -50%)' }}
         >
-          <span className="text-xs text-[hsl(var(--sidebar-ring))]">+</span>
+          <span className="text-xs leading-none text-[hsl(var(--sidebar-ring))]">+</span>
         </div>
         </div>
         {/* toolbar below image */}
