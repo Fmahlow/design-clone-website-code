@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Maximize2, Minimize2 } from "lucide-react";
 
 interface DescriptionSidebarProps {
   className?: string;
@@ -10,6 +11,8 @@ interface DescriptionSidebarProps {
   onGenerate?: () => void;
   disableGenerate?: boolean;
   hideDescription?: boolean;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 const DescriptionSidebar = ({
@@ -19,16 +22,25 @@ const DescriptionSidebar = ({
   onGenerate,
   disableGenerate,
   hideDescription,
+  collapsed,
+  onToggleCollapse,
 }: DescriptionSidebarProps) => {
   return (
     <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
-      <div className="flex items-center justify-center mb-2 space-x-2">
-        <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
-          <span className="text-sm">2</span>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center space-x-2">
+          <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+            <span className="text-sm">2</span>
+          </div>
+          <h2 className="text-lg font-semibold text-foreground">Detalhe sua imagem</h2>
         </div>
-        <h2 className="text-lg font-semibold text-foreground text-center">Detalhe sua imagem</h2>
+        {onToggleCollapse && (
+          <button className="p-1" onClick={onToggleCollapse}>
+            {collapsed ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+          </button>
+        )}
       </div>
-      {!hideDescription && (
+      {!collapsed && !hideDescription && (
         <>
           <p className="text-sm text-muted-foreground mb-6 text-center">Descreva o que quer mudar</p>
           <div className="space-y-6">
@@ -45,8 +57,7 @@ const DescriptionSidebar = ({
         </>
       )}
 
-      {/* Generate button */}
-      {onGenerate && (
+      {!collapsed && onGenerate && (
         <div className="mt-6">
           <Button variant="gradient" className="w-full flex items-center justify-center" onClick={onGenerate} disabled={disableGenerate}>
             Gerar imagem
