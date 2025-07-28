@@ -5,6 +5,7 @@ import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
 import LassoSelector, { LassoSelectorHandle } from "@/components/LassoSelector";
 import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
+import ReferenceSidebar from "@/components/ReferenceSidebar";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Save, Download, Maximize2, Minimize2 } from "lucide-react";
@@ -24,6 +25,9 @@ const ChangeObjects = () => {
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState("texto");
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [descCollapsed, setDescCollapsed] = useState(false);
+  const [refCollapsed, setRefCollapsed] = useState(true);
+  const [refImage, setRefImage] = useState<File | null>(null);
 
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -79,6 +83,15 @@ const ChangeObjects = () => {
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
     setOriginalImage(dataUrl);
+  };
+
+  const toggleDesc = () => setDescCollapsed(v => !v);
+  const toggleRef = () => {
+    setRefCollapsed(v => {
+      const newVal = !v;
+      if (!newVal) setDescCollapsed(true);
+      return newVal;
+    });
   };
 
   async function blobToDataURL(blob: Blob): Promise<string> {
@@ -216,13 +229,23 @@ const ChangeObjects = () => {
           </div>
         </div>
 
-        <DescriptionSidebar
-          description={prompt}
-          onDescriptionChange={setPrompt}
-          onGenerate={handleGenerate}
-          disableGenerate={loading}
-          className="mr-6 mt-2 self-start flex-none"
-        />
+        <div className="mr-6 mt-2 self-start flex-none flex flex-col space-y-4">
+          <DescriptionSidebar
+            description={prompt}
+            onDescriptionChange={setPrompt}
+            onGenerate={handleGenerate}
+            disableGenerate={loading}
+            collapsed={descCollapsed}
+            onToggleCollapse={toggleDesc}
+          />
+          <ReferenceSidebar
+            onGenerate={handleGenerate}
+            disableGenerate={loading}
+            collapsed={refCollapsed}
+            onToggleCollapse={toggleRef}
+            onImageSelected={setRefImage}
+          />
+        </div>
       </div>
     </div>
   );
