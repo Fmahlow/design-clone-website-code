@@ -5,7 +5,6 @@ import BrushSelector, { BrushSelectorHandle } from "@/components/BrushSelector";
 import LassoSelector, { LassoSelectorHandle } from "@/components/LassoSelector";
 import ModeSelector from "@/components/ModeSelector";
 import DescriptionSidebar from "@/components/DescriptionSidebar";
-import ReferenceSidebar from "@/components/ReferenceSidebar";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Save, Download, Maximize2, Minimize2 } from "lucide-react";
@@ -26,8 +25,6 @@ const ChangeObjects = () => {
   const [mode, setMode] = useState("texto");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [descCollapsed, setDescCollapsed] = useState(false);
-  const [refCollapsed, setRefCollapsed] = useState(true);
-  const [refImage, setRefImage] = useState<File | null>(null);
 
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -86,13 +83,6 @@ const ChangeObjects = () => {
   };
 
   const toggleDesc = () => setDescCollapsed(v => !v);
-  const toggleRef = () => {
-    setRefCollapsed(v => {
-      const newVal = !v;
-      if (!newVal) setDescCollapsed(true);
-      return newVal;
-    });
-  };
 
   async function blobToDataURL(blob: Blob): Promise<string> {
     return new Promise(resolve => {
@@ -237,14 +227,6 @@ const ChangeObjects = () => {
             disableGenerate={loading}
             collapsed={descCollapsed}
             onToggleCollapse={toggleDesc}
-            className="w-[480px] mr-4"
-          />
-          <ReferenceSidebar
-            onGenerate={handleGenerate}
-            disableGenerate={loading}
-            collapsed={refCollapsed}
-            onToggleCollapse={toggleRef}
-            onImageSelected={setRefImage}
             className="w-[480px] mr-4"
           />
         </div>
