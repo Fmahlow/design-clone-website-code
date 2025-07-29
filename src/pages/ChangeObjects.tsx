@@ -156,8 +156,8 @@ const ChangeObjects = () => {
               image={image}
               loading={loading}
               renderPreview={(img) => (
-                <div className="w-fit mx-auto flex flex-col items-start">
-                  <ModeSelector mode={mode} onModeChange={setMode} className="mb-2" />
+                <div className="w-fit flex flex-col items-start self-start">
+                  <ModeSelector mode={mode} onModeChange={setMode} className="mb-2 self-start" />
                   <div className="flex items-center" ref={previewRef}>
                     <div className="relative">
                       {mode === 'inteligente' && (

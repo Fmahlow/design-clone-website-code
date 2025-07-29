@@ -113,10 +113,11 @@ const DescriptionSidebar = ({
                 <>
                   {!preview && (
                     <div className="p-4 rounded-lg border-2 border-dashed border-primary bg-white text-center space-y-2 w-72 mx-auto">
-                      <p className="text-sm text-muted-foreground">Arraste ou clique no botão abaixo para enviar</p>
+                      <p className="text-xs text-muted-foreground">Arraste ou clique no botão abaixo para enviar</p>
                       <Button
                         variant="outline"
-                        className="border-2 border-gray-300 bg-white hover:bg-gray-100 text-foreground rounded-lg inline-flex items-center"
+                        size="sm"
+                        className="border-2 border-gray-300 bg-white hover:bg-white hover:brightness-110 text-foreground rounded-lg inline-flex items-center"
                         onClick={() => fileInputRef.current?.click()}
                       >
                         <Upload className="w-4 h-4 mr-2" />
