@@ -53,7 +53,7 @@ const ModeSelector = ({ mode, onModeChange, className }: ModeSelectorProps) => {
                 <Icon className="w-4 h-4" />
               </ToggleGroupItem>
             </TooltipTrigger>
-            <TooltipContent>{label}</TooltipContent>
+            <TooltipContent side="top">{label}</TooltipContent>
           </Tooltip>
         );
       })}
