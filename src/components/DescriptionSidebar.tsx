@@ -28,7 +28,7 @@ const DescriptionSidebar = ({
   return (
     <div
       className={cn(
-        "w-[360px] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch border border-border",
+        "w-[420px] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch border border-border",
         className
       )}
     >
