@@ -77,6 +77,13 @@ const Generations = () => {
                   alt={`Generation ${item.id}`}
                   className="w-full h-full object-cover"
                 />
+                {item.mask && (
+                  <img
+                    src={item.mask}
+                    alt="Mask"
+                    className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -86,12 +93,19 @@ const Generations = () => {
               <Carousel opts={{ loop: true }} setApi={setCarouselApi} className="relative">
                 <CarouselContent>
                   {sortedGenerations.map((item) => (
-                    <CarouselItem key={item.id} className="flex items-center justify-center">
+                    <CarouselItem key={item.id} className="flex items-center justify-center relative">
                       <img
                         src={item.image}
                         alt={`Generation ${item.id}`}
                         className="max-h-[80vh] w-full object-contain"
                       />
+                      {item.mask && (
+                        <img
+                          src={item.mask}
+                          alt="Mask"
+                          className="absolute inset-0 max-h-[80vh] w-full object-contain opacity-50 pointer-events-none"
+                        />
+                      )}
                     </CarouselItem>
                   ))}
                 </CarouselContent>
