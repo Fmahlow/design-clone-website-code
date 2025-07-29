@@ -38,7 +38,7 @@ const PreviousGenerations = ({ onSelect }: PreviousGenerationsProps) => {
             {generations.map(image => (
               <div
                 key={image.id}
-                className="flex-shrink-0 w-20 h-20 bg-muted rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                className="relative flex-shrink-0 w-20 h-20 bg-muted rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
                 onDoubleClick={() => onSelect?.(image.image)}
                 draggable
                 onDragStart={e => {
@@ -46,6 +46,9 @@ const PreviousGenerations = ({ onSelect }: PreviousGenerationsProps) => {
                 }}
               >
                 <img src={image.image} alt="geração" className="w-full h-full object-cover" />
+                {image.mask && (
+                  <img src={image.mask} alt="máscara" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none" />
+                )}
               </div>
             ))}
           </div>
