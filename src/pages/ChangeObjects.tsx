@@ -22,6 +22,7 @@ const ChangeObjects = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [reference, setReference] = useState<File | null>(null);
   const [mode, setMode] = useState("texto");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [descCollapsed, setDescCollapsed] = useState(false);
@@ -101,6 +102,9 @@ const ChangeObjects = () => {
       const form = new FormData();
       form.append('image', imageBlob, 'image.png');
       form.append('prompt', translated);
+      if (reference) {
+        form.append('reference', reference, 'reference.png');
+      }
 
       if (mode === 'texto') {
         const res = await fetch('/flux-edit', { method: 'POST', body: form });
@@ -227,6 +231,7 @@ const ChangeObjects = () => {
             collapsed={descCollapsed}
             onToggleCollapse={toggleDesc}
             className="w-[480px] mr-4"
+            onReferenceChange={setReference}
           />
         </div>
       </div>

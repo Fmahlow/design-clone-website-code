@@ -235,7 +235,7 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
     return result
 
 
-def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str) -> Image.Image:
+def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str, image_reference: Image.Image | None) -> Image.Image:
     image = image.convert("RGB")
     mask = mask.convert("RGB")
     mask = inpaint_pipe.mask_processor.blur(mask, blur_factor=12)
@@ -243,7 +243,7 @@ def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str) -> Image.I
         prompt=prompt,
         image=image,
         mask_image=mask,
-        image_reference=image,
+        image_reference=image_reference if image_reference is not None else image,
         strength=1.0,
     ).images[0]
 
@@ -285,12 +285,14 @@ def change_style():
 def inpaint():
     file = request.files.get("image")
     mask_file = request.files.get("mask")
+    reference_file = request.files.get("reference")
     prompt = request.form.get("prompt", "")
     if file is None or mask_file is None:
         return jsonify({"error": "image and mask required"}), 400
     img = Image.open(file.stream).convert("RGB")
     mask = Image.open(mask_file.stream).convert("RGB")
-    result = inpaint_image(img, mask, prompt)
+    ref_img = Image.open(reference_file.stream).convert("RGB") if reference_file else None
+    result = inpaint_image(img, mask, prompt, ref_img)
     buf = io.BytesIO()
     result.save(buf, format="PNG")
     buf.seek(0)
