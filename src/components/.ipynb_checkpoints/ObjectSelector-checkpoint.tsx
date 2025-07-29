@@ -269,7 +269,7 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
       outData.data[i] = value;
       outData.data[i + 1] = value;
       outData.data[i + 2] = value;
-      outData.data[i + 3] = value;
+      outData.data[i + 3] = 255;
     }
 
     const expanded = expandImageData(outData);

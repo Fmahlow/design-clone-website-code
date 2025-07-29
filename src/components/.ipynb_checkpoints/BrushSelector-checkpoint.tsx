@@ -38,8 +38,9 @@ const BrushSelector = forwardRef<BrushSelectorHandle, BrushSelectorProps>(({ ima
       out.width = img.naturalWidth;
       out.height = img.naturalHeight;
       const ctx = out.getContext('2d')!;
-        
-      ctx.clearRect(0, 0, out.width, out.height);
+      // fill background black then draw the current mask scaled to the image size
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, out.width, out.height);
       ctx.drawImage(canvas, 0, 0, out.width, out.height);
       // convert non-transparent pixels to white to ensure a binary mask
       const imgData = ctx.getImageData(0, 0, out.width, out.height);

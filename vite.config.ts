@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
     host: true,  // bind explícito em IPv4 + IPv6
     port: 8080,
     allowedHosts: [
-      '678cbe411efb.ngrok-free.app'
+      'c7b59e44a1b6.ngrok-free.app'
     ],
     open: true,
     proxy: {
