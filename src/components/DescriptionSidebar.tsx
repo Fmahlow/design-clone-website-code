@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Check, X as XIcon } from "lucide-react";
+import { useState, useRef } from "react";
 
 interface DescriptionSidebarProps {
   className?: string;
@@ -25,6 +28,22 @@ const DescriptionSidebar = ({
   collapsed,
   onToggleCollapse,
 }: DescriptionSidebarProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [addRef, setAddRef] = useState<'sim' | 'nao'>('nao');
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] || null;
+    setFile(f);
+    if (f) {
+      const reader = new FileReader();
+      reader.onload = () => setPreview(reader.result as string);
+      reader.readAsDataURL(f);
+    } else {
+      setPreview(null);
+    }
+  };
   return (
     <div
       className={cn(
@@ -61,6 +80,44 @@ const DescriptionSidebar = ({
                 value={description}
                 onChange={(e) => onDescriptionChange?.(e.target.value)}
               />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-foreground">Adicionar imagem de referência?</Label>
+              <ToggleGroup
+                type="single"
+                value={addRef}
+                onValueChange={(v) => v && setAddRef(v as 'sim' | 'nao')}
+                size="sm"
+              >
+                <ToggleGroupItem value="sim">
+                  <Check className="w-4 h-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="nao">
+                  <XIcon className="w-4 h-4" />
+                </ToggleGroupItem>
+              </ToggleGroup>
+              {addRef === 'sim' && (
+                <>
+                  <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} />
+                  {preview && (
+                    <div className="mt-2 flex justify-center">
+                      <div className="relative">
+                        <img src={preview} alt="Pré-visualização" className="max-h-32 rounded object-contain" />
+                        <button
+                          className="absolute top-1 right-1 bg-background/70 rounded-full p-1"
+                          onClick={() => {
+                            setFile(null);
+                            setPreview(null);
+                            if (fileInputRef.current) fileInputRef.current.value = "";
+                          }}
+                        >
+                          <XIcon className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </>
