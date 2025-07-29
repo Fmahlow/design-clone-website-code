@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp, Check, X as XIcon } from "lucide-react";
+import { ChevronDown, ChevronUp, Check, X as XIcon, Upload } from "lucide-react";
 import { useState, useRef } from "react";
 
 interface DescriptionSidebarProps {
@@ -93,15 +93,14 @@ const DescriptionSidebar = ({
                 >
                   {(['sim', 'nao'] as const).map((v) => {
                     const Icon = v === 'sim' ? Check : XIcon;
-                    const isActive = addRef === v;
                     return (
                       <ToggleGroupItem
                         key={v}
                         value={v}
                         className={cn(
-                          'w-8 h-8 p-0 flex items-center justify-center',
-                          isActive ? 'bg-white text-black' : 'text-gray-600',
-                          'hover:bg-muted/50 focus-visible:ring-white'
+                          'w-8 h-8 p-0 flex items-center justify-center text-gray-600',
+                          'hover:bg-muted/50 focus-visible:ring-white',
+                          'data-[state=on]:bg-white data-[state=on]:text-black'
                         )}
                       >
                         <Icon className="w-4 h-4" />
@@ -113,13 +112,14 @@ const DescriptionSidebar = ({
               {addRef === 'sim' && (
                 <>
                   {!preview && (
-                    <div className="p-4 rounded-lg border-2 border-dashed border-primary bg-white text-center space-y-2">
-                      <p className="text-sm text-muted-foreground">arraste ou clique no botão abaixo para enviar</p>
+                    <div className="p-4 rounded-lg border-2 border-dashed border-primary bg-white text-center space-y-2 w-72 mx-auto">
+                      <p className="text-sm text-muted-foreground">Arraste ou clique no botão abaixo para enviar</p>
                       <Button
                         variant="outline"
-                        className="border-gray-300 bg-white hover:bg-gray-100 text-foreground"
+                        className="border-2 border-gray-300 bg-white hover:bg-gray-100 text-foreground rounded-lg inline-flex items-center"
                         onClick={() => fileInputRef.current?.click()}
                       >
+                        <Upload className="w-4 h-4 mr-2" />
                         Enviar arquivo
                       </Button>
                     </div>
