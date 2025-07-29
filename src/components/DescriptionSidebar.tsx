@@ -101,7 +101,7 @@ const DescriptionSidebar = ({
                         className={cn(
                           'w-8 h-8 p-0 flex items-center justify-center',
                           isActive ? 'bg-white text-black' : 'text-gray-600',
-                          'hover:bg-muted/50'
+                          'hover:bg-muted/50 focus-visible:ring-white'
                         )}
                       >
                         <Icon className="w-4 h-4" />
@@ -112,7 +112,19 @@ const DescriptionSidebar = ({
               </div>
               {addRef === 'sim' && (
                 <>
-                  <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} />
+                  {!preview && (
+                    <div className="p-4 rounded-lg border-2 border-dashed border-primary bg-white text-center space-y-2">
+                      <p className="text-sm text-muted-foreground">arraste ou clique no botão abaixo para enviar</p>
+                      <Button
+                        variant="outline"
+                        className="border-gray-300 bg-white hover:bg-gray-100 text-foreground"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        Enviar arquivo
+                      </Button>
+                    </div>
+                  )}
+                  <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
                   {preview && (
                     <div className="mt-2 flex justify-center">
                       <div className="relative">
