@@ -26,7 +26,7 @@ const DescriptionSidebar = ({
   onToggleCollapse,
 }: DescriptionSidebarProps) => {
   return (
-    <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
+    <div className={cn("w-[320px] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">
           <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
