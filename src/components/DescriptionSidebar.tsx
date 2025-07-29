@@ -82,20 +82,34 @@ const DescriptionSidebar = ({
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">Adicionar imagem de referência?</Label>
-              <ToggleGroup
-                type="single"
-                value={addRef}
-                onValueChange={(v) => v && setAddRef(v as 'sim' | 'nao')}
-                size="sm"
-              >
-                <ToggleGroupItem value="sim">
-                  <Check className="w-4 h-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="nao">
-                  <XIcon className="w-4 h-4" />
-                </ToggleGroupItem>
-              </ToggleGroup>
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-foreground">Adicionar imagem de referência?</Label>
+                <ToggleGroup
+                  type="single"
+                  value={addRef}
+                  onValueChange={(v) => v && setAddRef(v as 'sim' | 'nao')}
+                  size="sm"
+                  className="inline-flex gap-1 p-1 border border-border rounded-md bg-gray-50"
+                >
+                  {(['sim', 'nao'] as const).map((v) => {
+                    const Icon = v === 'sim' ? Check : XIcon;
+                    const isActive = addRef === v;
+                    return (
+                      <ToggleGroupItem
+                        key={v}
+                        value={v}
+                        className={cn(
+                          'w-8 h-8 p-0 flex items-center justify-center',
+                          isActive ? 'bg-white text-black' : 'text-gray-600',
+                          'hover:bg-muted/50'
+                        )}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </ToggleGroupItem>
+                    );
+                  })}
+                </ToggleGroup>
+              </div>
               {addRef === 'sim' && (
                 <>
                   <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} />
