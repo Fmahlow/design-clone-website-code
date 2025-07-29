@@ -117,7 +117,7 @@ const DescriptionSidebar = ({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-2 border-gray-300 bg-white hover:bg-white hover:brightness-110 text-foreground rounded-lg inline-flex items-center"
+                        className="border-2 border-gray-300 bg-white hover:bg-white hover:brightness-110 hover:text-foreground text-foreground rounded-lg inline-flex items-center"
                         onClick={() => fileInputRef.current?.click()}
                       >
                         <Upload className="w-4 h-4 mr-2" />

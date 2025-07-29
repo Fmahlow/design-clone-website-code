@@ -9,9 +9,10 @@ interface UploadAreaProps {
   image?: string | null;
   loading?: boolean;
   headerRight?: React.ReactNode;
+  overlayLeft?: React.ReactNode;
 }
 
-const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, loading = false, headerRight }: UploadAreaProps) => {
+const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, loading = false, headerRight, overlayLeft }: UploadAreaProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(image ?? null);
   const [elapsed, setElapsed] = useState(0);
@@ -109,12 +110,17 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
 
         {/* Upload area with prompt, preview and button inside larger dashed box */}
         <div className="bg-card rounded-xl px-8 py-2 text-center mb-1 mx-auto max-w-4xl">
-          <div
+        <div
             className={`relative w-full ${preview ? '' : 'h-[32rem]'} border-dashed border-2 border-muted rounded-lg ${!preview ? 'cursor-pointer' : ''} overflow-hidden flex items-center justify-center`}
             onClick={() => !preview && fileInputRef.current?.click()}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
           >
+            {overlayLeft && (
+              <div className="absolute top-2 left-2 z-10">
+                {overlayLeft}
+              </div>
+            )}
             {preview && loading && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm text-white">
                 <img src="/src/components/logo.svg" className="w-16 h-16 wobble mb-2" alt="logo" />
