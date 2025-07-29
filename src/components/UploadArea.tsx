@@ -111,9 +111,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
         {/* Upload area with prompt, preview and button inside larger dashed box */}
         <div className="bg-card rounded-xl px-8 py-2 text-center mb-1 mx-auto max-w-4xl relative">
         {overlayLeft && (
-          <div
-            className={`absolute ${preview ? 'top-2 left-2' : '-top-14 -left-12'} z-10`}
-          >
+          <div className="absolute -top-14 -left-12 z-10">
             {overlayLeft}
           </div>
         )}
