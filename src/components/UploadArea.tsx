@@ -88,7 +88,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
         {!preview && (
           <div className={`mb-3 ${headerRight ? 'relative' : 'text-center'}`}>
             {headerRight && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2">
+              <div className="absolute -left-4 top-1/2 -translate-y-1/2">
                 {headerRight}
               </div>
             )}
