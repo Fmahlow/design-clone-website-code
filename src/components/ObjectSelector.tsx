@@ -195,6 +195,13 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
   const expandImageData = (imageData: ImageData): ImageData => {
     const { width, height, data } = imageData;
     const expanded = new Uint8ClampedArray(data.length);
+    // initialize with black
+    for (let i = 0; i < expanded.length; i += 4) {
+      expanded[i] = 0;
+      expanded[i + 1] = 0;
+      expanded[i + 2] = 0;
+      expanded[i + 3] = 255;
+    }
     // expand the mask by roughly 5% of its size
     const radius = Math.ceil(Math.max(width, height) * 0.025);
     for (let y = 0; y < height; y++) {
@@ -227,10 +234,14 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, width, height);
-    const imageData = ctx.getImageData(0, 0, width, height);
+    const imageData = ctx.createImageData(width, height);
     const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 0;
+      data[i + 1] = 0;
+      data[i + 2] = 0;
+      data[i + 3] = 255;
+    }
     selectedMasks.forEach(sm => {
       for (let i = 0; i < width * height; i++) {
         if (sm.mask.data[sm.numMasks * i + sm.bestIndex] === 1) {
