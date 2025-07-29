@@ -34,7 +34,7 @@ const ChangeStyle = () => {
       const outBlob = await res.blob();
       const dataUrl = await blobToDataURL(outBlob);
       setImage(dataUrl);
-      addGeneration(dataUrl);
+      addGeneration(dataUrl, null);
     } catch (err) {
       console.error('style generation failed', err);
     } finally {

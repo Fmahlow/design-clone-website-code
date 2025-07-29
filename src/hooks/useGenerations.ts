@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export interface Generation {
   id: string;
   image: string;
+  mask?: string;
   date: string;
 }
 
@@ -50,8 +51,8 @@ export default function useGenerations() {
     };
   }, []);
 
-  const addGeneration = (image: string) => {
-    const gen: Generation = { id: Date.now().toString(), image, date: new Date().toISOString() };
+  const addGeneration = (image: string, mask?: string) => {
+    const gen: Generation = { id: Date.now().toString(), image, mask, date: new Date().toISOString() };
     const updated = [gen, ...loadGenerations()];
     saveGenerations(updated);
   };
