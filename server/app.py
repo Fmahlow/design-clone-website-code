@@ -166,13 +166,13 @@ flux_pipe = FluxKontextPipeline.from_pretrained(
 flux_pipe.to("cuda")
 integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
-# Initialize Flux Kontext inpainting pipeline
-check_min_version("0.30.2")
-inpaint_pipe = FluxKontextInpaintPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-Kontext-dev",
-    torch_dtype=torch.bfloat16,
-)
-inpaint_pipe.to("cuda")
+# Initialize Flux Kontext inpainting pipeline (temporarily disabled)
+# check_min_version("0.30.2")
+# inpaint_pipe = FluxKontextInpaintPipeline.from_pretrained(
+#     "black-forest-labs/FLUX.1-Kontext-dev",
+#     torch_dtype=torch.bfloat16,
+# )
+# inpaint_pipe.to("cuda")
 
 # Style prompts in Portuguese
 style_prompts = {
@@ -238,16 +238,17 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
 def inpaint_image(image: Image.Image, mask: Image.Image, prompt: str, image_reference: Image.Image | None) -> Image.Image:
     image = image.convert("RGB")
     mask = mask.convert("RGB")
-    mask = inpaint_pipe.mask_processor.blur(mask, blur_factor=12)
-    result = inpaint_pipe(
-        prompt=prompt,
-        image=image,
-        mask_image=mask,
-        image_reference=image_reference if image_reference is not None else image,
-        strength=1.0,
-    ).images[0]
+    # Temporarily return the mask instead of performing inpainting
+    # mask = inpaint_pipe.mask_processor.blur(mask, blur_factor=12)
+    # result = inpaint_pipe(
+    #     prompt=prompt,
+    #     image=image,
+    #     mask_image=mask,
+    #     image_reference=image_reference if image_reference is not None else image,
+    #     strength=1.0,
+    # ).images[0]
 
-    return result
+    return mask
 
 @app.post("/detect")
 def detect_objects():
