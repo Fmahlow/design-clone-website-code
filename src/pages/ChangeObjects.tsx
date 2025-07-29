@@ -229,7 +229,7 @@ const ChangeObjects = () => {
           </div>
         </div>
 
-        <div className="mr-6 mt-2 self-start flex-none flex flex-col space-y-4">
+        <div className="mr-2 mt-2 self-start flex-none flex flex-col space-y-4">
           <DescriptionSidebar
             description={prompt}
             onDescriptionChange={setPrompt}
@@ -237,6 +237,7 @@ const ChangeObjects = () => {
             disableGenerate={loading}
             collapsed={descCollapsed}
             onToggleCollapse={toggleDesc}
+            className="w-[480px] mr-4"
           />
           <ReferenceSidebar
             onGenerate={handleGenerate}
@@ -244,6 +245,7 @@ const ChangeObjects = () => {
             collapsed={refCollapsed}
             onToggleCollapse={toggleRef}
             onImageSelected={setRefImage}
+            className="w-[480px] mr-4"
           />
         </div>
       </div>

@@ -32,15 +32,15 @@ const DescriptionSidebar = ({
         className
       )}
     >
-      <div className="flex items-center justify-between mb-2">
+      <div className="relative flex items-center justify-center mb-2 pr-6">
         <div className="flex items-center space-x-2">
           <div className="inline-flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
             <span className="text-sm">2</span>
           </div>
-          <h2 className="text-lg font-semibold text-foreground">Detalhe sua imagem</h2>
+          <h2 className="text-lg font-semibold text-foreground text-center">Detalhe sua imagem</h2>
         </div>
         {onToggleCollapse && (
-          <button className="p-1" onClick={onToggleCollapse}>
+          <button className="p-1 absolute right-0" onClick={onToggleCollapse}>
             {collapsed ? (
               <ChevronDown className="w-4 h-4" />
             ) : (
