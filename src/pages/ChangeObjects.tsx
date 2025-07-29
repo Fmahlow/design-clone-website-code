@@ -148,7 +148,7 @@ const ChangeObjects = () => {
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
             <UploadArea
-              headerRight={<ModeSelector mode={mode} onModeChange={setMode} />}
+              overlayLeft={<ModeSelector mode={mode} onModeChange={setMode} />}
               onImageSelected={handleUpload}
               onRemoveImage={() =>
                 originalImage && setImage(originalImage)
@@ -156,9 +156,8 @@ const ChangeObjects = () => {
               image={image}
               loading={loading}
               renderPreview={(img) => (
-                <div className="w-fit flex flex-col items-start self-start">
-                  <ModeSelector mode={mode} onModeChange={setMode} className="mb-2 self-start" />
-                  <div className="flex items-center" ref={previewRef}>
+                <div className="w-fit" ref={previewRef}>
+                  <div className="flex items-center">
                     <div className="relative">
                       {mode === 'inteligente' && (
                         <ObjectSelector ref={selectorRef} image={img} />
