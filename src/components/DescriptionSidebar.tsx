@@ -16,6 +16,7 @@ interface DescriptionSidebarProps {
   hideDescription?: boolean;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  onReferenceChange?: (file: File | null) => void;
 }
 
 const DescriptionSidebar = ({
@@ -27,6 +28,7 @@ const DescriptionSidebar = ({
   hideDescription,
   collapsed,
   onToggleCollapse,
+  onReferenceChange,
 }: DescriptionSidebarProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [addRef, setAddRef] = useState<'sim' | 'nao'>('nao');
@@ -36,6 +38,7 @@ const DescriptionSidebar = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] || null;
     setFile(f);
+    onReferenceChange?.(f);
     if (f) {
       const reader = new FileReader();
       reader.onload = () => setPreview(reader.result as string);
@@ -87,7 +90,17 @@ const DescriptionSidebar = ({
                 <ToggleGroup
                   type="single"
                   value={addRef}
-                  onValueChange={(v) => v && setAddRef(v as 'sim' | 'nao')}
+                  onValueChange={(v) => {
+                    if (!v) return;
+                    const val = v as 'sim' | 'nao';
+                    setAddRef(val);
+                    if (val === 'nao') {
+                      setFile(null);
+                      setPreview(null);
+                      if (fileInputRef.current) fileInputRef.current.value = "";
+                      onReferenceChange?.(null);
+                    }
+                  }}
                   size="sm"
                   className="inline-flex gap-1 p-1 border border-border rounded-md bg-gray-50"
                 >
@@ -136,6 +149,7 @@ const DescriptionSidebar = ({
                             setFile(null);
                             setPreview(null);
                             if (fileInputRef.current) fileInputRef.current.value = "";
+                            onReferenceChange?.(null);
                           }}
                         >
                           <XIcon className="w-4 h-4" />
