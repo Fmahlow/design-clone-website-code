@@ -24,17 +24,25 @@ const ReferenceSidebar = ({
 }: ReferenceSidebarProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] || null;
     setFile(f);
     onImageSelected?.(f);
+    if (f) {
+      const reader = new FileReader();
+      reader.onload = () => setPreview(reader.result as string);
+      reader.readAsDataURL(f);
+    } else {
+      setPreview(null);
+    }
   };
 
   return (
     <div
       className={cn(
-        "w-[360px] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch border border-border",
+        "w-[420px] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch border border-border",
         className
       )}
     >
@@ -60,6 +68,15 @@ const ReferenceSidebar = ({
           <div className="space-y-2 mb-4">
             <Label className="text-sm font-medium text-foreground">Enviar imagem de referência</Label>
             <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} />
+            {preview && (
+              <div className="mt-2 flex justify-center">
+                <img
+                  src={preview}
+                  alt="Pré-visualização"
+                  className="max-h-32 rounded object-contain"
+                />
+              </div>
+            )}
           </div>
           {onGenerate && (
             <Button
