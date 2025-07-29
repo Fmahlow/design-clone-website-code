@@ -228,32 +228,51 @@ const ObjectSelector = forwardRef<ObjectSelectorHandle, ObjectSelectorProps>(({ 
 
   const exportMask = (): string | null => {
     if (selectedMasks.length === 0) return null;
-    const width = selectedMasks[0].mask.width;
-    const height = selectedMasks[0].mask.height;
+
+    const img = imgRef.current;
+    if (!img) return null;
+
+    const width = img.naturalWidth;
+    const height = img.naturalHeight;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d')!;
-    const imageData = ctx.createImageData(width, height);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 0;
-      data[i + 1] = 0;
-      data[i + 2] = 0;
-      data[i + 3] = 255;
-    }
+    ctx.imageSmoothingEnabled = false;
+
+    // Draw each selected mask scaled up to the original image size
     selectedMasks.forEach(sm => {
-      for (let i = 0; i < width * height; i++) {
+      const off = document.createElement('canvas');
+      off.width = sm.mask.width;
+      off.height = sm.mask.height;
+      const offCtx = off.getContext('2d')!;
+      const imgData = offCtx.createImageData(off.width, off.height);
+      for (let i = 0; i < imgData.data.length; i++) {
         if (sm.mask.data[sm.numMasks * i + sm.bestIndex] === 1) {
-          const off = i * 4;
-          data[off] = 255;
-          data[off + 1] = 255;
-          data[off + 2] = 255;
-          data[off + 3] = 255;
+          const o = i * 4;
+          imgData.data[o] = 255;
+          imgData.data[o + 1] = 255;
+          imgData.data[o + 2] = 255;
+          imgData.data[o + 3] = 255;
         }
       }
+      offCtx.putImageData(imgData, 0, 0);
+      ctx.drawImage(off, 0, 0, width, height);
     });
-    const expanded = expandImageData(imageData);
+
+    // Convert to binary mask
+    const maskPixels = ctx.getImageData(0, 0, width, height);
+    const outData = ctx.createImageData(width, height);
+    for (let i = 0; i < maskPixels.data.length; i += 4) {
+      const isSelected = maskPixels.data[i + 3] > 0;
+      const value = isSelected ? 255 : 0;
+      outData.data[i] = value;
+      outData.data[i + 1] = value;
+      outData.data[i + 2] = value;
+      outData.data[i + 3] = 255;
+    }
+
+    const expanded = expandImageData(outData);
     ctx.putImageData(expanded, 0, 0);
     return canvas.toDataURL('image/png');
   };
