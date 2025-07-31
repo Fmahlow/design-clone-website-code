@@ -82,73 +82,73 @@ scheduler = DPMSolverMultistepScheduler.from_pretrained(
 )
 
 # Base model
-base_model_url = "https://huggingface.co/Lykon/AbsoluteReality/blob/main/AbsoluteReality_1.8.1_pruned.safetensors"
+#base_model_url = "https://huggingface.co/Lykon/AbsoluteReality/blob/main/AbsoluteReality_1.8.1_pruned.safetensors"
 
 print("loading pipe")
-pipe = StableDiffusionControlNetPipeline.from_single_file(
-    base_model_url,
-    safety_checker=None,
-    controlnet=controlnet,
-    scheduler=scheduler,
-    torch_dtype=torch.float16,
-).to("cuda")
+#pipe = StableDiffusionControlNetPipeline.from_single_file(
+#    base_model_url,
+#    safety_checker=None,
+#    controlnet=controlnet,
+#    scheduler=scheduler,
+#    torch_dtype=torch.float16,
+#).to("cuda")
 
 print("loading preprocessor")
-preprocessor = Preprocessor()
-preprocessor.load("NormalBae")
+#preprocessor = Preprocessor()
+#preprocessor.load("NormalBae")
 
 # textual inversions
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="EasyNegativeV2.safetensors",
-    token="EasyNegativeV2",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="badhandv4.pt",
-    token="badhandv4",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="fcNeg-neg.pt",
-    token="fcNeg-neg",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_Ahegao.pt",
-    token="HDA_Ahegao",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_Bondage.pt",
-    token="HDA_Bondage",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_pet_play.pt",
-    token="HDA_pet_play",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_unconventional maid.pt",
-    token="HDA_unconventional_maid",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_NakedHoodie.pt",
-    token="HDA_NakedHoodie",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_NunDress.pt",
-    token="HDA_NunDress",
-)
-pipe.load_textual_inversion(
-    "broyang/hentaidigitalart_v20",
-    weight_name="HDA_Shibari.pt",
-    token="HDA_Shibari",
-)
-pipe.to("cuda")
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="EasyNegativeV2.safetensors",
+#    token="EasyNegativeV2",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="badhandv4.pt",
+#    token="badhandv4",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="fcNeg-neg.pt",
+#    token="fcNeg-neg",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_Ahegao.pt",
+#    token="HDA_Ahegao",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_Bondage.pt",
+#    token="HDA_Bondage",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_pet_play.pt",
+#    token="HDA_pet_play",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_unconventional maid.pt",
+#    token="HDA_unconventional_maid",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_NakedHoodie.pt",
+#    token="HDA_NakedHoodie",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_NunDress.pt",
+#    token="HDA_NunDress",
+#)
+#pipe.load_textual_inversion(
+#    "broyang/hentaidigitalart_v20",
+#    weight_name="HDA_Shibari.pt",
+#    token="HDA_Shibari",
+#)
+#pipe.to("cuda")
 
 print("---------------Loaded controlnet pipeline---------------")
 torch.cuda.empty_cache()
@@ -159,20 +159,20 @@ print(
 
 # Initialize Flux Kontext pipeline for chat-based edits
 print("loading Flux Kontext pipeline")
-#flux_pipe = FluxKontextPipeline.from_pretrained(
-#    "black-forest-labs/FLUX.1-Kontext-dev",
-#    torch_dtype=torch.bfloat16,
-#)
-#flux_pipe.to("cuda")
+flux_pipe = FluxKontextPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-Kontext-dev",
+    torch_dtype=torch.bfloat16
+)
+flux_pipe.to("cuda")
 #integrity_checker = PixtralContentFilter(torch.device("cuda"))
 
 # Initialize Flux Kontext inpainting pipeline
 check_min_version("0.30.2")
-inpaint_pipe = FluxKontextInpaintPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-Kontext-dev",
-    torch_dtype=torch.bfloat16,
-)
-inpaint_pipe.to("cuda")
+#inpaint_pipe = FluxKontextInpaintPipeline.from_pretrained(
+#    "black-forest-labs/FLUX.1-Kontext-dev",
+#    torch_dtype=torch.bfloat16,
+#)
+#inpaint_pipe.to("cuda")
 
 # Style prompts in Portuguese
 style_prompts = {
@@ -217,11 +217,11 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
         prompt = f"Photo from Pinterest of {style_prompt}"
     else:
         prompt = "Photo from Pinterest"
-    print(f"Prompt: {prompt}")
 
     negative_prompt = (
         "EasyNegativeV2, fcNeg, (badhandv4:1.4), (worst quality, low quality, bad quality, normal quality:2.0), (bad hands, missing fingers, extra fingers:2.0)"
     )
+    print(f"Prompt: {prompt}")
 
     result = pipe(
         prompt=prompt,
@@ -307,6 +307,7 @@ def flux_edit():
     prompt = request.form.get("prompt", "")
     if file is None or not prompt:
         return jsonify({"error": "image and prompt required"}), 400
+    print(prompt)
     img = Image.open(file.stream).convert("RGB")
     image = flux_pipe(image=img, prompt=prompt, guidance_scale=2.5).images[0]
     image_ = np.array(image) / 255.0
