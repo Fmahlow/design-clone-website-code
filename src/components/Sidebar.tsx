@@ -17,7 +17,6 @@ const Sidebar = () => {
     { divider: true },
     { icon: BrushCleaning, label: "Esvaziar Cômodo", path: "/empty-room" },
     { icon: Armchair, label: "Alterar objetos", path: "/change-objects" },
-    { icon: RefreshCcwDot, label: "Mudar Estilo", path: "/change-style" },
     { icon: PackagePlus, label: "Completar Cômodo", path: "/improve-render" },
   ];
 

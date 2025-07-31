@@ -21,30 +21,6 @@ const ROOM_LABEL: Record<string, string> = {
   "banheiro": "banheiro",
 };
 
-const STYLES = [
-  "Nenhum",
-  "Minimalista",
-  "Boêmio",
-  "Fazenda",
-  "Príncipe Saudita",
-  "Neoclássico",
-  "Eclético",
-  "Parisiense",
-  "Hollywood",
-  "Escandinavo",
-  "Praia",
-  "Japonês",
-  "Meados do Século Moderno",
-  "Retro-futurismo",
-  "Texano",
-  "Matrix",
-];
-
-const STYLE_LABEL: Record<string, string> = STYLES.reduce((acc, s) => {
-  const key = s.toLowerCase().replace(/\s+/g, '-');
-  acc[key] = s.toLowerCase();
-  return acc;
-}, {} as Record<string, string>);
 
 async function blobToDataURL(blob: Blob): Promise<string> {
   return new Promise((resolve) => {
@@ -57,9 +33,9 @@ async function blobToDataURL(blob: Blob): Promise<string> {
 const Index = () => {
   const { addGeneration } = useGenerations();
   const [image, setImage] = useState<string | null>(null);
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [room, setRoom] = useState<string>("sala-estar");
   const [items, setItems] = useState<string[]>(ROOM_OBJECTS["sala-estar"]);
-  const [style, setStyle] = useState<string>("nenhum");
   const [loading, setLoading] = useState(false);
 
   const handleRoomChange = (r: string) => {
@@ -77,6 +53,7 @@ const Index = () => {
 
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
+    setOriginalImage(dataUrl);
   };
 
   const handleGenerate = async () => {
@@ -85,9 +62,7 @@ const Index = () => {
     try {
       const prompt = `${items
         .map((i) => `Adicionar ${i}`)
-        .join(", ")}. A ${ROOM_LABEL[room]} deve ficar harmônica e elegante${
-        style !== "nenhum" ? ` com estilo ${STYLE_LABEL[style]}` : ""
-      }.`;
+        .join(", ")}. A ${ROOM_LABEL[room]} deve ficar harmônica e elegante.`;
       const translated = await translateToEnglish(prompt);
       const blob = await fetch(image).then((r) => r.blob());
       const form = new FormData();
@@ -119,8 +94,13 @@ const Index = () => {
       <div className="flex flex-1 items-start overflow-auto">
         <div className="flex-1 flex flex-col px-2 pt-2 pb-8">
           <div className="bg-card rounded-2xl overflow-hidden border border-border w-full max-w-5xl mx-auto">
-            <UploadArea onImageSelected={handleUpload} image={image} loading={loading} />
-            <PreviousGenerations onSelect={(img) => setImage(img)} />
+            <UploadArea
+              onImageSelected={handleUpload}
+              onRemoveImage={() => originalImage && setImage(originalImage)}
+              image={image}
+              loading={loading}
+            />
+            <PreviousGenerations onSelect={(img) => { setImage(img); setOriginalImage(img); }} />
           </div>
         </div>
 
@@ -131,8 +111,6 @@ const Index = () => {
           items={items}
           onRemoveItem={handleRemoveItem}
           onAddItem={handleAddItem}
-          style={style}
-          onStyleChange={setStyle}
           onGenerate={handleGenerate}
           disableGenerate={loading}
         />
