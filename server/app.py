@@ -309,7 +309,14 @@ def flux_edit():
         return jsonify({"error": "image and prompt required"}), 400
     print(prompt)
     img = Image.open(file.stream).convert("RGB")
-    image = flux_pipe(image=img, prompt=prompt, guidance_scale=2.5).images[0]
+    seed = random.randint(0, MAX_SEED)
+    generator = torch.Generator(device="cuda").manual_seed(seed)
+    image = flux_pipe(
+        image=img,
+        prompt=prompt,
+        guidance_scale=2.5,
+        generator=generator,
+    ).images[0]
     image_ = np.array(image) / 255.0
     image_ = 2 * image_ - 1
     image_ = (
