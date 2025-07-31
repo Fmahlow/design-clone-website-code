@@ -21,6 +21,31 @@ const ROOM_LABEL: Record<string, string> = {
   "banheiro": "banheiro",
 };
 
+const STYLES = [
+  "Nenhum",
+  "Minimalista",
+  "Boêmio",
+  "Fazenda",
+  "Príncipe Saudita",
+  "Neoclássico",
+  "Eclético",
+  "Parisiense",
+  "Hollywood",
+  "Escandinavo",
+  "Praia",
+  "Japonês",
+  "Meados do Século Moderno",
+  "Retro-futurismo",
+  "Texano",
+  "Matrix",
+];
+
+const STYLE_LABEL: Record<string, string> = STYLES.reduce((acc, s) => {
+  const key = s.toLowerCase().replace(/\s+/g, '-');
+  acc[key] = s.toLowerCase();
+  return acc;
+}, {} as Record<string, string>);
+
 async function blobToDataURL(blob: Blob): Promise<string> {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -34,6 +59,7 @@ const Index = () => {
   const [image, setImage] = useState<string | null>(null);
   const [room, setRoom] = useState<string>("sala-estar");
   const [items, setItems] = useState<string[]>(ROOM_OBJECTS["sala-estar"]);
+  const [style, setStyle] = useState<string>("nenhum");
   const [loading, setLoading] = useState(false);
 
   const handleRoomChange = (r: string) => {
@@ -45,6 +71,10 @@ const Index = () => {
     setItems((prev) => prev.filter((i) => i !== it));
   };
 
+  const handleAddItem = (it: string) => {
+    setItems((prev) => [...prev, it]);
+  };
+
   const handleUpload = (dataUrl: string) => {
     setImage(dataUrl);
   };
@@ -54,7 +84,7 @@ const Index = () => {
     setLoading(true);
     try {
       const prompt = `${items.map((i) => `Adicionar ${i}`).join(", ")}.
-        A ${ROOM_LABEL[room]} deve ficar harmônica e elegante.`;
+        A ${ROOM_LABEL[room]} deve ficar harmônica e elegante${style !== "nenhum" ? ` com estilo ${STYLE_LABEL[style]}` : ""}.`;
       const translated = await translateToEnglish(prompt);
       const blob = await fetch(image).then((r) => r.blob());
       const form = new FormData();
@@ -97,6 +127,9 @@ const Index = () => {
           onRoomChange={handleRoomChange}
           items={items}
           onRemoveItem={handleRemoveItem}
+          onAddItem={handleAddItem}
+          style={style}
+          onStyleChange={setStyle}
           onGenerate={handleGenerate}
           disableGenerate={loading}
         />

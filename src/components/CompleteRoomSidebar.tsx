@@ -1,8 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+
+const styles = [
+  "Nenhum",
+  "Minimalista",
+  "Boêmio",
+  "Fazenda",
+  "Príncipe Saudita",
+  "Neoclássico",
+  "Eclético",
+  "Parisiense",
+  "Hollywood",
+  "Escandinavo",
+  "Praia",
+  "Japonês",
+  "Meados do Século Moderno",
+  "Retro-futurismo",
+  "Texano",
+  "Matrix",
+];
 
 interface CompleteRoomSidebarProps {
   className?: string;
@@ -10,6 +30,9 @@ interface CompleteRoomSidebarProps {
   onRoomChange?: (room: string) => void;
   items: string[];
   onRemoveItem?: (item: string) => void;
+  onAddItem?: (item: string) => void;
+  style: string;
+  onStyleChange?: (style: string) => void;
   onGenerate?: () => void;
   disableGenerate?: boolean;
 }
@@ -20,9 +43,24 @@ const CompleteRoomSidebar = ({
   onRoomChange,
   items,
   onRemoveItem,
+  onAddItem,
+  style,
+  onStyleChange,
   onGenerate,
   disableGenerate,
 }: CompleteRoomSidebarProps) => {
+  const [newItem, setNewItem] = useState("");
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const value = newItem.trim();
+      if (value) {
+        onAddItem?.(value);
+        setNewItem("");
+      }
+    }
+  };
   return (
     <div className={cn("w-[25%] mr-8 bg-card rounded-2xl p-4 flex flex-col overflow-y-auto self-stretch", className)}>
       <div className="flex items-center justify-center mb-2 space-x-2">
@@ -54,11 +92,11 @@ const CompleteRoomSidebar = ({
 
         <div className="space-y-2">
           <Label className="text-sm font-medium text-foreground">Móveis sugeridos</Label>
-          <Textarea
-            placeholder="Digite aqui..."
-            className="min-h-[100px] resize-none"
-            readOnly
-            value={items.join(', ')}
+          <Input
+            placeholder="Digite e pressione Enter"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           {items.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-1">
@@ -74,6 +112,20 @@ const CompleteRoomSidebar = ({
               ))}
             </div>
           )}
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-foreground">Estilo</Label>
+          <Select value={style} onValueChange={onStyleChange}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {styles.map((s) => (
+                <SelectItem key={s} value={s.toLowerCase().replace(/\s+/g, '-')}>{s}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
