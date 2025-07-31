@@ -203,7 +203,7 @@ def apply_style(style_name: str) -> str:
 def process_image(image: Image.Image, style_selection: str) -> Image.Image:
     """Generate an image with the selected style using the SD pipeline."""
     seed = random.randint(0, MAX_SEED)
-    generator = torch.cuda.manual_seed(seed)
+    generator = torch.Generator(device="cuda").manual_seed(seed)
 
     preprocessor.load("NormalBae")
     control_image = preprocessor(
@@ -217,6 +217,7 @@ def process_image(image: Image.Image, style_selection: str) -> Image.Image:
         prompt = f"Photo from Pinterest of {style_prompt}"
     else:
         prompt = "Photo from Pinterest"
+    print(f"Prompt: {prompt}")
 
     negative_prompt = (
         "EasyNegativeV2, fcNeg, (badhandv4:1.4), (worst quality, low quality, bad quality, normal quality:2.0), (bad hands, missing fingers, extra fingers:2.0)"
