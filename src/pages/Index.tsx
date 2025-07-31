@@ -83,8 +83,11 @@ const Index = () => {
     if (!image) return;
     setLoading(true);
     try {
-      const prompt = `${items.map((i) => `Adicionar ${i}`).join(", ")}.
-        A ${ROOM_LABEL[room]} deve ficar harmônica e elegante${style !== "nenhum" ? ` com estilo ${STYLE_LABEL[style]}` : ""}.`;
+      const prompt = `${items
+        .map((i) => `Adicionar ${i}`)
+        .join(", ")}. A ${ROOM_LABEL[room]} deve ficar harmônica e elegante${
+        style !== "nenhum" ? ` com estilo ${STYLE_LABEL[style]}` : ""
+      }.`;
       const translated = await translateToEnglish(prompt);
       const blob = await fetch(image).then((r) => r.blob());
       const form = new FormData();
