@@ -5,24 +5,6 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const styles = [
-  "Nenhum",
-  "Minimalista",
-  "Boêmio",
-  "Fazenda",
-  "Príncipe Saudita",
-  "Neoclássico",
-  "Eclético",
-  "Parisiense",
-  "Hollywood",
-  "Escandinavo",
-  "Praia",
-  "Japonês",
-  "Meados do Século Moderno",
-  "Retro-futurismo",
-  "Texano",
-  "Matrix",
-];
 
 interface CompleteRoomSidebarProps {
   className?: string;
@@ -31,8 +13,7 @@ interface CompleteRoomSidebarProps {
   items: string[];
   onRemoveItem?: (item: string) => void;
   onAddItem?: (item: string) => void;
-  style: string;
-  onStyleChange?: (style: string) => void;
+  /* Temporarily remove style options */
   onGenerate?: () => void;
   disableGenerate?: boolean;
 }
@@ -44,8 +25,6 @@ const CompleteRoomSidebar = ({
   items,
   onRemoveItem,
   onAddItem,
-  style,
-  onStyleChange,
   onGenerate,
   disableGenerate,
 }: CompleteRoomSidebarProps) => {
@@ -114,19 +93,6 @@ const CompleteRoomSidebar = ({
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">Estilo</Label>
-          <Select value={style} onValueChange={onStyleChange}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {styles.map((s) => (
-                <SelectItem key={s} value={s.toLowerCase().replace(/\s+/g, '-')}>{s}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       {onGenerate && (

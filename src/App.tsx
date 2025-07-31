@@ -12,7 +12,6 @@ import Generations from "./pages/Generations";
 import Projects from "./pages/Projects";
 import NotFound from "./pages/NotFound";
 import Academy from "./pages/Academy";
-import ChangeStyle from "./pages/ChangeStyle";
 import Profile, { ProfileOverview } from "./pages/Profile";
 import ProfilePersonalData from "./pages/ProfilePersonalData";
 import ProfileBilling from "./pages/ProfileBilling";
@@ -31,7 +30,6 @@ const App = () => (
             <Route index element={<Home />} />
             <Route path="empty-room" element={<EmptyRoom />} />
             <Route path="change-objects" element={<ChangeObjects />} />
-            <Route path="change-style" element={<ChangeStyle />} />
             <Route path="improve-render" element={<Index />} />
             <Route path="generations" element={<Generations />} />
             <Route path="projects" element={<Projects />} />

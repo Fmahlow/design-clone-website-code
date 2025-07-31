@@ -19,12 +19,6 @@ const Home = () => {
       link: "/change-objects"
     },
     {
-      icon: RefreshCcwDot,
-      title: "Mudar Estilo",
-      description: "Aplique um novo estilo de design ao ambiente.",
-      link: "/change-style"
-    },
-    {
       icon: PackagePlus,
       title: "Completar Cômodo",
       description: "Adicione móveis e decoração automaticamente ao ambiente.",
