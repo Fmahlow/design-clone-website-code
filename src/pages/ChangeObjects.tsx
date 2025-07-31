@@ -112,7 +112,7 @@ const ChangeObjects = () => {
         const outBlob = await res.blob();
         const dataUrl = await blobToDataURL(outBlob);
         setImage(dataUrl);
-        addGeneration(dataUrl, null);
+        addGeneration(dataUrl);
       } else {
         let maskData: string | null = null;
         if (mode === 'inteligente') maskData = selectorRef.current?.exportMask() ?? null;
@@ -126,7 +126,7 @@ const ChangeObjects = () => {
         const outBlob = await res.blob();
         const dataUrl = await blobToDataURL(outBlob);
         setImage(dataUrl);
-        addGeneration(dataUrl, maskData);
+        addGeneration(dataUrl);
         selectorRef.current?.resetSelections();
         brushRef.current?.resetSelections();
         lassoRef.current?.resetSelections();
