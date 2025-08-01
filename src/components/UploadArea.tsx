@@ -101,7 +101,7 @@ const UploadArea = ({ onImageSelected, onRemoveImage, renderPreview, image, load
                 <h2 className="text-lg font-semibold text-foreground">Enviar imagem</h2>
               </div>
             </div>
-            <p className="text-muted-foreground text-xs text-center">
+            <p className="text-muted-foreground text-xs text-center mt-2">
               Faça upload da sua imagem em PNG ou JPEG e siga para as próximas etapas
               para gerar suas imagens.
             </p>
